@@ -1,17 +1,18 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express from 'express'
+import 'express-async-errors'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const server = express();
+const server = express()
 
 server.get('/', (_req, res) => {
-  res.send('Hello World!');
-});
+  res.send('Hello World!')
+})
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT
 
 server.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+  console.log(`Server is running on http://localhost:${PORT}`)
+})
