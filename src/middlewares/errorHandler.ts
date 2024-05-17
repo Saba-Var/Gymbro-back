@@ -9,7 +9,7 @@ export const errorHandler = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ) => {
-  errorLoggerHandler({ req, error })
+  errorLoggerHandler(req, error)
 
   if (error instanceof CustomError) {
     return res.status(error.statusCode).send({
