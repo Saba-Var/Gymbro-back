@@ -10,13 +10,6 @@
     "dev": "concurrently \"npm run build:watch\" \"nodemon build/index.js\"",
     "test": "jest --watchAll --no-cache"
   },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "./src/test/setup.ts"
-    ]
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -25,6 +18,7 @@
     "express-async-errors": "^3.1.1",
     "express-validator": "^7.0.1",
     "mongoose": "^8.3.5",
+    "ts-node": "^10.9.2",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
