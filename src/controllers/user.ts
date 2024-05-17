@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 
 export const getUserData = async (_req: Request, res: Response) => {
-  res.send({
+  res.json({
     id: 1,
     firstName: 'John',
     lastName: 'Doe',
