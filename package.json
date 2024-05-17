@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "node build/index.js",
     "build:watch": "babel src --out-dir build --extensions .ts --copy-files --watch",
     "build:prod": "babel src --out-dir build --extensions .ts --copy-files --minified",
-    "dev": "concurrently \"npm run build:watch\" \"nodemon build/server.js\""
+    "dev": "concurrently \"npm run build:watch\" \"nodemon build/index.js\""
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "express-validator": "^7.0.1",
+    "mongoose": "^8.3.5",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"
   },

@@ -18,8 +18,4 @@ server.all('*', () => {
 
 server.use(errorHandler)
 
-const PORT = process.env.PORT
-server.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server is running on http://localhost:${PORT}`)
-})
+export { server }

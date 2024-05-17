@@ -3,21 +3,21 @@ import { errorLoggerHandler } from 'utils/errorLoggerHandler'
 import { CustomError } from 'errors/CustomError'
 
 export const errorHandler = (
-  err: Error,
+  error: Error,
   req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ) => {
-  errorLoggerHandler(req, err)
+  errorLoggerHandler({ req, error })
 
-  if (err instanceof CustomError) {
-    return res.status(err.statusCode).send({
-      errors: err.serializeErrors(),
+  if (error instanceof CustomError) {
+    return res.status(error.statusCode).send({
+      errors: error.serializeErrors(),
     })
   } else {
     return res.status(500).send({
-      message: err.message || 'Something went wrong',
+      message: error.message || 'Something went wrong',
     })
   }
 }
