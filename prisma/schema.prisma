@@ -28,7 +28,7 @@ model Role {
   description String?          @db.Text
   company     Company          @relation(fields: [companyId], references: [id])
   companyId   Int
-  staff       Staff[]
+  staff       StaffRole[]
   permissions RolePermission[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
@@ -44,11 +44,21 @@ model Staff {
   isAdmin     Boolean           @default(false)
   company     Company           @relation(fields: [companyId], references: [id])
   companyId   Int
-  role        Role              @relation(fields: [roleId], references: [id])
-  roleId      Int
+  roles       StaffRole[]
   permissions StaffPermission[]
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
+}
+
+model StaffRole {
+  staff     Staff    @relation(fields: [staffId], references: [id])
+  staffId   Int
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([staffId, roleId])
 }
 
 model Permission {
