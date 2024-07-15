@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { PrismaClient } from '@prisma/client'
+import { Password } from 'utils/password'
 import readline from 'readline'
 
 const prisma = new PrismaClient()
@@ -23,6 +24,7 @@ async function createCompany(): Promise<void> {
     const address = await question('Enter company address: ')
     const description = (await question('Enter company description: ')) || null
     const websiteUrl = (await question('Enter company website URL: ')) || null
+    const password = await question('Enter password for the admin: ')
 
     const newCompany = await prisma.company.create({
       data: {
@@ -35,7 +37,21 @@ async function createCompany(): Promise<void> {
       },
     })
 
+    const hashedPassword = await Password.toHash(password)
+
+    const adminOfTheCompany = await prisma.staff.create({
+      data: {
+        companyId: newCompany.id,
+        email,
+        firstName: 'Admin',
+        lastName: 'Admin',
+        isAdmin: true,
+        password: hashedPassword,
+      },
+    })
+
     console.log('Company created successfully:', newCompany)
+    console.log('Admin created successfully:', adminOfTheCompany)
   } catch (error) {
     console.error('Error creating company:', error)
   } finally {
