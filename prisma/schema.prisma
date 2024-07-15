@@ -8,25 +8,26 @@ datasource db {
 }
 
 model Company {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(100)
-  email       String   @unique @db.VarChar(100)
-  city        String   @db.VarChar(50)
-  address     String   @db.VarChar(100)
-  websiteUrl  String?  @db.VarChar(100)
-  logo        String?  @db.VarChar(100)
-  description String?  @db.Text
+  id          Int          @id @default(autoincrement())
+  title       String       @db.VarChar(100)
+  email       String       @unique @db.VarChar(100)
+  city        String       @db.VarChar(50)
+  address     String       @db.VarChar(100)
+  websiteUrl  String?      @db.VarChar(100)
+  logo        String?      @db.VarChar(100)
+  description String?      @db.Text
   staff       Staff[]
   roles       Role[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Permission  Permission[]
 }
 
 model Role {
   id          Int              @id @default(autoincrement())
   name        String           @db.VarChar(50)
   description String?          @db.Text
-  company     Company          @relation(fields: [companyId], references: [id])
+  company     Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId   Int
   staff       StaffRole[]
   permissions RolePermission[]
@@ -43,7 +44,7 @@ model Staff {
   email       String            @unique @db.VarChar(100)
   password    String            @db.VarChar(255)
   isAdmin     Boolean           @default(false)
-  company     Company           @relation(fields: [companyId], references: [id])
+  company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId   Int
   roles       StaffRole[]
   permissions StaffPermission[]
@@ -52,9 +53,9 @@ model Staff {
 }
 
 model StaffRole {
-  staff     Staff    @relation(fields: [staffId], references: [id])
+  staff     Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
   staffId   Int
-  role      Role     @relation(fields: [roleId], references: [id])
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
   roleId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -68,14 +69,16 @@ model Permission {
   description String?           @db.Text
   roles       RolePermission[]
   staff       StaffPermission[]
+  company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   Int
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 }
 
 model RolePermission {
-  role         Role       @relation(fields: [roleId], references: [id])
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
   roleId       Int
-  permission   Permission @relation(fields: [permissionId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
   permissionId Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
@@ -84,9 +87,9 @@ model RolePermission {
 }
 
 model StaffPermission {
-  staff        Staff      @relation(fields: [staffId], references: [id])
+  staff        Staff      @relation(fields: [staffId], references: [id], onDelete: Cascade)
   staffId      Int
-  permission   Permission @relation(fields: [permissionId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
   permissionId Int
   granted      Boolean    @default(true)
   createdAt    DateTime   @default(now())
