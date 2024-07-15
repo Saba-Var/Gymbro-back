@@ -8,10 +8,12 @@ datasource db {
 }
 
 model Company {
-  id    Int     @id @default(autoincrement())
-  name  String  @db.VarChar(100)
-  staff Staff[]
-  roles Role[]
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  staff     Staff[]
+  roles     Role[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Role {
@@ -22,6 +24,8 @@ model Role {
   companyId   Int
   staff       Staff[]
   permissions RolePermission[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 
   @@unique([companyId, name])
 }
@@ -37,6 +41,8 @@ model Staff {
   role        Role              @relation(fields: [roleId], references: [id])
   roleId      Int
   permissions StaffPermission[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 }
 
 model Permission {
@@ -45,6 +51,8 @@ model Permission {
   description String?           @db.Text
   roles       RolePermission[]
   staff       StaffPermission[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 }
 
 model RolePermission {
@@ -52,6 +60,8 @@ model RolePermission {
   roleId       Int
   permission   Permission @relation(fields: [permissionId], references: [id])
   permissionId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@id([roleId, permissionId])
 }
@@ -62,6 +72,8 @@ model StaffPermission {
   permission   Permission @relation(fields: [permissionId], references: [id])
   permissionId Int
   granted      Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@id([staffId, permissionId])
 }
