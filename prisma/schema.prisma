@@ -18,6 +18,8 @@ model Company {
   description String?  @db.Text
   staff       Staff[]
   roles       Role[]
+  clients     Client[]
+  plans       Plan[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -47,6 +49,7 @@ model Staff {
   companyId   Int
   roles       StaffRole[]
   permissions StaffPermission[]
+  customPlans Plan[]
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 }
@@ -93,4 +96,65 @@ model StaffPermission {
   updatedAt    DateTime   @updatedAt
 
   @@id([staffId, permissionId])
+}
+
+model Client {
+  id            Int            @id @default(autoincrement())
+  firstName     String         @db.VarChar(50)
+  lastName      String         @db.VarChar(50)
+  email         String         @unique @db.VarChar(100)
+  phoneNumber   String?        @db.VarChar(20)
+  dateOfBirth   DateTime?
+  gender        GenderType
+  company       Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId     Int
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Plan {
+  id             Int            @id @default(autoincrement())
+  name           String         @db.VarChar(100)
+  description    String?        @db.Text
+  durationInDays Int
+  price          Decimal        @db.Decimal(10, 2)
+  discountAmount Decimal?       @db.Decimal(10, 2)
+  discountType   DiscountType?
+  company        Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId      Int
+  isCustom       Boolean        @default(false)
+  trainer        Staff?         @relation(fields: [trainerId], references: [id])
+  trainerId      Int?
+  subscriptions  Subscription[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Subscription {
+  id             Int           @id @default(autoincrement())
+  client         Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId       Int
+  plan           Plan          @relation(fields: [planId], references: [id])
+  planId         Int
+  startDate      DateTime      @default(now())
+  endDate        DateTime
+  durationInDays Int
+  numberOfCycles Int
+  pricePerCycle  Decimal       @db.Decimal(10, 2)
+  discountAmount Decimal?      @db.Decimal(10, 2)
+  discountType   DiscountType?
+  totalPrice     Decimal       @db.Decimal(10, 2)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+enum DiscountType {
+  FIXED
+  PERCENTAGE
+}
+
+enum GenderType {
+  MALE
+  FEMALE
 }
