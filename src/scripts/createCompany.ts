@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
-import { PrismaClient } from '@prisma/client'
 import { Password } from 'utils/password'
+import { prisma } from 'config/prisma'
 import readline from 'readline'
-
-const prisma = new PrismaClient()
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -47,6 +45,8 @@ async function createCompany(): Promise<void> {
         lastName: 'Admin',
         isAdmin: true,
         password: hashedPassword,
+        privateNumber: title + ' admin',
+        salaryType: 'COMBINED',
       },
     })
 

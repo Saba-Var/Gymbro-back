@@ -1,5 +1,9 @@
-beforeAll(async () => {})
+import { prisma } from 'config/prisma'
 
-beforeEach(async () => {})
+beforeAll(async () => {
+  await prisma.$connect()
+})
 
-afterAll(async () => {})
+afterAll(async () => {
+  await prisma.$disconnect()
+})
