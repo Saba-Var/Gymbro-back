@@ -2,4 +2,4 @@
 .env
 /build
 /logs
-/src/test/setEnvVars.ts
+/src/testing/setEnvVars.ts
