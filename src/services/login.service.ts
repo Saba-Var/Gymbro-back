@@ -1,8 +1,9 @@
+import type { AuthJWTPayload, UserEnumType } from 'types/globalTypes'
 import { NotAuthorizedError } from 'errors/NotAuthorizedError'
-import type { AuthJWTPayload } from 'types/globalTypes'
+import { UserAction, UserTypeEnum } from 'enums/user.enum'
+import { trackUserActivity } from './tracking.service'
 import type { LoginRequest } from 'types/globalTypes'
 import { REFRESH_TOKEN } from 'constants/auth'
-import { UserType } from 'enums/userTypes'
 import { Password } from 'utils/password'
 import type { Response } from 'express'
 import { prisma } from 'config/prisma'
@@ -11,7 +12,7 @@ import jwt from 'jsonwebtoken'
 export const loginService = async (
   req: LoginRequest,
   res: Response,
-  userType: UserType
+  userType: UserEnumType
 ) => {
   let isMatch = false
 
@@ -19,7 +20,7 @@ export const loginService = async (
 
   let currentUser = null
 
-  if (userType == UserType.SUPERUSER) {
+  if (userType == UserTypeEnum.SUPERUSER) {
     currentUser = await prisma.superUser.findFirst({
       where: {
         email,
@@ -47,6 +48,13 @@ export const loginService = async (
 
   const refreshToken = jwt.sign(jwtPayload, process.env.REFRESH_TOKEN_SECRET!, {
     expiresIn: '7d',
+  })
+
+  trackUserActivity({
+    actionType: UserAction.LOGIN,
+    displayValue: 'Logged in',
+    payload: jwtPayload,
+    req,
   })
 
   res.cookie(REFRESH_TOKEN, refreshToken, {

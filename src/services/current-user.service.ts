@@ -1,11 +1,14 @@
-import { UserType } from 'enums/userTypes'
+import { UserTypeEnum } from 'enums/user.enum'
 import type { Request } from 'express'
 import { prisma } from 'config/prisma'
 
 export const getCurrentUserInformation = async (req: Request) => {
   let currentUser = null
 
-  if (req.currentUser?.userType === UserType.SUPERUSER) {
+  if (
+    req.currentUser?.userType &&
+    req.currentUser?.userType === UserTypeEnum.SUPERUSER
+  ) {
     currentUser = await prisma.superUser.findUnique({
       where: {
         email: req.currentUser.email,

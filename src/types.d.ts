@@ -11,11 +11,11 @@ declare namespace NodeJS {
 }
 
 declare namespace Express {
-  enum UserType {
-    STAFF = 'staff',
-    CLIENT = 'client',
-    SUPERUSER = 'superuser',
-    ADMIN = 'admin',
+  export enum UserType {
+    STAFF = 'STAFF',
+    CLIENT = 'CLIENT',
+    SUPERUSER = 'SUPERUSER',
+    ADMIN = 'ADMIN',
   }
 
   export interface Request {

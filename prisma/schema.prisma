@@ -196,6 +196,7 @@ model ActivityLog {
   displayValue String                @db.VarChar(255)
   details      String?               @db.Text
   ipAddress    String?               @db.VarChar(45)
+  requestUrl   String?               @db.VarChar(255)
   createdAt    DateTime              @default(now())
   Staff        Staff?                @relation(fields: [staffId], references: [id])
   staffId      Int?

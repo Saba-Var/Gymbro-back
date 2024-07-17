@@ -1,17 +1,17 @@
+import type { UserTypeEnum } from 'enums/user.enum'
 import type { Request } from 'express'
-import type { UserType } from 'enums/userTypes'
 
 export interface RequestWithBody<ReqBody = object> extends Request {
   body: ReqBody
 }
 
 export type AuthJWTPayload = {
-  userType: UserType
-  id: number
+  userType: UserTypeEnum
   email: string
+  id: number
 }
 
-export interface TransformedErrors {
+export type TransformedErrors = {
   [key: string]: string[]
 }
 
@@ -21,3 +21,15 @@ export type LoginData = {
 }
 
 export type LoginRequest = RequestWithBody<LoginData>
+
+export type TimeStamps = {
+  createdAt: Date
+  updatedAt: Date
+}
+
+export type SuperUser = {
+  id: number
+  email: string
+  password: string
+  lastActivityAt: Date | null
+} & TimeStamps
