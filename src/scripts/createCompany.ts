@@ -14,7 +14,7 @@ const question = (query: string): Promise<string> => {
   })
 }
 
-async function createCompany(): Promise<void> {
+export const createCompany = async (): Promise<void> => {
   try {
     const title = await question('Enter company title: ')
     const email = await question('Enter company email: ')
