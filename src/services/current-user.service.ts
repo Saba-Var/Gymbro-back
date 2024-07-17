@@ -14,5 +14,10 @@ export const getCurrentUserInformation = async (req: Request) => {
     })
   }
 
-  return currentUser
+  if (currentUser) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (currentUser as any).password
+  }
+
+  return { ...currentUser, userType: req.currentUser?.userType }
 }

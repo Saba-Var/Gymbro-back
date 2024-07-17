@@ -1,4 +1,5 @@
 import { superUserRouter } from 'modules/super-user/super-user.router'
+import { verifyToken } from 'middlewares/verifyToken.middleware'
 import { usersRouter } from 'modules/users/users.router'
 import { errorHandler } from 'middlewares/errorHandler'
 import { NotFoundError } from 'errors/NotFoundError'
@@ -13,7 +14,7 @@ const server = express()
 server.use(json())
 
 server.use('/api', superUserRouter)
-server.use('/api', usersRouter)
+server.use('/api', verifyToken, usersRouter)
 
 server.all('*', () => {
   throw new NotFoundError()

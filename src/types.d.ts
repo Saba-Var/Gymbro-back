@@ -20,7 +20,7 @@ declare namespace Express {
 
   export interface Request {
     currentUser?: {
-      id: string
+      id: number
       email: string
       userType: UserType
     }
