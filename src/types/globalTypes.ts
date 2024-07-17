@@ -10,3 +10,14 @@ export type AuthJWTPayload = {
   id: number
   email: string
 }
+
+export interface TransformedErrors {
+  [key: string]: string[]
+}
+
+export type LoginData = {
+  email: string
+  password: string
+}
+
+export type LoginRequest = RequestWithBody<LoginData>
