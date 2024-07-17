@@ -20,21 +20,12 @@ jest.mock('utils/password', () => ({
 }))
 
 describe('createSuperUser', () => {
-  const OLD_ENV = process.env
-
-  beforeEach(() => {
-    jest.resetModules()
-    process.env = { ...OLD_ENV }
-  })
-
-  afterEach(() => {
-    process.env = OLD_ENV
-  })
+  const superUseEmail = process.env.SUPER_USER_EMAIL
+  const superUserPassword = process.env.SUPER_USER_PASSWORD
 
   it('should log that the super user already exists', async () => {
-    process.env.SUPER_USER_EMAIL = 'existing@superuser.com'
     ;(prisma.superUser.findFirst as jest.Mock).mockResolvedValue({
-      email: 'existing@superuser.com',
+      email: process.env.SUPER_USER_EMAIL,
     })
 
     console.log = jest.fn()
@@ -42,20 +33,18 @@ describe('createSuperUser', () => {
     await createSuperUser()
 
     expect(prisma.superUser.findFirst).toHaveBeenCalledWith({
-      where: { email: 'existing@superuser.com' },
+      where: { email: superUseEmail },
     })
     expect(console.log).toHaveBeenCalledWith(
-      'Super user already exists: "existing@superuser.com"'
+      `Super user already exists: "${superUseEmail}"`
     )
   })
 
   it('should create a new super user if none exists', async () => {
-    process.env.SUPER_USER_EMAIL = 'new@superuser.com'
-    process.env.SUPER_USER_PASSWORD = 'password123'
     ;(prisma.superUser.findFirst as jest.Mock).mockResolvedValue(null)
     ;(Password.toHash as jest.Mock).mockResolvedValue('hashedPassword')
     ;(prisma.superUser.create as jest.Mock).mockResolvedValue({
-      email: 'new@superuser.com',
+      email: superUseEmail,
     })
 
     console.log = jest.fn()
@@ -63,23 +52,21 @@ describe('createSuperUser', () => {
     await createSuperUser()
 
     expect(prisma.superUser.findFirst).toHaveBeenCalledWith({
-      where: { email: 'new@superuser.com' },
+      where: { email: superUseEmail },
     })
-    expect(Password.toHash).toHaveBeenCalledWith('password123')
+    expect(Password.toHash).toHaveBeenCalledWith(superUserPassword)
     expect(prisma.superUser.create).toHaveBeenCalledWith({
       data: {
-        email: 'new@superuser.com',
+        email: superUseEmail,
         password: 'hashedPassword',
       },
     })
     expect(console.log).toHaveBeenCalledWith(
-      'Super user created: "new@superuser.com"'
+      `Super user created: "${superUseEmail}"`
     )
   })
 
   it('should log an error if there is an exception', async () => {
-    process.env.SUPER_USER_EMAIL = 'new@superuser.com'
-    process.env.SUPER_USER_PASSWORD = 'password123'
     const error = new Error('Some error')
     ;(prisma.superUser.findFirst as jest.Mock).mockRejectedValue(error)
 
