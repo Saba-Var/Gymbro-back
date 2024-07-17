@@ -1,6 +1,6 @@
 import { loginService } from 'services/login.service'
 import type { LoginRequest } from 'types/globalTypes'
-import { UserTypeEnum } from 'enums/user.enum'
+import { UserTypeEnum } from 'enums/user.enums'
 import type { Response } from 'express'
 
 export const superUserLoginController = async (
