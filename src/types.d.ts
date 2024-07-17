@@ -9,3 +9,20 @@ declare namespace NodeJS {
     REFRESH_TOKEN_SECRET: string
   }
 }
+
+declare namespace Express {
+  enum UserType {
+    STAFF = 'staff',
+    CLIENT = 'client',
+    SUPERUSER = 'superuser',
+    ADMIN = 'admin',
+  }
+
+  export interface Request {
+    currentUser?: {
+      id: string
+      email: string
+      userType: UserType
+    }
+  }
+}

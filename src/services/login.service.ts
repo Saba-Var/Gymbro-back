@@ -1,6 +1,7 @@
 import { NotAuthorizedError } from 'errors/NotAuthorizedError'
 import type { AuthJWTPayload } from 'types/globalTypes'
 import type { LoginRequest } from 'types/globalTypes'
+import { REFRESH_TOKEN } from 'constants/auth'
 import { UserType } from 'enums/userTypes'
 import { Password } from 'utils/password'
 import type { Response } from 'express'
@@ -48,7 +49,7 @@ export const loginService = async (
     expiresIn: '7d',
   })
 
-  res.cookie('refreshToken', refreshToken, {
+  res.cookie(REFRESH_TOKEN, refreshToken, {
     secure: true,
     maxAge: 14 * 8640000,
     sameSite: 'strict',

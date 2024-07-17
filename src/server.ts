@@ -1,4 +1,5 @@
 import { superUserRouter } from 'modules/super-user/super-user.router'
+import { usersRouter } from 'modules/users/users.router'
 import { errorHandler } from 'middlewares/errorHandler'
 import { NotFoundError } from 'errors/NotFoundError'
 import { json } from 'body-parser'
@@ -12,6 +13,7 @@ const server = express()
 server.use(json())
 
 server.use('/api', superUserRouter)
+server.use('/api', usersRouter)
 
 server.all('*', () => {
   throw new NotFoundError()
