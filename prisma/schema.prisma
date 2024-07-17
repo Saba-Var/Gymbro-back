@@ -249,4 +249,6 @@ enum ActivityLogActionType {
   UPDATE
   DELETE
   VIEW
+  LOGIN
+  LOGOUT
 }

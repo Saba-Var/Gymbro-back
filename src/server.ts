@@ -1,3 +1,4 @@
+import { superUserRouter } from 'modules/super-user/super-user.router'
 import { errorHandler } from 'middlewares/errorHandler'
 import { NotFoundError } from 'errors/NotFoundError'
 import { json } from 'body-parser'
@@ -9,6 +10,8 @@ dotenv.config()
 
 const server = express()
 server.use(json())
+
+server.use('/api', superUserRouter)
 
 server.all('*', () => {
   throw new NotFoundError()

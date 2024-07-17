@@ -4,6 +4,14 @@ import { prisma } from 'config/prisma'
 
 export const createSuperUser = async (): Promise<void> => {
   try {
+    const newSuperUserEmail = process.env.SUPER_USER_EMAIL
+    const newSuperUserPassword = process.env.SUPER_USER_PASSWORD
+
+    if (!newSuperUserEmail || !newSuperUserPassword) {
+      console.error('Environment variables not set to create super user')
+      return
+    }
+
     const existingSuperUser = await prisma.superUser.findFirst({
       where: {
         email: process.env.SUPER_USER_EMAIL,
@@ -12,14 +20,6 @@ export const createSuperUser = async (): Promise<void> => {
 
     if (existingSuperUser) {
       console.log(`Super user already exists: "${existingSuperUser.email}"`)
-      return
-    }
-
-    const newSuperUserEmail = process.env.SUPER_USER_EMAIL
-    const newSuperUserPassword = process.env.SUPER_USER_PASSWORD
-
-    if (!newSuperUserEmail || !newSuperUserPassword) {
-      console.error('Environment variables not set to create super user')
       return
     }
 
