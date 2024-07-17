@@ -14,6 +14,7 @@ export const errorLoggerHandler = (req: Request, error: Error) => {
       stack: error?.stack,
       body: req?.body,
       url: req?.url,
+      ip: req?.ip,
     })
   }
 }
