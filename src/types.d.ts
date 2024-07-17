@@ -1,28 +1,27 @@
-declare namespace NodeJS {
-  interface ProcessEnv {
-    NODE_ENV: 'development' | 'production' | 'test'
-    SUPER_USER_EMAIL: string
-    SUPER_USER_PASSWORD: string
-    DATABASE_URL: string
-    SERVER_PORT: number
-    ACCESS_TOKEN_SECRET: string
-    REFRESH_TOKEN_SECRET: string
-  }
-}
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./enums/user.enum.ts" />
 
-declare namespace Express {
-  export enum UserType {
-    STAFF = 'STAFF',
-    CLIENT = 'CLIENT',
-    SUPERUSER = 'SUPERUSER',
-    ADMIN = 'ADMIN',
+declare global {
+  import type { AuthJWTPayload } from 'types/globalTypes'
+
+  namespace NodeJS {
+    interface ProcessEnv {
+      NODE_ENV: 'development' | 'production' | 'test'
+      SUPER_USER_EMAIL: string
+      SUPER_USER_PASSWORD: string
+      DATABASE_URL: string
+      SERVER_PORT: number
+      ACCESS_TOKEN_SECRET: string
+      REFRESH_TOKEN_SECRET: string
+    }
   }
 
-  export interface Request {
-    currentUser?: {
-      id: number
-      email: string
-      userType: UserType
+  namespace Express {
+    interface Request {
+      currentUser?: AuthJWTPayload
     }
   }
 }
+
+// explicitly mark a file as a module
+export {}

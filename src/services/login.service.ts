@@ -1,6 +1,6 @@
-import type { AuthJWTPayload, UserEnumType } from 'types/globalTypes'
 import { NotAuthorizedError } from 'errors/NotAuthorizedError'
-import { UserAction, UserTypeEnum } from 'enums/user.enum'
+import { UserActionEnum, UserTypeEnum } from 'enums/user.enum'
+import type { AuthJWTPayload } from 'types/globalTypes'
 import { trackUserActivity } from './tracking.service'
 import type { LoginRequest } from 'types/globalTypes'
 import { REFRESH_TOKEN } from 'constants/auth'
@@ -12,7 +12,7 @@ import jwt from 'jsonwebtoken'
 export const loginService = async (
   req: LoginRequest,
   res: Response,
-  userType: UserEnumType
+  userType: UserTypeEnum
 ) => {
   let isMatch = false
 
@@ -51,7 +51,7 @@ export const loginService = async (
   })
 
   trackUserActivity({
-    actionType: UserAction.LOGIN,
+    actionType: UserActionEnum.LOGIN,
     displayValue: 'Logged in',
     payload: jwtPayload,
     req,
