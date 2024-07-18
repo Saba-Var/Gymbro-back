@@ -1,4 +1,4 @@
-import type { UserTypeEnum } from 'enums/user.enum'
+import type { UserTypeEnum } from 'enums/user.enums'
 import type { Request } from 'express'
 
 export interface RequestWithBody<ReqBody = object> extends Request {
