@@ -8,7 +8,8 @@
     "build:watch": "babel src --out-dir build --extensions .ts --copy-files --watch",
     "build:prod": "babel src --out-dir build --extensions .ts --copy-files --minified",
     "dev": "concurrently \"npm run build:watch\" \"nodemon build/index.js\"",
-    "test": "jest --watchAll --no-cache"
+    "test": "jest --watchAll --no-cache",
+    "test:ci": "jest --ci"
   },
   "author": "",
   "license": "ISC",
