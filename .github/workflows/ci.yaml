@@ -37,7 +37,7 @@ jobs:
           DATABASE_URL: mysql://root:${{ secrets.TEST_DB_PASSWORD }}@localhost:3306/${{ secrets.TEST_DB_NAME }}
 
       - name: Type check
-        run: npm tsc --noEmit
+        run: npx tsc --noEmit
 
       - name: Run tests
         run: npm run test:ci
