@@ -1,9 +1,9 @@
 import { body } from 'express-validator'
 
 export const loginValidationSchema = [
-  body('email').isEmail().withMessage('Email must be valid'),
+  body('email').isEmail().withMessage('email_must_be_valid'),
   body('password')
     .trim()
     .notEmpty()
-    .withMessage('Password must be between 4 and 20 characters'),
+    .withMessage('password_should_not_be_empty'),
 ]

@@ -18,7 +18,7 @@ export const validateRequestSchema = (
     if (!transformedErrors[path]) {
       transformedErrors[path] = []
     }
-    transformedErrors[path].push(msg)
+    transformedErrors[path].push(req.t(msg))
   })
 
   if (!errors.isEmpty()) {

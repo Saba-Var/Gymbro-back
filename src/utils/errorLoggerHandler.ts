@@ -3,11 +3,11 @@ import type { Request } from 'express'
 import 'winston-daily-rotate-file'
 
 export const errorLoggerHandler = (req: Request, error: Error) => {
-  const message = error?.message || 'Something went wrong'
+  const message = error?.message || req.t('something_went_wrong')
 
   if (!req?.url.includes('favicon.ico')) {
     winstonLogger.error(message, {
-      user: null, // TODO: Add user
+      user: req.currentUser,
       method: req?.method,
       params: req?.params,
       query: req?.query,
