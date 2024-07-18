@@ -1,4 +1,4 @@
-name: Run Tests
+name: CI
 
 on:
   pull_request:
@@ -35,6 +35,9 @@ jobs:
           npx prisma migrate deploy
         env:
           DATABASE_URL: mysql://root:${{ secrets.TEST_DB_PASSWORD }}@localhost:3306/${{ secrets.TEST_DB_NAME }}
+
+      - name: Type check
+        run: npx tsc --noEmit
 
       - name: Run tests
         run: npm run test:ci
