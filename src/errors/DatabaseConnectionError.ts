@@ -1,11 +1,11 @@
 import { CustomError } from 'errors/CustomError'
+import { t } from 'i18next'
 
 export class DatabaseConnectionError extends CustomError {
-  reason = 'Error connecting to database'
   statusCode = 500
 
-  constructor() {
-    super('Error connecting to database')
+  constructor(private reason = t('database_connection_error')) {
+    super(reason)
     Object.setPrototypeOf(this, DatabaseConnectionError.prototype)
   }
 

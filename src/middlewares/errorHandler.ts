@@ -17,7 +17,7 @@ export const errorHandler = (
     })
   } else {
     return res.status(500).send({
-      message: error.message || 'Something went wrong',
+      message: error.message || req.t('something_went_wrong'),
     })
   }
 }

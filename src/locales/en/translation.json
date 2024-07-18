@@ -1,3 +1,9 @@
 {
-  "hello": "Hello"
+  "not_authorized": "You are not authorized",
+  "database_connection_error": "Database connection error",
+  "not_found": "Not found",
+  "something_went_wrong": "Something went wrong",
+  "user_not_found": "User not found",
+  "email_must_be_valid": "Email must be valid",
+  "password_should_not_be_empty": "Password should not be empty"
 }

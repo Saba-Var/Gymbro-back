@@ -1,3 +1,9 @@
 {
-  "hello": "გამარჯობა"
+  "not_authorized": "არ ხართ ავტორიზებული",
+  "database_connection_error": "ბაზასთან კავშირის შეცდომა",
+  "not_found": "ვერ მოიძებნა",
+  "something_went_wrong": "რაღაც შეცდომა მიხდა",
+  "user_not_found": "მომხმარებელი ვერ მოიძებნა",
+  "email_must_be_valid": "ელ-ფოსტა უნდა იყოს ვალიდური",
+  "password_should_not_be_empty": "პაროლი არ უნდა იყოს ცარიელი"
 }
