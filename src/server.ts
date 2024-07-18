@@ -1,6 +1,6 @@
-import { superUserRouter } from 'modules/super-user/super-user.router'
 import { i18nextMiddleware } from 'middlewares/i18next.middleware'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
+import { superUserRouter } from 'modules/super-user/router'
 import { usersRouter } from 'modules/users/users.router'
 import { errorHandler } from 'middlewares/errorHandler'
 import { NotFoundError } from 'errors/NotFoundError'
@@ -19,7 +19,7 @@ server.use(json())
 
 server.use('/api', superUserRouter)
 
-server.use('/api', verifyToken, usersRouter, superUserRouter)
+server.use('/api', verifyToken, usersRouter)
 
 server.all('*', () => {
   throw new NotFoundError()

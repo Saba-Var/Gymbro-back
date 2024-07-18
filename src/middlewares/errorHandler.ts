@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
 import { errorLoggerHandler } from 'utils/errorLoggerHandler'
 import { CustomError } from 'errors/CustomError'
+import { HTTP_INTERNAL_SERVER_ERROR } from 'constants/http-statuses'
 
 export const errorHandler = (
   error: Error,
@@ -16,7 +17,7 @@ export const errorHandler = (
       errors: error.serializeErrors(),
     })
   } else {
-    return res.status(500).send({
+    return res.status(HTTP_INTERNAL_SERVER_ERROR).send({
       message: error.message || req.t('something_went_wrong'),
     })
   }

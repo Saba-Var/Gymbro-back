@@ -13,11 +13,11 @@ export const verifyToken = (
 
     const authHeader = (authorization || Authorization || '') as string
 
-    if (!authHeader.startsWith('Bearer ')) {
+    const accessToken = authHeader?.trim()?.split(' ')?.[1]
+
+    if (!authHeader.startsWith('Bearer ') || !accessToken) {
       throw new NotAuthorizedError()
     }
-
-    const accessToken = authHeader.trim().split(' ')[1]
 
     return jwt.verify(
       accessToken,

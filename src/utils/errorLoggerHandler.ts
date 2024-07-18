@@ -7,14 +7,14 @@ export const errorLoggerHandler = (req: Request, error: Error) => {
 
   if (!req?.url.includes('favicon.ico')) {
     winstonLogger.error(message, {
-      user: req.currentUser,
+      user: req?.currentUser,
       method: req?.method,
       params: req?.params,
       query: req?.query,
-      stack: error?.stack,
       body: req?.body,
       url: req?.url,
       ip: req?.ip,
+      error,
     })
   }
 }

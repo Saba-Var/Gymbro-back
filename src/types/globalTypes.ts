@@ -29,3 +29,8 @@ export type TimeStamps = {
   createdAt: Date
   updatedAt: Date
 }
+
+export type ExcludeModelDefaults<Model> = Omit<
+  Model,
+  'id' | 'createdAt' | 'updatedAt'
+>
