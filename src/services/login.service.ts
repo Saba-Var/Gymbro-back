@@ -64,5 +64,7 @@ export const loginService = async (
     httpOnly: true,
   })
 
-  return res.status(200).json({ accessToken, id: currentUser.id })
+  return res
+    .status(200)
+    .json({ accessToken, id: currentUser.id, message: req.t('hello') })
 }

@@ -7,7 +7,7 @@ export const errorLoggerHandler = (req: Request, error: Error) => {
 
   if (!req?.url.includes('favicon.ico')) {
     winstonLogger.error(message, {
-      user: null, // TODO: Add user
+      user: req.currentUser,
       method: req?.method,
       params: req?.params,
       query: req?.query,
