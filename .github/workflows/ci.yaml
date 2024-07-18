@@ -37,7 +37,7 @@ jobs:
           DATABASE_URL: mysql://root:root@localhost:3306/testdb
 
       - name: Run tests
-        run: npm run test:ci
+        run: npm run test
         env:
           DATABASE_URL: mysql://root:root@localhost:3306/testdb
           SERVER_PORT: 3000
