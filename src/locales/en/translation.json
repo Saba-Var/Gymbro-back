@@ -5,5 +5,9 @@
   "something_went_wrong": "Something went wrong",
   "user_not_found": "User not found",
   "email_must_be_valid": "Email must be valid",
-  "password_should_not_be_empty": "Password should not be empty"
+  "password_should_not_be_empty": "Password should not be empty",
+  "company_exists": "Company exists",
+  "log_out_success": "Logged out successfully",
+  "must_be_valid": "Must be valid",
+  "file_type_not_allowed": "File type not allowed"
 }

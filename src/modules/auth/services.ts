@@ -1,22 +1,18 @@
-import { NotAuthorizedError } from 'errors/NotAuthorizedError'
+import type { LoginRequest, AuthJWTPayload } from 'types/globals.types'
 import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
-import type { AuthJWTPayload } from 'types/globalTypes'
-import { trackUserActivity } from './tracking.service'
-import type { LoginRequest } from 'types/globalTypes'
+import { NotAuthorizedError } from 'errors/not-authorized.error'
+import { trackUserActivity } from 'services/tracking.service'
+import { HTTP_OK } from 'constants/http-statuses'
+import type { Request, Response } from 'express'
 import { REFRESH_TOKEN } from 'constants/auth'
-import { Password } from 'utils/password'
-import type { Response } from 'express'
+import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
 import jwt from 'jsonwebtoken'
 
-export const loginService = async (
-  req: LoginRequest,
-  res: Response,
-  userType: UserTypeEnum
-) => {
+export const loginService = async (req: LoginRequest, res: Response) => {
   let isMatch = false
 
-  const { email, password } = req.body
+  const { email, password, userType } = req.body
 
   let currentUser = null
 
@@ -64,7 +60,21 @@ export const loginService = async (
     httpOnly: true,
   })
 
-  return res
-    .status(200)
-    .json({ accessToken, id: currentUser.id, message: req.t('hello') })
+  res.status(HTTP_OK).json({ accessToken, id: currentUser.id })
+}
+
+export const logoutService = async (req: Request, res: Response) => {
+  res.clearCookie(REFRESH_TOKEN, {
+    secure: true,
+    sameSite: 'strict',
+    httpOnly: true,
+  })
+
+  trackUserActivity({
+    actionType: UserActionEnum.LOGOUT,
+    displayValue: 'Logged out',
+    req,
+  })
+
+  res.status(HTTP_OK).json({ message: req.t('log_out_success') })
 }

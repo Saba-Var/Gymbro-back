@@ -1,7 +1,8 @@
-import { CustomError } from 'errors/CustomError'
+import { HTTP_BAD_REQUEST } from 'constants/http-statuses'
+import { CustomError } from 'errors/custom.error'
 
 export class BadRequestError extends CustomError {
-  statusCode = 400
+  statusCode = HTTP_BAD_REQUEST
 
   constructor(message: string) {
     super(message)

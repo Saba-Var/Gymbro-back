@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { createSuperUser } from 'scripts/createSuperUser'
-import { Password } from 'utils/password'
+import { createSuperUser } from 'scripts/create-super-user'
+import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
 
 jest.mock('config/prisma', () => ({
@@ -13,7 +13,7 @@ jest.mock('config/prisma', () => ({
   },
 }))
 
-jest.mock('utils/password', () => ({
+jest.mock('utils/password.util', () => ({
   Password: {
     toHash: jest.fn(),
   },

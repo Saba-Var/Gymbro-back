@@ -1,6 +1,6 @@
-import { NotAuthorizedError } from 'errors/NotAuthorizedError'
+import { NotAuthorizedError } from 'errors/not-authorized.error'
 import type { NextFunction, Request, Response } from 'express'
-import type { AuthJWTPayload } from 'types/globalTypes'
+import type { AuthJWTPayload } from 'types/globals.types'
 import jwt from 'jsonwebtoken'
 
 export const verifyToken = (
@@ -13,11 +13,11 @@ export const verifyToken = (
 
     const authHeader = (authorization || Authorization || '') as string
 
-    if (!authHeader.startsWith('Bearer ')) {
+    const accessToken = authHeader?.trim()?.split(' ')?.[1]
+
+    if (!authHeader.startsWith('Bearer ') || !accessToken) {
       throw new NotAuthorizedError()
     }
-
-    const accessToken = authHeader.trim().split(' ')[1]
 
     return jwt.verify(
       accessToken,

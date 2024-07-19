@@ -1,8 +1,9 @@
-import { CustomError } from 'errors/CustomError'
+import { HTTP_INTERNAL_SERVER_ERROR } from 'constants/http-statuses'
+import { CustomError } from 'errors/custom.error'
 import { t } from 'i18next'
 
 export class DatabaseConnectionError extends CustomError {
-  statusCode = 500
+  statusCode = HTTP_INTERNAL_SERVER_ERROR
 
   constructor(private reason = t('database_connection_error')) {
     super(reason)

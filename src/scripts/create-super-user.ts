@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Password } from 'utils/password'
+import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
 
 export const createSuperUser = async (): Promise<void> => {

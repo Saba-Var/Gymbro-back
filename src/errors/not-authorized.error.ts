@@ -1,8 +1,9 @@
-import { CustomError } from 'errors/CustomError'
+import { HTTP_UNAUTHORIZED } from 'constants/http-statuses'
+import { CustomError } from 'errors/custom.error'
 import { t } from 'i18next'
 
 export class NotAuthorizedError extends CustomError {
-  statusCode = 401
+  statusCode = HTTP_UNAUTHORIZED
 
   constructor() {
     super(t('not_authorized'))

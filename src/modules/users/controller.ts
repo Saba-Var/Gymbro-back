@@ -1,5 +1,5 @@
 import { getCurrentUserInformation } from 'services/current-user.service'
-import { NotFoundError } from 'errors/NotFoundError'
+import { NotFoundError } from 'errors/not-found.error'
 import type { Request, Response } from 'express'
 import { t } from 'i18next'
 

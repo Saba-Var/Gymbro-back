@@ -1,8 +1,9 @@
-import { CustomError } from 'errors/CustomError'
+import { HTTP_NOT_FOUND } from 'constants/http-statuses'
+import { CustomError } from 'errors/custom.error'
 import { t } from 'i18next'
 
 export class NotFoundError extends CustomError {
-  statusCode = 404
+  statusCode = HTTP_NOT_FOUND
 
   constructor(message = t('not_found')) {
     super(message)

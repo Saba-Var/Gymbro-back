@@ -1,4 +1,5 @@
 import type { LOCALES } from 'constants/internalization'
+import type { ALLOWED_FILE_EXTENSION } from 'constants/storage'
 import type { UserTypeEnum } from 'enums/user.enums'
 import type { Request } from 'express'
 
@@ -21,6 +22,7 @@ export type TransformedErrors = {
 export type LoginData = {
   email: string
   password: string
+  userType: UserTypeEnum
 }
 
 export type LoginRequest = RequestWithBody<LoginData>
@@ -29,3 +31,10 @@ export type TimeStamps = {
   createdAt: Date
   updatedAt: Date
 }
+
+export type ExcludeModelDefaults<Model> = Omit<
+  Model,
+  'id' | 'createdAt' | 'updatedAt'
+>
+
+export type FileExtension = (typeof ALLOWED_FILE_EXTENSION)[number]
