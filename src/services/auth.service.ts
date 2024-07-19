@@ -65,5 +65,5 @@ export const loginService = async (
     httpOnly: true,
   })
 
-  return res.status(HTTP_OK).json({ accessToken, id: currentUser.id })
+  res.status(HTTP_OK).json({ accessToken, id: currentUser.id })
 }

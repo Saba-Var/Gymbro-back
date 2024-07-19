@@ -23,5 +23,5 @@ superUserRouter.post(
   asyncHandler(createCompanyController)
 )
 
-superUserRouter.use('/admin', superUserRouter)
+superUserRouter.use('/super-user', superUserRouter)
 export { superUserRouter }
