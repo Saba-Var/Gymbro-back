@@ -1,5 +1,5 @@
 import { loginService, logoutService } from './services'
-import type { LoginRequest } from 'types/globalTypes'
+import type { LoginRequest } from 'types/globals.types'
 import type { Request, Response } from 'express'
 
 export const loginController = async (req: LoginRequest, res: Response) => {

@@ -1,5 +1,5 @@
+import { asyncHandler } from 'middlewares/async-handler.middleware'
 import { currentUserInformationController } from './controller'
-import { asyncHandler } from 'middlewares/asyncHandler'
 import express from 'express'
 
 const usersRouter = express.Router()

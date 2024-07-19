@@ -1,5 +1,5 @@
 import { trackUserActivity } from 'services/tracking.service'
-import type { RequestWithBody } from 'types/globalTypes'
+import type { RequestWithBody } from 'types/globals.types'
 import { HTTP_CREATED } from 'constants/http-statuses'
 import { createCompanyService } from './services'
 import { UserActionEnum } from 'enums/user.enums'

@@ -1,8 +1,8 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
-import { loginValidationSchema } from 'validation/login.validation'
+import { asyncHandler } from 'middlewares/async-handler.middleware'
 import { loginController, logoutController } from './controllers'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
-import { asyncHandler } from 'middlewares/asyncHandler'
+import { loginValidationSchema } from './validation'
 import express from 'express'
 
 const authRouter = express.Router()

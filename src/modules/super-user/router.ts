@@ -1,6 +1,6 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
+import { asyncHandler } from 'middlewares/async-handler.middleware'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
-import { asyncHandler } from 'middlewares/asyncHandler'
 import { createCompanyController } from './controller'
 import { createCompanySchema } from './validation'
 import express from 'express'

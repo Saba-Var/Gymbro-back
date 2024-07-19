@@ -1,4 +1,4 @@
-import type { LoginRequest, AuthJWTPayload } from 'types/globalTypes'
+import type { LoginRequest, AuthJWTPayload } from 'types/globals.types'
 import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
 import { NotAuthorizedError } from 'errors/not-authorized.error'
 import { trackUserActivity } from 'services/tracking.service'
