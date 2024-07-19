@@ -9,12 +9,15 @@ import { json, urlencoded } from 'body-parser'
 import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
+import path from 'path'
 
 dotenv.config()
 
 const server = express()
 
 server.use(i18nextMiddleware)
+
+server.use('/storage', express.static(path.join(__dirname, '../storage')))
 
 server.use(json())
 server.use(urlencoded({ extended: true }))
