@@ -10,7 +10,10 @@ export const createCompanyController = async (
   req: RequestWithBody<CompanyCreateData>,
   res: Response
 ) => {
-  const newCompany = await createCompanyService(req.body)
+  const newCompany = await createCompanyService({
+    ...req.body,
+    logo: req.file?.path || '',
+  })
 
   trackUserActivity({
     actionType: UserActionEnum.CREATE,

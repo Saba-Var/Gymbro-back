@@ -5,7 +5,7 @@ import { superUserRouter } from 'modules/super-user/router'
 import { NotFoundError } from 'errors/not-found.error'
 import { usersRouter } from 'modules/users/router'
 import { authRouter } from 'modules/auth/router'
-import { json } from 'body-parser'
+import { json, urlencoded } from 'body-parser'
 import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
@@ -17,6 +17,7 @@ const server = express()
 server.use(i18nextMiddleware)
 
 server.use(json())
+server.use(urlencoded({ extended: true }))
 
 server.use('/api', superUserRouter)
 
