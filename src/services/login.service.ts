@@ -1,8 +1,9 @@
-import { NotAuthorizedError } from 'errors/NotAuthorizedError'
 import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
+import { NotAuthorizedError } from 'errors/NotAuthorizedError'
 import type { AuthJWTPayload } from 'types/globalTypes'
 import { trackUserActivity } from './tracking.service'
 import type { LoginRequest } from 'types/globalTypes'
+import { HTTP_OK } from 'constants/http-statuses'
 import { REFRESH_TOKEN } from 'constants/auth'
 import { Password } from 'utils/password'
 import type { Response } from 'express'
@@ -64,5 +65,5 @@ export const loginService = async (
     httpOnly: true,
   })
 
-  return res.status(200).json({ accessToken, id: currentUser.id })
+  return res.status(HTTP_OK).json({ accessToken, id: currentUser.id })
 }

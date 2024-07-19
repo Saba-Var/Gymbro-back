@@ -1,4 +1,4 @@
-import { currentUserInformationController } from './users.controller'
+import { currentUserInformationController } from './controller'
 import { asyncHandler } from 'middlewares/asyncHandler'
 import express from 'express'
 
