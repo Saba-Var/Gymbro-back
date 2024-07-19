@@ -1,6 +1,6 @@
-import { NotAuthorizedError } from 'errors/NotAuthorizedError'
+import { NotAuthorizedError } from 'errors/not-authorized.error'
 import type { NextFunction, Request, Response } from 'express'
-import type { AuthJWTPayload } from 'types/globalTypes'
+import type { AuthJWTPayload } from 'types/globals.types'
 import jwt from 'jsonwebtoken'
 
 export const verifyToken = (

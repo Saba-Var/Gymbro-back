@@ -1,5 +1,5 @@
 import { HTTP_NOT_FOUND } from 'constants/http-statuses'
-import { CustomError } from 'errors/CustomError'
+import { CustomError } from 'errors/custom.error'
 import { t } from 'i18next'
 
 export class NotFoundError extends CustomError {

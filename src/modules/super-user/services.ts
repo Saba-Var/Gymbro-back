@@ -1,4 +1,4 @@
-import { ConflictError } from 'errors/ConflictError'
+import { ConflictError } from 'errors/conflict.error'
 import type { CompanyCreateData } from './types'
 import { prisma } from 'config/prisma'
 import { t } from 'i18next'

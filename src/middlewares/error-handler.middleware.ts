@@ -1,7 +1,7 @@
-import type { Request, Response, NextFunction } from 'express'
-import { errorLoggerHandler } from 'utils/errorLoggerHandler'
-import { CustomError } from 'errors/CustomError'
 import { HTTP_INTERNAL_SERVER_ERROR } from 'constants/http-statuses'
+import { errorLoggerHandler } from 'utils/error-logger-handler.util'
+import type { Request, Response, NextFunction } from 'express'
+import { CustomError } from 'errors/custom.error'
 
 export const errorHandler = (
   error: Error,

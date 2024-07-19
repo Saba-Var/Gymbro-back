@@ -1,11 +1,11 @@
 import type { LoginRequest, AuthJWTPayload } from 'types/globalTypes'
 import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
-import { NotAuthorizedError } from 'errors/NotAuthorizedError'
+import { NotAuthorizedError } from 'errors/not-authorized.error'
 import { trackUserActivity } from 'services/tracking.service'
 import { HTTP_OK } from 'constants/http-statuses'
 import type { Request, Response } from 'express'
 import { REFRESH_TOKEN } from 'constants/auth'
-import { Password } from 'utils/password'
+import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
 import jwt from 'jsonwebtoken'
 

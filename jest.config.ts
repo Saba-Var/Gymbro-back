@@ -2,7 +2,7 @@ import type { Config } from 'jest'
 
 const setupFiles =
   process.env.NODE_ENV === 'local-testing'
-    ? ['<rootDir>/src/testing/setEnvVars.ts']
+    ? ['<rootDir>/src/testing/set-env-vars.ts']
     : []
 
 const config: Config = {

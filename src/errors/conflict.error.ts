@@ -1,5 +1,5 @@
 import { HTTP_CONFLICT } from 'constants/http-statuses'
-import { CustomError } from 'errors/CustomError'
+import { CustomError } from 'errors/custom.error'
 import { t } from 'i18next'
 
 export class ConflictError extends CustomError {

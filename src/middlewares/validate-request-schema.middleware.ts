@@ -1,6 +1,6 @@
 import { HTTP_UNPROCESSABLE_ENTITY } from 'constants/http-statuses'
 import type { NextFunction, Request, Response } from 'express'
-import type { TransformedErrors } from 'types/globalTypes'
+import type { TransformedErrors } from 'types/globals.types'
 import { validationResult } from 'express-validator'
 
 export const validateRequestSchema = (

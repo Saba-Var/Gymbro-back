@@ -1,5 +1,5 @@
 import { HTTP_BAD_REQUEST } from 'constants/http-statuses'
-import { CustomError } from 'errors/CustomError'
+import { CustomError } from 'errors/custom.error'
 
 export class BadRequestError extends CustomError {
   statusCode = HTTP_BAD_REQUEST

@@ -1,4 +1,4 @@
-import { winstonLogger } from 'config/winstonLogger'
+import { winstonLogger } from 'config/winston-logger'
 import type { Request } from 'express'
 import 'winston-daily-rotate-file'
 
