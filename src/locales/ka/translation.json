@@ -8,5 +8,6 @@
   "password_should_not_be_empty": "პაროლი არ უნდა იყოს ცარიელი",
   "company_exists": "კომპანია უკვე არსებობს",
   "log_out_success": "გამოსვლა წარმატებით მოხდა",
-  "must_be_valid": "უნდა იყოს ვალიდური"
+  "must_be_valid": "უნდა იყოს ვალიდური",
+  "file_type_not_allowed": "ფაილის ტიპი არ არის დაშვებული"
 }

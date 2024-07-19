@@ -1,7 +1,10 @@
 import multer, { type FileFilterCallback } from 'multer'
 import type { FileExtension } from 'types/globals.types'
+import { generateFileDateName } from 'utils/dates.util'
 import type { FileUploadOptions } from './types'
 import type { Request } from 'express'
+import { randomUUID } from 'crypto'
+import { t } from 'i18next'
 import path from 'path'
 import fs from 'fs'
 
@@ -19,15 +22,15 @@ export const createFileUploadService = (options: FileUploadOptions) => {
       }
     },
     filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+      const formattedName = generateFileDateName() + '_' + randomUUID()
 
       if (options.filename) {
-        const customFilename = options.filename(req, file) + '-' + uniqueSuffix
+        const customFilename = options.filename(req, file)
         cb(null, customFilename)
       } else {
         cb(
           null,
-          file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname)
+          file.fieldname + '_' + formattedName + path.extname(file.originalname)
         )
       }
     },
@@ -42,7 +45,7 @@ export const createFileUploadService = (options: FileUploadOptions) => {
     if (options.allowedExtensions.includes(ext)) {
       cb(null, true)
     } else {
-      cb(new Error('File type not allowed'))
+      cb(new Error(t('file_type_not_allowed')))
     }
   }
 
