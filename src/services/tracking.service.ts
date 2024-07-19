@@ -1,6 +1,5 @@
+import { UserTypeEnum, type UserActionEnum } from 'enums/user.enums'
 import type { AuthJWTPayload } from 'types/globalTypes'
-import type { UserActionEnum } from 'enums/user.enums'
-import { UserTypeEnum } from 'enums/user.enums'
 import { prisma } from 'config/prisma'
 import type { Request } from 'express'
 

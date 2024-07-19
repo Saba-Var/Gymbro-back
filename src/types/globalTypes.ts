@@ -21,6 +21,7 @@ export type TransformedErrors = {
 export type LoginData = {
   email: string
   password: string
+  userType: UserTypeEnum
 }
 
 export type LoginRequest = RequestWithBody<LoginData>

@@ -1,18 +1,10 @@
-import type { LoginRequest, RequestWithBody } from 'types/globalTypes'
-import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
 import { trackUserActivity } from 'services/tracking.service'
+import type { RequestWithBody } from 'types/globalTypes'
 import { HTTP_CREATED } from 'constants/http-statuses'
-import { loginService } from 'services/auth.service'
-import { createCompanyService } from './service'
+import { createCompanyService } from './services'
+import { UserActionEnum } from 'enums/user.enums'
 import type { CompanyCreateData } from './types'
 import type { Response } from 'express'
-
-export const superUserLoginController = async (
-  req: LoginRequest,
-  res: Response
-) => {
-  return loginService(req, res, UserTypeEnum.SUPERUSER)
-}
 
 export const createCompanyController = async (
   req: RequestWithBody<CompanyCreateData>,

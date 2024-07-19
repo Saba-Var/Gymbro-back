@@ -1,3 +1,4 @@
+import { UserTypeEnum } from 'enums/user.enums'
 import { body } from 'express-validator'
 
 export const loginValidationSchema = [
@@ -6,4 +7,7 @@ export const loginValidationSchema = [
     .trim()
     .notEmpty()
     .withMessage('password_should_not_be_empty'),
+  body('userType')
+    .isIn(Object.values(UserTypeEnum))
+    .withMessage('must_be_valid'),
 ]
