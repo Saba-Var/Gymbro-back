@@ -8,21 +8,22 @@ datasource db {
 }
 
 model Company {
-  id          Int            @id @default(autoincrement())
-  title       String         @db.VarChar(100)
-  email       String         @unique @db.VarChar(100)
-  city        String         @db.VarChar(50)
-  country     String         @db.VarChar(50)
-  address     String         @db.VarChar(100)
-  websiteUrl  String?        @db.VarChar(100)
-  logo        String?        @db.VarChar(100)
-  description String?        @db.Text
-  staff       Staff[]
-  roles       Role[]
-  clients     Client[]
-  plans       TrainingPlan[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id            Int                   @id @default(autoincrement())
+  title         String                @db.VarChar(100)
+  email         String                @unique @db.VarChar(100)
+  city          String                @db.VarChar(50)
+  country       String                @db.VarChar(50)
+  address       String                @db.VarChar(100)
+  websiteUrl    String?               @db.VarChar(100)
+  logo          String?               @db.VarChar(100)
+  description   String?               @db.Text
+  staff         Staff[]
+  roles         Role[]
+  clients       Client[]
+  plans         TrainingPlan[]
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  subscriptions CompanySubscription[]
 }
 
 model Role {
@@ -130,21 +131,21 @@ model SuperUser {
 }
 
 model Client {
-  id             Int            @id @default(autoincrement())
-  firstName      String         @db.VarChar(50)
-  lastName       String         @db.VarChar(50)
-  privateNumber  String         @unique @db.VarChar(11)
-  email          String         @unique @db.VarChar(100)
-  phoneNumber    String?        @unique @db.VarChar(20)
+  id             Int                 @id @default(autoincrement())
+  firstName      String              @db.VarChar(50)
+  lastName       String              @db.VarChar(50)
+  privateNumber  String              @unique @db.VarChar(11)
+  email          String              @unique @db.VarChar(100)
+  phoneNumber    String?             @unique @db.VarChar(20)
   dateOfBirth    DateTime?
   lastActivityAt DateTime?
-  password       String         @db.VarChar(255)
+  password       String              @db.VarChar(255)
   gender         GenderType
-  company        Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company        Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId      Int
-  subscriptions  Subscription[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  subscriptions  StaffSubscription[]
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
   activityLogs   ActivityLog[]
 }
 
@@ -163,12 +164,12 @@ model TrainingPlan {
   companyId               Int
   staff                   Staff?               @relation(fields: [staffId], references: [id])
   staffId                 Int?
-  subscriptions           Subscription[]
+  subscriptions           StaffSubscription[]
   createdAt               DateTime             @default(now())
   updatedAt               DateTime             @updatedAt
 }
 
-model Subscription {
+model StaffSubscription {
   id               Int                  @id @default(autoincrement())
   client           Client               @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId         Int
@@ -188,6 +189,21 @@ model Subscription {
   isActive         Boolean              @default(true)
   createdAt        DateTime             @default(now())
   updatedAt        DateTime             @updatedAt
+}
+
+model CompanySubscription {
+  id         Int      @id @default(autoincrement())
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId  Int
+  startDate  DateTime
+  endDate    DateTime
+  isActive   Boolean
+  totalPrice Decimal  @db.Decimal(10, 2)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([isActive])
 }
 
 model ActivityLog {
