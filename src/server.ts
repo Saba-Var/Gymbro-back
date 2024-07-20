@@ -22,9 +22,9 @@ server.use('/storage', express.static(path.join(__dirname, '../storage')))
 server.use(json())
 server.use(urlencoded({ extended: true }))
 
-server.use('/api', superUserRouter)
-
 server.use('/api', authRouter)
+
+server.use('/api', verifyToken, superUserRouter)
 
 server.use('/api', verifyToken, usersRouter)
 
