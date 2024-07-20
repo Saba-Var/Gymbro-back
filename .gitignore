@@ -4,3 +4,4 @@
 /logs
 /src/testing/setEnvVars.ts
 /storage
+/src/testing/set-env-vars.ts
