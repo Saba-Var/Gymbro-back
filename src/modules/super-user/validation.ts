@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 
 export const createCompanySchema = [
   body('email').isEmail(),
@@ -24,7 +24,7 @@ export const createCompanySchema = [
 ]
 
 export const companySubscriptionValidation = (isCreating = true) => [
-  body('companyId')
+  param('companyId')
     .if((value) => isCreating || value !== undefined)
     .isInt()
     .withMessage('Company ID must be an integer')

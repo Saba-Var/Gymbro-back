@@ -31,7 +31,10 @@ export const attachSubscriptionToCompanyController = async (
   req: RequestWithBody<CompanySubscriptionData>,
   res: Response
 ) => {
-  const newSubscription = await attachSubscriptionToCompanyService(req.body)
+  const newSubscription = await attachSubscriptionToCompanyService({
+    ...req.body,
+    companyId: +req.params.companyId,
+  })
 
   trackUserActivity({
     actionType: UserActionEnum.CREATE,

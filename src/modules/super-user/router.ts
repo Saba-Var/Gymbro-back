@@ -24,7 +24,7 @@ superUserRouter.post(
 )
 
 superUserRouter.post(
-  '/company/subscription',
+  '/company/:companyId/subscription',
   verifyToken,
   companySubscriptionValidation(),
   validateRequestSchema,
