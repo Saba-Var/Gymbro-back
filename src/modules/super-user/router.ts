@@ -6,10 +6,12 @@ import express from 'express'
 import {
   companySubscriptionValidation,
   createCompanySchema,
+  editCompanySubscriptionValidation,
 } from './validation'
 import {
   attachSubscriptionToCompanyController,
   createCompanyController,
+  editCompanySubscriptionController,
 } from './controller'
 
 const superUserRouter = express.Router()
@@ -26,9 +28,17 @@ superUserRouter.post(
 superUserRouter.post(
   '/company/:companyId/subscription',
   verifyToken,
-  companySubscriptionValidation(),
+  companySubscriptionValidation({ makeFieldsRequired: true }),
   validateRequestSchema,
   asyncHandler(attachSubscriptionToCompanyController)
+)
+
+superUserRouter.put(
+  '/company/:companyId/subscription/:subscriptionId',
+  verifyToken,
+  editCompanySubscriptionValidation,
+  validateRequestSchema,
+  asyncHandler(editCompanySubscriptionController)
 )
 
 superUserRouter.use('/super-user', superUserRouter)

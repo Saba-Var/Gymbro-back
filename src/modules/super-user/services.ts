@@ -1,4 +1,8 @@
-import type { CompanyCreateData, CompanySubscriptionData } from './types'
+import type {
+  CompanyCreateData,
+  CompanySubscriptionCreationData,
+  CompanySubscriptionEditData,
+} from './types'
 import { createFileUploadService } from 'services/file-upload.service'
 import { ConflictError } from 'errors/conflict.error'
 import { generateMB } from 'utils/storage.util'
@@ -37,11 +41,27 @@ export const createCompanyService = async (companyData: CompanyCreateData) => {
 }
 
 export const attachSubscriptionToCompanyService = async (
-  data: CompanySubscriptionData
+  data: CompanySubscriptionCreationData
 ) => {
   const newSubscription = await prisma.companySubscription.create({
     data,
   })
 
   return newSubscription
+}
+
+export const editCompanySubscriptionService = async (
+  data: CompanySubscriptionEditData,
+  companyId: number,
+  subscriptionId: number
+) => {
+  const updatedSubscription = await prisma.companySubscription.update({
+    where: {
+      id: subscriptionId,
+      companyId,
+    },
+    data,
+  })
+
+  return updatedSubscription
 }

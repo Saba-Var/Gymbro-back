@@ -1,12 +1,17 @@
-import type { CompanyCreateData, CompanySubscriptionData } from './types'
+import type {
+  CompanyCreateData,
+  CompanySubscriptionCreationData,
+  CompanySubscriptionEditData,
+} from './types'
 import { trackUserActivity } from 'services/tracking.service'
 import type { RequestWithBody } from 'types/globals.types'
-import { HTTP_CREATED } from 'constants/http-statuses'
+import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { UserActionEnum } from 'enums/user.enums'
 import type { Response } from 'express'
 import {
   attachSubscriptionToCompanyService,
   createCompanyService,
+  editCompanySubscriptionService,
 } from './services'
 
 export const createCompanyController = async (
@@ -28,7 +33,7 @@ export const createCompanyController = async (
 }
 
 export const attachSubscriptionToCompanyController = async (
-  req: RequestWithBody<CompanySubscriptionData>,
+  req: RequestWithBody<CompanySubscriptionCreationData>,
   res: Response
 ) => {
   const newSubscription = await attachSubscriptionToCompanyService({
@@ -43,4 +48,26 @@ export const attachSubscriptionToCompanyController = async (
   })
 
   res.status(HTTP_CREATED).json(newSubscription)
+}
+
+export const editCompanySubscriptionController = async (
+  req: RequestWithBody<CompanySubscriptionEditData>,
+  res: Response
+) => {
+  const companyId = +req.params.companyId
+  const subscriptionId = +req.params.subscriptionId
+
+  const updatedSubscription = await editCompanySubscriptionService(
+    req.body,
+    companyId,
+    subscriptionId
+  )
+
+  trackUserActivity({
+    actionType: UserActionEnum.UPDATE,
+    displayValue: `Subscription: ${updatedSubscription.id}`,
+    req,
+  })
+
+  res.status(HTTP_OK).json(updatedSubscription)
 }
