@@ -1,17 +1,18 @@
-import type {
-  CompanyCreateData,
-  CompanySubscriptionCreationData,
-  CompanySubscriptionEditData,
-} from './types'
+import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
 import type { RequestWithBody } from 'types/globals.types'
-import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { UserActionEnum } from 'enums/user.enums'
-import type { Response } from 'express'
+import type { Request, Response } from 'express'
+import type {
+  CompanySubscriptionCreationData,
+  CompanySubscriptionEditData,
+  CompanyCreateData,
+} from './types'
 import {
   attachSubscriptionToCompanyService,
-  createCompanyService,
+  listCompanySubscriptionsService,
   editCompanySubscriptionService,
+  createCompanyService,
 } from './services'
 
 export const createCompanyController = async (
@@ -70,4 +71,15 @@ export const editCompanySubscriptionController = async (
   })
 
   res.status(HTTP_OK).json(updatedSubscription)
+}
+
+export const listCompanySubscriptionController = async (
+  req: Request,
+  res: Response
+) => {
+  const companySubscriptions = await listCompanySubscriptionsService(
+    +req.params.companyId
+  )
+
+  res.status(HTTP_OK).json(companySubscriptions)
 }

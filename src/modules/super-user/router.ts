@@ -1,17 +1,18 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
-import { verifyToken } from 'middlewares/verifyToken.middleware'
+import { idParamValidation } from 'validation/id-param.validation'
 import { companyLogoUpload } from './services'
 import express from 'express'
 import {
+  editCompanySubscriptionValidation,
   companySubscriptionValidation,
   createCompanySchema,
-  editCompanySubscriptionValidation,
 } from './validation'
 import {
   attachSubscriptionToCompanyController,
-  createCompanyController,
   editCompanySubscriptionController,
+  createCompanyController,
+  listCompanySubscriptionController,
 } from './controller'
 
 const superUserRouter = express.Router()
@@ -19,26 +20,30 @@ const superUserRouter = express.Router()
 superUserRouter.post(
   '/company',
   companyLogoUpload,
-  verifyToken,
   createCompanySchema,
   validateRequestSchema,
   asyncHandler(createCompanyController)
 )
 
 superUserRouter.post(
-  '/company/:companyId/subscription',
-  verifyToken,
+  '/company/:companyId/subscriptions',
   companySubscriptionValidation({ makeFieldsRequired: true }),
   validateRequestSchema,
   asyncHandler(attachSubscriptionToCompanyController)
 )
 
 superUserRouter.put(
-  '/company/:companyId/subscription/:subscriptionId',
-  verifyToken,
+  '/company/:companyId/subscriptions/:subscriptionId',
   editCompanySubscriptionValidation,
   validateRequestSchema,
   asyncHandler(editCompanySubscriptionController)
+)
+
+superUserRouter.get(
+  '/company/:companyId/subscriptions',
+  editCompanySubscriptionValidation,
+  idParamValidation({ fieldName: 'companyId' }),
+  asyncHandler(listCompanySubscriptionController)
 )
 
 superUserRouter.use('/super-user', superUserRouter)
