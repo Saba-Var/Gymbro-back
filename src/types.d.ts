@@ -6,6 +6,7 @@ declare global {
       NODE_ENV: 'local-testing' | 'production' | 'test'
       SUPER_USER_EMAIL: string
       SUPER_USER_PASSWORD: string
+      TESTING_DATABASE_URL: string
       DATABASE_URL: string
       SERVER_PORT: string
       ACCESS_TOKEN_SECRET: string
