@@ -1,9 +1,13 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
-import { loginController, logoutController } from './controllers'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
 import { loginValidationSchema } from './validation'
 import express from 'express'
+import {
+  refreshTokenController,
+  logoutController,
+  loginController,
+} from './controllers'
 
 const authRouter = express.Router()
 
@@ -15,6 +19,8 @@ authRouter.post(
 )
 
 authRouter.get('/logout', verifyToken, asyncHandler(logoutController))
+
+authRouter.get('/refresh', asyncHandler(refreshTokenController))
 
 authRouter.use('/auth', authRouter)
 export { authRouter }
