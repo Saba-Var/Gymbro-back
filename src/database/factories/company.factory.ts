@@ -7,9 +7,7 @@ export class CompanyFactory extends BaseFactory<
   Company,
   Prisma.CompanyCreateInput
 > {
-  async build(
-    attrs: Partial<Prisma.CompanyCreateInput> = {}
-  ): Promise<Prisma.CompanyCreateInput> {
+  async build(attrs: Partial<Prisma.CompanyCreateInput> = {}) {
     return {
       address: faker.location.streetAddress(),
       city: faker.location.city(),
@@ -22,7 +20,7 @@ export class CompanyFactory extends BaseFactory<
     }
   }
 
-  protected prismaCreate(data: Prisma.CompanyCreateInput): Promise<Company> {
+  protected prismaCreate(data: Prisma.CompanyCreateInput) {
     return prisma.company.create({ data })
   }
 }
