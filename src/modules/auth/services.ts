@@ -2,12 +2,13 @@ import type { LoginRequest, AuthJWTPayload } from 'types/globals.types'
 import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
 import { NotAuthorizedError } from 'errors/not-authorized.error'
 import { trackUserActivity } from 'services/tracking.service'
-import { HTTP_OK } from 'constants/http-statuses'
+import { HTTP_OK, HTTP_UNAUTHORIZED } from 'constants/http-statuses'
 import type { Request, Response } from 'express'
 import { REFRESH_TOKEN } from 'constants/auth'
 import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
 import jwt from 'jsonwebtoken'
+import { getUserService } from 'modules/users/service'
 
 export const loginService = async (req: LoginRequest, res: Response) => {
   let isMatch = false
@@ -77,4 +78,35 @@ export const logoutService = async (req: Request, res: Response) => {
   })
 
   res.status(HTTP_OK).json({ message: req.t('log_out_success') })
+}
+
+export const refreshTokenService = async (refreshToken: string) => {
+  const decoded = jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET!
+  ) as AuthJWTPayload
+
+  if (!decoded) {
+    throw new NotAuthorizedError()
+  }
+
+  const { id, userType } = decoded
+
+  const existingUser = await getUserService(id, userType)
+
+  if (!existingUser) {
+    throw new NotAuthorizedError()
+  }
+
+  const payload: AuthJWTPayload = {
+    email: existingUser?.email,
+    id: existingUser?.id,
+    userType,
+  }
+
+  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
+    expiresIn: '1d',
+  })
+
+  return accessToken
 }
