@@ -2,13 +2,13 @@ import type { LoginRequest, AuthJWTPayload } from 'types/globals.types'
 import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
 import { NotAuthorizedError } from 'errors/not-authorized.error'
 import { trackUserActivity } from 'services/tracking.service'
-import { HTTP_OK, HTTP_UNAUTHORIZED } from 'constants/http-statuses'
+import { getUserService } from 'modules/users/service'
+import { HTTP_OK } from 'constants/http-statuses'
 import type { Request, Response } from 'express'
 import { REFRESH_TOKEN } from 'constants/auth'
 import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
 import jwt from 'jsonwebtoken'
-import { getUserService } from 'modules/users/service'
 
 export const loginService = async (req: LoginRequest, res: Response) => {
   let isMatch = false
