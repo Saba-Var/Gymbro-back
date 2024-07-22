@@ -1,12 +1,11 @@
 import { HTTP_OK, HTTP_UNAUTHORIZED } from 'constants/http-statuses'
 import { retryPrismaQuery } from 'utils/retry-prisma-query.util'
+import { superTestMethods } from 'testing/super-test-methods'
 import { logInTestCommand } from 'testing/commands/auth'
 import { ActivityLogActionType } from '@prisma/client'
 import { UserTypeEnum } from 'enums/user.enums'
 import { generateAuthJwtTokens } from './utils'
 import { prisma } from 'config/prisma'
-import request from 'supertest'
-import { server } from 'server'
 import { t } from 'i18next'
 
 describe('Auth Routes', () => {
@@ -43,7 +42,7 @@ describe('Auth Routes', () => {
         await logInTestCommand({
           email: 'invalid@example.com',
           password: 'wrongpassword',
-          userType: 'SUPERUSER' as UserTypeEnum, // Avoid TS error to test invalid enum value
+          userType: 'SUPERUSER' as UserTypeEnum,
           statusCode: HTTP_UNAUTHORIZED,
         })
       })
@@ -58,9 +57,8 @@ describe('Auth Routes', () => {
         })
         const userId = loginResponse.body.id
 
-        const response = await request(server)
-          .get('/api/auth/logout')
-          .set('Authorization', `Bearer ${loginResponse.body.accessToken}`)
+        const response =
+          await superTestMethods.privateRequests.get('/api/auth/logout')
 
         expect(response.status).toBe(HTTP_OK)
         expect(response.body).toHaveProperty('message', t('log_out_success'))
@@ -78,7 +76,8 @@ describe('Auth Routes', () => {
       })
 
       it('should return 401 if the user is not authenticated', async () => {
-        const response = await request(server).get('/api/auth/logout')
+        const response =
+          await superTestMethods.publicRequests.get('/api/auth/logout')
 
         expect(response.status).toBe(HTTP_UNAUTHORIZED)
       })
@@ -97,7 +96,7 @@ describe('Auth Routes', () => {
 
         expect(refreshToken).toBeDefined()
 
-        const refreshResponse = await request(server)
+        const refreshResponse = await superTestMethods.publicRequests
           .get('/api/auth/refresh')
           .set('Cookie', `refreshToken=${refreshToken}`)
 
@@ -112,7 +111,7 @@ describe('Auth Routes', () => {
           userType: UserTypeEnum.SUPERUSER,
         })
 
-        const response = await request(server)
+        const response = await superTestMethods.publicRequests
           .get('/api/auth/refresh')
           .set('Cookie', `refreshToken=${invalidRefreshToken}`)
 

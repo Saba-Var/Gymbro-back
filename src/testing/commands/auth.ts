@@ -1,8 +1,7 @@
-import type { LoginData } from 'types/globals.types'
+import { superTestMethods } from 'testing/super-test-methods'
+import { testingAuthStore } from 'testing/testing-auth-store'
 import type { logInTestCommandArgs } from './types'
 import { HTTP_OK } from 'constants/http-statuses'
-import request from 'supertest'
-import { server } from 'server'
 
 export const logInTestCommand = async ({
   email = process.env.SUPER_USER_EMAIL,
@@ -10,19 +9,23 @@ export const logInTestCommand = async ({
   userType,
   statusCode = HTTP_OK,
 }: logInTestCommandArgs) => {
-  const response = await request(server)
+  const response = await superTestMethods.publicRequests
     .post('/api/auth/login')
     .send({
       email,
       password,
       userType,
-    } as LoginData)
+    })
 
   expect(response.status).toBe(statusCode)
 
   if (statusCode === HTTP_OK) {
     expect(response.body).toHaveProperty('accessToken')
     expect(response.body).toHaveProperty('id')
+
+    if (!testingAuthStore.accessToken) {
+      testingAuthStore.accessToken = response.body.accessToken
+    }
   }
 
   return response
