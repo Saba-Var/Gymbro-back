@@ -1,10 +1,11 @@
 import type { LoginRequest, AuthJWTPayload } from 'types/globals.types'
-import { UserActionEnum, UserTypeEnum } from 'enums/user.enums'
 import { NotAuthorizedError } from 'errors/not-authorized.error'
 import { trackUserActivity } from 'services/tracking.service'
 import { getUserService } from 'modules/users/service'
+import { ActivityLogActionType } from '@prisma/client'
 import { HTTP_OK } from 'constants/http-statuses'
 import type { Request, Response } from 'express'
+import { UserTypeEnum } from 'enums/user.enums'
 import { REFRESH_TOKEN } from 'constants/auth'
 import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
@@ -48,7 +49,7 @@ export const loginService = async (req: LoginRequest, res: Response) => {
   })
 
   trackUserActivity({
-    actionType: UserActionEnum.LOGIN,
+    actionType: ActivityLogActionType.LOGIN,
     displayValue: 'Logged in',
     payload: jwtPayload,
     req,
@@ -72,7 +73,7 @@ export const logoutService = async (req: Request, res: Response) => {
   })
 
   trackUserActivity({
-    actionType: UserActionEnum.LOGOUT,
+    actionType: ActivityLogActionType.LOGOUT,
     displayValue: 'Logged out',
     req,
   })

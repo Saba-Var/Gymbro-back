@@ -1,36 +1,46 @@
-import { HTTP_OK, HTTP_UNAUTHORIZED } from 'constants/http-statuses'
-import type { LoginData } from 'types/globals.types'
-import request from 'supertest'
-import { server } from 'server'
+import { HTTP_UNAUTHORIZED } from 'constants/http-statuses'
+import { logInTestCommand } from 'testing/commands/auth'
+import { ActivityLogActionType } from '@prisma/client'
+import { UserTypeEnum } from 'enums/user.enums'
+import { prisma } from 'config/prisma'
 
 describe('Auth Routes', () => {
   describe('POST /auth/login', () => {
-    const { SUPER_USER_EMAIL, SUPER_USER_PASSWORD } = process.env
+    describe('Super User', () => {
+      it('should log in a user as a super user and return an access token', async () => {
+        logInTestCommand({
+          userType: UserTypeEnum.SUPERUSER,
+        })
+      })
 
-    it('should log in a user and return an access token', async () => {
-      const response = await request(server)
-        .post('/api/auth/login')
-        .send({
-          email: SUPER_USER_EMAIL,
-          password: SUPER_USER_PASSWORD,
-          userType: 'SUPERUSER',
-        } as LoginData)
+      it('should track log in activity', async () => {
+        const response = await logInTestCommand({
+          userType: UserTypeEnum.SUPERUSER,
+        })
 
-      expect(response.status).toBe(HTTP_OK)
-      expect(response.body).toHaveProperty('accessToken')
-      expect(response.body).toHaveProperty('id')
-    })
+        const userId = response.body.id
 
-    it('should return 401 for invalid login credentials', async () => {
-      const response = await request(server)
-        .post('/api/auth/login')
-        .send({
+        const activityLog = await prisma.activityLog.findFirst({
+          where: {
+            userId,
+            superUserId: userId,
+            displayValue: 'Logged in',
+            actionType: ActivityLogActionType.LOGIN,
+          },
+        })
+
+        expect(activityLog).not.toBeNull()
+        expect(activityLog?.superUserId).toBe(userId)
+      })
+
+      it('should return 401 for invalid login credentials', async () => {
+        await logInTestCommand({
           email: 'invalid@example.com',
           password: 'wrongpassword',
-          userType: 'SUPERUSER',
-        } as LoginData)
-
-      expect(response.status).toBe(HTTP_UNAUTHORIZED)
+          userType: 'SUPERUSER' as UserTypeEnum, // Avoid TS error to test invalid enum value
+          statusCode: HTTP_UNAUTHORIZED,
+        })
+      })
     })
   })
 })
