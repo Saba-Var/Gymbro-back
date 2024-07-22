@@ -4,11 +4,11 @@ import { HTTP_OK } from 'constants/http-statuses'
 import type { Request, Response } from 'express'
 
 export const loginController = async (req: LoginRequest, res: Response) => {
-  loginService(req, res)
+  return loginService(req, res)
 }
 
 export const logoutController = async (req: Request, res: Response) => {
-  logoutService(req, res)
+  return logoutService(req, res)
 }
 
 export const refreshTokenController = async (req: Request, res: Response) => {
