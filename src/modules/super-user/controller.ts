@@ -1,7 +1,6 @@
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
 import type { RequestWithBody } from 'types/globals.types'
-import { UserActionEnum } from 'enums/user.enums'
 import type { Request, Response } from 'express'
 import type {
   CompanySubscriptionCreationData,
@@ -14,6 +13,7 @@ import {
   editCompanySubscriptionService,
   createCompanyService,
 } from './services'
+import { ActivityLogActionType } from '@prisma/client'
 
 export const createCompanyController = async (
   req: RequestWithBody<CompanyCreateData>,
@@ -25,7 +25,7 @@ export const createCompanyController = async (
   })
 
   trackUserActivity({
-    actionType: UserActionEnum.CREATE,
+    actionType: ActivityLogActionType.CREATE,
     displayValue: `Company: ${newCompany.title}`,
     req,
   })
@@ -43,7 +43,7 @@ export const attachSubscriptionToCompanyController = async (
   })
 
   trackUserActivity({
-    actionType: UserActionEnum.CREATE,
+    actionType: ActivityLogActionType.CREATE,
     displayValue: `Subscription: ${newSubscription.id}`,
     req,
   })
@@ -65,7 +65,7 @@ export const editCompanySubscriptionController = async (
   )
 
   trackUserActivity({
-    actionType: UserActionEnum.UPDATE,
+    actionType: ActivityLogActionType.UPDATE,
     displayValue: `Subscription: ${updatedSubscription.id}`,
     req,
   })

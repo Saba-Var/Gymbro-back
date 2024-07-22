@@ -1,12 +1,3 @@
-export enum UserActionEnum {
-  CREATE = 'CREATE',
-  UPDATE = 'UPDATE',
-  DELETE = 'DELETE',
-  VIEW = 'VIEW',
-  LOGIN = 'LOGIN',
-  LOGOUT = 'LOGOUT',
-}
-
 export enum UserTypeEnum {
   STAFF = 'STAFF',
   CLIENT = 'CLIENT',

@@ -1,11 +1,12 @@
-import { UserTypeEnum, type UserActionEnum } from 'enums/user.enums'
+import type { ActivityLogActionType } from '@prisma/client'
 import type { AuthJWTPayload } from 'types/globals.types'
+import { UserTypeEnum } from 'enums/user.enums'
 import { prisma } from 'config/prisma'
 import type { Request } from 'express'
 
 export const trackUserActivity = async (args: {
   payload?: AuthJWTPayload
-  actionType: UserActionEnum
+  actionType: ActivityLogActionType
   displayValue: string
   req: Request
 }) => {

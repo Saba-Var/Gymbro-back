@@ -16,7 +16,7 @@ export const verifyToken = (
     const accessToken = authHeader?.trim()?.split(' ')?.[1]
 
     if (!authHeader.startsWith('Bearer ') || !accessToken) {
-      throw new NotAuthorizedError()
+      return next(new NotAuthorizedError())
     }
 
     return jwt.verify(
@@ -24,13 +24,13 @@ export const verifyToken = (
       process.env.ACCESS_TOKEN_SECRET!,
       async (error, JwtPayload) => {
         if (error) {
-          throw new NotAuthorizedError()
+          return next(new NotAuthorizedError())
         }
 
         const jwtPayload = JwtPayload as AuthJWTPayload
 
         if (!jwtPayload) {
-          throw new NotAuthorizedError()
+          return next(new NotAuthorizedError())
         }
 
         req.currentUser = jwtPayload
