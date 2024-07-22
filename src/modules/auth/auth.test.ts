@@ -3,6 +3,7 @@ import { retryPrismaQuery } from 'utils/retry-prisma-query.util'
 import { logInTestCommand } from 'testing/commands/auth'
 import { ActivityLogActionType } from '@prisma/client'
 import { UserTypeEnum } from 'enums/user.enums'
+import { generateAuthJwtTokens } from './utils'
 import { prisma } from 'config/prisma'
 import request from 'supertest'
 import { server } from 'server'
@@ -78,6 +79,42 @@ describe('Auth Routes', () => {
 
       it('should return 401 if the user is not authenticated', async () => {
         const response = await request(server).get('/api/auth/logout')
+
+        expect(response.status).toBe(HTTP_UNAUTHORIZED)
+      })
+    })
+  })
+
+  describe('GET /api/auth/refresh', () => {
+    describe('Super User', () => {
+      it('should refresh the access token with a valid refresh token', async () => {
+        const loginResponse = await logInTestCommand({
+          userType: UserTypeEnum.SUPERUSER,
+        })
+        const refreshToken = loginResponse.headers['set-cookie'][0]
+          .split(';')[0]
+          .split('=')[1]
+
+        expect(refreshToken).toBeDefined()
+
+        const refreshResponse = await request(server)
+          .get('/api/auth/refresh')
+          .set('Cookie', `refreshToken=${refreshToken}`)
+
+        expect(refreshResponse.status).toBe(HTTP_OK)
+        expect(refreshResponse.body).toHaveProperty('accessToken')
+      })
+
+      it('should return 500 for an invalid refresh token', async () => {
+        const { refreshToken: invalidRefreshToken } = generateAuthJwtTokens({
+          id: 999999,
+          email: 'invalid@gmail.com',
+          userType: UserTypeEnum.SUPERUSER,
+        })
+
+        const response = await request(server)
+          .get('/api/auth/refresh')
+          .set('Cookie', `refreshToken=${invalidRefreshToken}`)
 
         expect(response.status).toBe(HTTP_UNAUTHORIZED)
       })

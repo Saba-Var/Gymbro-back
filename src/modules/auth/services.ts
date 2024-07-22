@@ -5,6 +5,7 @@ import { getUserService } from 'modules/users/service'
 import { ActivityLogActionType } from '@prisma/client'
 import { HTTP_OK } from 'constants/http-statuses'
 import type { Request, Response } from 'express'
+import { generateAuthJwtTokens } from './utils'
 import { UserTypeEnum } from 'enums/user.enums'
 import { REFRESH_TOKEN } from 'constants/auth'
 import { Password } from 'utils/password.util'
@@ -40,13 +41,7 @@ export const loginService = async (req: LoginRequest, res: Response) => {
     email,
   }
 
-  const accessToken = jwt.sign(jwtPayload, process.env.ACCESS_TOKEN_SECRET!, {
-    expiresIn: '1d',
-  })
-
-  const refreshToken = jwt.sign(jwtPayload, process.env.REFRESH_TOKEN_SECRET!, {
-    expiresIn: '7d',
-  })
+  const { accessToken, refreshToken } = generateAuthJwtTokens(jwtPayload)
 
   trackUserActivity({
     actionType: ActivityLogActionType.LOGIN,
@@ -105,9 +100,7 @@ export const refreshTokenService = async (refreshToken: string) => {
     userType,
   }
 
-  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
-    expiresIn: '1d',
-  })
+  const { accessToken: newAccessToken } = generateAuthJwtTokens(payload)
 
-  return accessToken
+  return newAccessToken
 }
