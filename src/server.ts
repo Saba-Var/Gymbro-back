@@ -11,6 +11,7 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
+import { onlySuperUserAccess } from 'middlewares/only-super-user-access.middleware'
 
 dotenv.config()
 
@@ -26,7 +27,7 @@ server.use('/storage', express.static(path.join(__dirname, '../storage')))
 
 server.use('/api', authRouter)
 
-server.use('/api', verifyToken, superUserRouter)
+server.use('/api', verifyToken, onlySuperUserAccess, superUserRouter)
 
 server.use('/api', verifyToken, usersRouter)
 
