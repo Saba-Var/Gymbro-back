@@ -4,10 +4,9 @@ import { prisma } from 'config/prisma'
 
 export const createSuperUser = async (): Promise<void> => {
   try {
-    const newSuperUserEmail = process.env.SUPER_USER_EMAIL
-    const newSuperUserPassword = process.env.SUPER_USER_PASSWORD
+    const { SUPER_USER_EMAIL, SUPER_USER_PASSWORD, NODE_ENV } = process.env
 
-    if (!newSuperUserEmail || !newSuperUserPassword) {
+    if (!SUPER_USER_EMAIL || !SUPER_USER_PASSWORD) {
       console.error('Environment variables not set to create super user')
       return
     }
@@ -23,15 +22,15 @@ export const createSuperUser = async (): Promise<void> => {
       return
     }
 
-    const hashedPassword = await Password.toHash(newSuperUserPassword!)
+    const hashedPassword = await Password.toHash(SUPER_USER_PASSWORD!)
     const superUser = await prisma.superUser.create({
       data: {
-        email: newSuperUserEmail,
+        email: SUPER_USER_EMAIL,
         password: hashedPassword,
       },
     })
 
-    if (superUser) {
+    if (superUser && !NODE_ENV.includes('test')) {
       console.log(`Super user created: "${superUser.email}"`)
     }
   } catch (error) {

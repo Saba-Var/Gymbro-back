@@ -7,6 +7,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
+  await prisma.activityLog.deleteMany()
   await prisma.superUser.deleteMany()
   await prisma.$disconnect()
 })
