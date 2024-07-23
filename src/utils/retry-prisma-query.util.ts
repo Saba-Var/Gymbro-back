@@ -1,14 +1,19 @@
 export const retryPrismaQuery = async <T>(
   queryFn: () => Promise<T | null>,
-  maxRetries = 3,
+  maxRetries = 2,
   delay = 100
 ): Promise<T | null> => {
-  for (let i = 0; i < maxRetries; i++) {
-    const result = await queryFn()
-    if (result !== null) {
-      return result
+  if (process.env.NODE_ENV.includes('test')) {
+    for (let i = 0; i < maxRetries; i++) {
+      const result = await queryFn()
+      if (result !== null) {
+        return result
+      }
+      await new Promise((resolve) => setTimeout(resolve, delay))
     }
-    await new Promise((resolve) => setTimeout(resolve, delay))
   }
-  return null
+
+  const result = await queryFn()
+
+  return result || null
 }

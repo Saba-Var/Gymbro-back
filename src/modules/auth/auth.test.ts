@@ -12,15 +12,11 @@ describe('Auth Routes', () => {
   describe('POST /api/auth/login', () => {
     describe('Super User', () => {
       it('should log in a user as a super user and return an access token', async () => {
-        logInTestCommand({
-          userType: UserTypeEnum.SUPERUSER,
-        })
+        logInTestCommand()
       })
 
       it('should track log in activity', async () => {
-        const response = await logInTestCommand({
-          userType: UserTypeEnum.SUPERUSER,
-        })
+        const response = await logInTestCommand()
 
         const userId = response.body.id
 
@@ -52,9 +48,7 @@ describe('Auth Routes', () => {
   describe('GET /api/auth/logout', () => {
     describe('Super User', () => {
       it('should log out a user and clear the refresh token cookie', async () => {
-        const loginResponse = await logInTestCommand({
-          userType: UserTypeEnum.SUPERUSER,
-        })
+        const loginResponse = await logInTestCommand()
         const userId = loginResponse.body.id
 
         const response =
@@ -87,9 +81,7 @@ describe('Auth Routes', () => {
   describe('GET /api/auth/refresh', () => {
     describe('Super User', () => {
       it('should refresh the access token with a valid refresh token', async () => {
-        const loginResponse = await logInTestCommand({
-          userType: UserTypeEnum.SUPERUSER,
-        })
+        const loginResponse = await logInTestCommand()
         const refreshToken = loginResponse.headers['set-cookie'][0]
           .split(';')[0]
           .split('=')[1]

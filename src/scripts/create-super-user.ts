@@ -35,8 +35,6 @@ export const createSuperUser = async (): Promise<void> => {
     }
   } catch (error) {
     console.error('Error creating super user:', error)
-  } finally {
-    await prisma.$disconnect()
   }
 }
 
