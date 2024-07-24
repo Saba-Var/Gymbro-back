@@ -14,6 +14,7 @@ import {
   editCompanySubscriptionService,
   createCompanyService,
   listCompaniesService,
+  listAllCompaniesSubscriptionsService,
 } from './services'
 
 export const createCompanyController = async (
@@ -90,6 +91,15 @@ export const listCompanySubscriptionController = async (
   const companySubscriptions = await listCompanySubscriptionsService(
     +req.params.companyId
   )
+
+  res.status(HTTP_OK).json(companySubscriptions)
+}
+
+export const listAllCompaniesSubscriptionsController = async (
+  _req: Request,
+  res: Response
+) => {
+  const companySubscriptions = await listAllCompaniesSubscriptionsService()
 
   res.status(HTTP_OK).json(companySubscriptions)
 }

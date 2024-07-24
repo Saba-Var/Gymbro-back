@@ -118,3 +118,9 @@ export const listCompanySubscriptionsService = async (id: number) => {
 
   return subscriptions
 }
+
+export const listAllCompaniesSubscriptionsService = async () => {
+  const subscriptions = await prisma.companySubscription.findMany()
+
+  return subscriptions
+}

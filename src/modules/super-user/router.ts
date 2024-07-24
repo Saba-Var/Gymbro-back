@@ -14,6 +14,7 @@ import {
   createCompanyController,
   listCompanySubscriptionController,
   companyListingController,
+  listAllCompaniesSubscriptionsController,
 } from './controller'
 
 const superUserRouter = express.Router()
@@ -27,6 +28,11 @@ superUserRouter.post(
 )
 
 superUserRouter.get('/companies', asyncHandler(companyListingController))
+
+superUserRouter.get(
+  '/companies/subscriptions',
+  asyncHandler(listAllCompaniesSubscriptionsController)
+)
 
 superUserRouter.post(
   '/companies/:companyId/subscriptions',
