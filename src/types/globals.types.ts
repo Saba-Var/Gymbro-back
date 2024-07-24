@@ -38,3 +38,7 @@ export type ExcludeModelDefaults<Model> = Omit<
 >
 
 export type FileExtension = (typeof ALLOWED_FILE_EXTENSION)[number]
+
+export type Query = {
+  [key: string]: string | string[] | undefined
+}

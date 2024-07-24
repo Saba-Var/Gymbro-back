@@ -1,6 +1,6 @@
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
-import type { RequestWithBody } from 'types/globals.types'
+import type { Query, RequestWithBody } from 'types/globals.types'
 import { ActivityLogActionType } from '@prisma/client'
 import type { Request, Response } from 'express'
 import type {
@@ -96,10 +96,12 @@ export const listCompanySubscriptionController = async (
 }
 
 export const listAllCompaniesSubscriptionsController = async (
-  _req: Request,
+  req: Request,
   res: Response
 ) => {
-  const companySubscriptions = await listAllCompaniesSubscriptionsService()
+  const companySubscriptions = await listAllCompaniesSubscriptionsService(
+    req.query as Query
+  )
 
   res.status(HTTP_OK).json(companySubscriptions)
 }

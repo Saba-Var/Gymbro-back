@@ -16,6 +16,7 @@ import {
   companyListingController,
   listAllCompaniesSubscriptionsController,
 } from './controller'
+import { paginationValidation } from 'validation/pagination.validation'
 
 const superUserRouter = express.Router()
 
@@ -31,6 +32,8 @@ superUserRouter.get('/companies', asyncHandler(companyListingController))
 
 superUserRouter.get(
   '/companies/subscriptions',
+  paginationValidation,
+  validateRequestSchema,
   asyncHandler(listAllCompaniesSubscriptionsController)
 )
 

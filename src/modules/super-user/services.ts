@@ -1,7 +1,10 @@
 import { createFileUploadService } from 'services/file-upload.service'
+import type { CompanySubscription } from '@prisma/client'
 import { NotFoundError } from 'errors/not-found.error'
 import { ConflictError } from 'errors/conflict.error'
+import type { Query } from 'types/globals.types'
 import { generateMB } from 'utils/storage.util'
+import { paginate } from 'utils/paginate.util'
 import { prisma } from 'config/prisma'
 import { t } from 'i18next'
 import type {
@@ -119,8 +122,11 @@ export const listCompanySubscriptionsService = async (id: number) => {
   return subscriptions
 }
 
-export const listAllCompaniesSubscriptionsService = async () => {
-  const subscriptions = await prisma.companySubscription.findMany()
+export const listAllCompaniesSubscriptionsService = async (query: Query) => {
+  const paginatedResult = await paginate<CompanySubscription>({
+    model: 'CompanySubscription',
+    query,
+  })
 
-  return subscriptions
+  return paginatedResult
 }
