@@ -1,18 +1,19 @@
-import type {
-  CompanyCreateData,
-  CompanySubscriptionCreationData,
-  CompanySubscriptionEditData,
-} from './types'
 import { createFileUploadService } from 'services/file-upload.service'
+import { NotFoundError } from 'errors/not-found.error'
 import { ConflictError } from 'errors/conflict.error'
 import { generateMB } from 'utils/storage.util'
 import { prisma } from 'config/prisma'
 import { t } from 'i18next'
+import type {
+  CompanySubscriptionCreationData,
+  CompanySubscriptionEditData,
+  CompanyCreateData,
+} from './types'
 
 export const companyLogoUpload = createFileUploadService({
   maxFileSize: generateMB(2),
   allowedExtensions: ['.jpg', '.jpeg', '.png', '.webp'],
-  destinationPath: './storage/public/images/company',
+  destinationPath: './storage/public/images/companies',
 }).single('logo')
 
 export const createCompanyService = async (companyData: CompanyCreateData) => {
@@ -40,9 +41,31 @@ export const createCompanyService = async (companyData: CompanyCreateData) => {
   return newCompany
 }
 
+export const findCompanyService = async (id: number) => {
+  const company = await prisma.company.findFirst({
+    where: {
+      id,
+    },
+  })
+
+  if (!company) {
+    throw new NotFoundError()
+  }
+
+  return company
+}
+
+export const listCompaniesService = async () => {
+  const companies = await prisma.company.findMany()
+
+  return companies
+}
+
 export const attachSubscriptionToCompanyService = async (
   data: CompanySubscriptionCreationData
 ) => {
+  await findCompanyService(data.companyId)
+
   const newSubscription = await prisma.companySubscription.create({
     data,
   })
@@ -55,6 +78,8 @@ export const editCompanySubscriptionService = async (
   companyId: number,
   subscriptionId: number
 ) => {
+  await findCompanySubscriptionService(companyId, subscriptionId)
+
   const updatedSubscription = await prisma.companySubscription.update({
     where: {
       id: subscriptionId,
@@ -64,6 +89,24 @@ export const editCompanySubscriptionService = async (
   })
 
   return updatedSubscription
+}
+
+export const findCompanySubscriptionService = async (
+  companyId: number,
+  subscriptionId: number
+) => {
+  const subscription = await prisma.companySubscription.findFirst({
+    where: {
+      id: subscriptionId,
+      companyId,
+    },
+  })
+
+  if (!subscription) {
+    throw new NotFoundError()
+  }
+
+  return subscription
 }
 
 export const listCompanySubscriptionsService = async (id: number) => {
