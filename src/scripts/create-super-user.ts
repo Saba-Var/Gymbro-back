@@ -6,8 +6,6 @@ export const createSuperUser = async (): Promise<void> => {
   try {
     const { SUPER_USER_EMAIL, SUPER_USER_PASSWORD } = process.env
 
-    console.log(SUPER_USER_EMAIL, SUPER_USER_PASSWORD)
-
     if (!SUPER_USER_EMAIL || !SUPER_USER_PASSWORD) {
       console.error('Environment variables not set to create super user')
       return
