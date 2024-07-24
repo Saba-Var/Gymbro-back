@@ -1,3 +1,4 @@
+import { onlySuperUserAccess } from 'middlewares/only-super-user-access.middleware'
 import { errorHandler } from 'middlewares/error-handler.middleware'
 import { i18nextMiddleware } from 'middlewares/i18next.middleware'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
@@ -11,7 +12,6 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
-import { onlySuperUserAccess } from 'middlewares/only-super-user-access.middleware'
 
 dotenv.config()
 
