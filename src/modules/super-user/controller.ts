@@ -7,6 +7,7 @@ import type {
   CompanySubscriptionCreationData,
   CompanySubscriptionEditData,
   CompanyCreateData,
+  RoleCreateData,
 } from './types'
 import {
   attachSubscriptionToCompanyService,
@@ -15,6 +16,7 @@ import {
   createCompanyService,
   listCompaniesService,
   listAllCompaniesSubscriptionsService,
+  createRoleService,
 } from './services'
 
 export const createCompanyController = async (
@@ -102,4 +104,13 @@ export const listAllCompaniesSubscriptionsController = async (
   )
 
   res.status(HTTP_OK).json(companySubscriptions)
+}
+
+export const createRoleController = async (
+  req: RequestWithBody<RoleCreateData>,
+  res: Response
+) => {
+  const newRole = await createRoleService(req.body)
+
+  res.status(HTTP_CREATED).json(newRole)
 }

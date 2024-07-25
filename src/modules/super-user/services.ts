@@ -11,6 +11,7 @@ import type {
   CompanySubscriptionCreationData,
   CompanySubscriptionEditData,
   CompanyCreateData,
+  RoleCreateData,
 } from './types'
 
 export const companyLogoUpload = createFileUploadService({
@@ -139,4 +140,22 @@ export const listAllCompaniesSubscriptionsService = async (
   })
 
   return paginatedResult
+}
+
+export const createRoleService = async (roleData: RoleCreateData) => {
+  const existingRole = await prisma.role.findFirst({
+    where: {
+      name: roleData.name,
+    },
+  })
+
+  if (existingRole) {
+    throw new ConflictError()
+  }
+
+  const newRole = await prisma.role.create({
+    data: roleData,
+  })
+
+  return newRole
 }

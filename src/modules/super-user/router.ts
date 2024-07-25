@@ -7,6 +7,7 @@ import {
   editCompanySubscriptionValidation,
   companySubscriptionValidation,
   createCompanySchema,
+  rolesValidation,
 } from './validation'
 import {
   attachSubscriptionToCompanyController,
@@ -15,6 +16,7 @@ import {
   listCompanySubscriptionController,
   companyListingController,
   listAllCompaniesSubscriptionsController,
+  createRoleController,
 } from './controller'
 import { paginationValidation } from 'validation/pagination.validation'
 
@@ -56,6 +58,13 @@ superUserRouter.get(
   editCompanySubscriptionValidation,
   idParamValidation({ fieldName: 'companyId' }),
   asyncHandler(listCompanySubscriptionController)
+)
+
+superUserRouter.post(
+  '/roles',
+  rolesValidation(),
+  validateRequestSchema,
+  asyncHandler(createRoleController)
 )
 
 superUserRouter.use('/super-user', superUserRouter)
