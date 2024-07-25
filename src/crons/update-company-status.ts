@@ -50,7 +50,6 @@ export const updateCompanyStatus = () => {
         })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        // eslint-disable-next-line no-console
         console.log(`Error in updateCompanyStatus cron job: ${error.message}`)
       } finally {
         await prisma.$disconnect()
