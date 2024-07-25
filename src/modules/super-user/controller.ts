@@ -9,12 +9,12 @@ import type {
   CompanyCreateData,
 } from './types'
 import {
+  listAllCompaniesSubscriptionsService,
   attachSubscriptionToCompanyService,
   listCompanySubscriptionsService,
   editCompanySubscriptionService,
   createCompanyService,
   listCompaniesService,
-  listAllCompaniesSubscriptionsService,
 } from './services'
 
 export const createCompanyController = async (

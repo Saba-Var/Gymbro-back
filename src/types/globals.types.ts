@@ -11,6 +11,7 @@ export interface RequestWithBody<ReqBody = object> extends Request {
 export type Locale = (typeof LOCALES)[number]
 
 export type AuthJWTPayload = {
+  companyId: number | undefined
   userType: UserTypeEnum
   email: string
   id: number
@@ -36,6 +37,10 @@ export type TimeStamps = {
 export type ExcludeModelDefaults<Model> = Omit<
   Model,
   'id' | 'createdAt' | 'updatedAt'
+>
+
+export type EditModelData<Model, OmitField extends string> = Partial<
+  Omit<ExcludeModelDefaults<Model>, OmitField>
 >
 
 export type FileExtension = (typeof ALLOWED_FILE_EXTENSION)[number]

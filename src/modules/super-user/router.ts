@@ -1,4 +1,5 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
+import { paginationValidation } from 'validation/pagination.validation'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
 import { idParamValidation } from 'validation/id-param.validation'
 import { companyLogoUpload } from './services'
@@ -16,7 +17,6 @@ import {
   companyListingController,
   listAllCompaniesSubscriptionsController,
 } from './controller'
-import { paginationValidation } from 'validation/pagination.validation'
 
 const superUserRouter = express.Router()
 
