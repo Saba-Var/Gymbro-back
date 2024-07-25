@@ -1,14 +1,13 @@
+import { ActivityLogActionType, type UserTypeEnum } from '@prisma/client'
 import type { LoginRequest, AuthJWTPayload } from 'types/globals.types'
-import { ActivityLogActionType, UserTypeEnum } from '@prisma/client'
+import { detectUserAndType, generateAuthJwtTokens } from './utils'
 import { NotAuthorizedError } from 'errors/not-authorized.error'
 import { trackUserActivity } from 'services/tracking.service'
 import { getUserService } from 'modules/users/service'
 import { HTTP_OK } from 'constants/http-statuses'
 import type { Request, Response } from 'express'
-import { generateAuthJwtTokens } from './utils'
 import { REFRESH_TOKEN } from 'constants/auth'
 import { Password } from 'utils/password.util'
-import { prisma } from 'config/prisma'
 import jwt from 'jsonwebtoken'
 
 export const loginService = async (req: LoginRequest, res: Response) => {
@@ -16,15 +15,10 @@ export const loginService = async (req: LoginRequest, res: Response) => {
 
   const { email, password, userType } = req.body
 
-  let currentUser = null
-
-  if (userType == UserTypeEnum.SUPERUSER) {
-    currentUser = await prisma.superUser.findFirst({
-      where: {
-        email,
-      },
-    })
-  }
+  const { currentUser, userTypePayload } = await detectUserAndType({
+    email,
+    providedUserType: userType,
+  })
 
   if (currentUser) {
     isMatch = await Password.compare(currentUser?.password, password)
@@ -36,7 +30,7 @@ export const loginService = async (req: LoginRequest, res: Response) => {
 
   const jwtPayload: AuthJWTPayload = {
     id: currentUser.id,
-    userType,
+    userType: userTypePayload as UserTypeEnum,
     email,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     companyId: (currentUser as any)?.companyId,

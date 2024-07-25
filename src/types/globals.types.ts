@@ -1,6 +1,7 @@
 import type { ALLOWED_FILE_EXTENSION } from 'constants/storage'
 import type { FilterQuery, RangeQuery } from 'utils/types'
 import type { LOCALES } from 'constants/internalization'
+import type { PERMISSIONS } from 'config/permissions'
 import type { UserTypeEnum } from '@prisma/client'
 import type { Request } from 'express'
 
@@ -9,6 +10,8 @@ export interface RequestWithBody<ReqBody = object> extends Request {
 }
 
 export type Locale = (typeof LOCALES)[number]
+
+export type Permission = (typeof PERMISSIONS)[number]
 
 export type AuthJWTPayload = {
   companyId: number | undefined

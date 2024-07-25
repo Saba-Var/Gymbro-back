@@ -58,5 +58,4 @@ superUserRouter.get(
   asyncHandler(listCompanySubscriptionController)
 )
 
-superUserRouter.use('/super-user', superUserRouter)
 export { superUserRouter }

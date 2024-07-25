@@ -22,5 +22,4 @@ authRouter.get('/logout', verifyToken, asyncHandler(logoutController))
 
 authRouter.get('/refresh', asyncHandler(refreshTokenController))
 
-authRouter.use('/auth', authRouter)
 export { authRouter }
