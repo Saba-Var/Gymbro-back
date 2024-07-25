@@ -7,6 +7,7 @@ import { NotFoundError } from 'errors/not-found.error'
 import { usersRouter } from 'modules/users/router'
 import { authRouter } from 'modules/auth/router'
 import { json, urlencoded } from 'body-parser'
+import { initCronJobs } from 'crons/crons'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import 'express-async-errors'
@@ -16,6 +17,8 @@ import path from 'path'
 dotenv.config()
 
 const server = express()
+
+initCronJobs()
 
 server.use(i18nextMiddleware)
 

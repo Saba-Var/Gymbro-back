@@ -1,4 +1,4 @@
-import { UserTypeEnum } from 'enums/user.enums'
+import { UserTypeEnum } from '@prisma/client'
 import { body } from 'express-validator'
 
 export const loginValidationSchema = [

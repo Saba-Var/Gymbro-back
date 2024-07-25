@@ -215,6 +215,7 @@ model ActivityLog {
   ipAddress    String?               @db.VarChar(45)
   requestUrl   String?               @db.VarChar(255)
   createdAt    DateTime              @default(now())
+  userType     UserTypeEnum
   Staff        Staff?                @relation(fields: [staffId], references: [id])
   staffId      Int?
   SuperUser    SuperUser?            @relation(fields: [superUserId], references: [id])
@@ -269,4 +270,12 @@ enum ActivityLogActionType {
   VIEW
   LOGIN
   LOGOUT
+}
+
+enum UserTypeEnum {
+  STAFF
+  CLIENT
+  SUPERUSER
+  ADMIN
+  CRON_JOB
 }

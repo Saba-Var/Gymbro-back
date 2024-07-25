@@ -1,4 +1,4 @@
-import { UserTypeEnum } from 'enums/user.enums'
+import { UserTypeEnum } from '@prisma/client'
 import type { Request } from 'express'
 import { prisma } from 'config/prisma'
 

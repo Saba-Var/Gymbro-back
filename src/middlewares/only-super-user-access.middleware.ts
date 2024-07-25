@@ -1,7 +1,7 @@
 import { NotAuthorizedError } from 'errors/not-authorized.error'
 import type { NextFunction, Request, Response } from 'express'
 import type { AuthJWTPayload } from 'types/globals.types'
-import { UserTypeEnum } from 'enums/user.enums'
+import { UserTypeEnum } from '@prisma/client'
 
 export const onlySuperUserAccess = (
   req: Request,

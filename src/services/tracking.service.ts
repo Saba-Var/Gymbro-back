@@ -1,6 +1,5 @@
-import type { ActivityLogActionType } from '@prisma/client'
+import { type ActivityLogActionType, UserTypeEnum } from '@prisma/client'
 import type { AuthJWTPayload } from 'types/globals.types'
-import { UserTypeEnum } from 'enums/user.enums'
 import { prisma } from 'config/prisma'
 import type { Request } from 'express'
 
@@ -8,14 +7,15 @@ export const trackUserActivity = async (args: {
   payload?: AuthJWTPayload
   actionType: ActivityLogActionType
   displayValue: string
-  req: Request
+  req?: Request
+  details?: string
 }) => {
-  const { actionType, displayValue, req } = args
+  const { actionType, displayValue, req, details } = args
 
   const fullRequestUrl =
-    req.protocol + '://' + req.get('host') + req.originalUrl
+    req && req.protocol + '://' + req.get('host') + req.originalUrl
 
-  const payload = req.currentUser || args.payload
+  const payload = req ? req.currentUser : args.payload
 
   if (payload?.userType === UserTypeEnum.SUPERUSER) {
     await prisma.superUser.update({
@@ -32,12 +32,14 @@ export const trackUserActivity = async (args: {
     data: {
       requestUrl: fullRequestUrl,
       userId: payload.id,
-      ipAddress: req.ip,
+      ipAddress: req ? req.ip : null,
       displayValue,
       actionType,
       ...(payload.userType === UserTypeEnum.SUPERUSER && {
         superUserId: payload.id,
       }),
+      userType: payload.userType,
+      details: req ? JSON.stringify(req.body) : details,
     },
   })
 }
