@@ -1,6 +1,6 @@
+import type { Query, RequestWithBody } from 'types/globals.types'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
-import type { Query, RequestWithBody } from 'types/globals.types'
 import { ActivityLogActionType } from '@prisma/client'
 import type { Request, Response } from 'express'
 import type {

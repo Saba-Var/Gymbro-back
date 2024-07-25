@@ -20,6 +20,10 @@ export type PaginationOptions<T> = {
   limit?: string
 }
 
+export type RangeQuery = {
+  range: Record<string, { min?: string; max?: string }>
+}
+
 export type PaginateArgs = {
   model: Prisma.ModelName
   query: Query

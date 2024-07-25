@@ -15,7 +15,8 @@ async function paginate<T>(args: PaginateArgs): Promise<PaginatedResult<T>> {
   const limit = args?.query?.limit ? +args?.query?.limit : PAGE_LIMIT
   const skip = (page - 1) * limit
 
-  const where = generateWhereFromFilter(args?.query?.filter)
+  const where = generateWhereFromFilter(args?.query?.filter, args?.query?.range)
+
   const orderBy = generateOrderByFromSort(args?.query?.sort)
 
   const [total, data] = await Promise.all([
@@ -46,7 +47,8 @@ async function paginate<T>(args: PaginateArgs): Promise<PaginatedResult<T>> {
 export { paginate }
 
 const generateWhereFromFilter = <T>(
-  filter: T
+  filter: T,
+  range?: Record<string, { min?: string; max?: string }>
 ): PaginationOptions<T>['where'] => {
   const where: PaginationOptions<T>['where'] = {}
   type WhereValue = T[Extract<keyof T, string>]
@@ -59,6 +61,19 @@ const generateWhereFromFilter = <T>(
         where[key] = (filter[key] === 'true') as WhereValue
       } else {
         where[key] = filter[key]
+      }
+    }
+  }
+
+  if (range) {
+    for (const fieldName in range) {
+      const { min, max } = range[fieldName]
+      if (min !== undefined || max !== undefined) {
+        // @ts-ignore
+        where[fieldName] = {
+          ...(min !== undefined && { gte: Number(min) }),
+          ...(max !== undefined && { lte: Number(max) }),
+        } as WhereValue
       }
     }
   }
