@@ -14,6 +14,7 @@ import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
 import { rolesRouter } from 'modules/roles/router'
+import { onlyAdminAccess } from 'middlewares/only-admin-access.middleware'
 
 dotenv.config()
 
@@ -33,7 +34,7 @@ server.use('/api', authRouter)
 
 server.use('/api', verifyToken, onlySuperUserAccess, superUserRouter)
 
-server.use('/api', verifyToken, onlySuperUserAccess, rolesRouter)
+server.use('/api', verifyToken, onlyAdminAccess, rolesRouter)
 
 server.use('/api', verifyToken, usersRouter)
 
