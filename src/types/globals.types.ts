@@ -38,6 +38,10 @@ export type ExcludeModelDefaults<Model> = Omit<
   'id' | 'createdAt' | 'updatedAt'
 >
 
+export type EditModelData<Model, OmitField extends string> = Partial<
+  Omit<ExcludeModelDefaults<Model>, OmitField>
+>
+
 export type FileExtension = (typeof ALLOWED_FILE_EXTENSION)[number]
 
 export type Query<T = object> = {

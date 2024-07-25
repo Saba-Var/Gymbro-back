@@ -12,6 +12,7 @@ import type {
   CompanySubscriptionEditData,
   CompanyCreateData,
   RoleCreateData,
+  EditRoleData,
 } from './types'
 
 export const companyLogoUpload = createFileUploadService({
@@ -158,4 +159,41 @@ export const createRoleService = async (roleData: RoleCreateData) => {
   })
 
   return newRole
+}
+
+export const editRoleService = async (roleData: EditRoleData, id: number) => {
+  const existingRole = await prisma.role.findFirst({
+    where: {
+      id,
+    },
+  })
+
+  if (!existingRole) {
+    throw new NotFoundError()
+  }
+
+  const duplicateRole = await prisma.role.findFirst({
+    where: {
+      id: {
+        not: id,
+      },
+      name: roleData.name,
+    },
+  })
+
+  if (duplicateRole) {
+    throw new ConflictError()
+  }
+
+  const updatedRole = await prisma.role.update({
+    where: {
+      id,
+    },
+    data: {
+      name: roleData.name,
+      description: roleData.description,
+    },
+  })
+
+  return updatedRole
 }

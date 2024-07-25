@@ -15,7 +15,9 @@ export const trackUserActivity = async (args: {
   const fullRequestUrl =
     req && req.protocol + '://' + req.get('host') + req.originalUrl
 
-  const payload = req ? req.currentUser : args.payload
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const payload = args.payload || req?.currentUser
 
   if (payload?.userType === UserTypeEnum.SUPERUSER) {
     await prisma.superUser.update({
@@ -39,7 +41,7 @@ export const trackUserActivity = async (args: {
         superUserId: payload.id,
       }),
       userType: payload.userType,
-      details: req ? JSON.stringify(req.body) : details,
+      details: JSON.stringify(req ? req.body : details),
     },
   })
 }

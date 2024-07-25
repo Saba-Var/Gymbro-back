@@ -17,6 +17,7 @@ import {
   companyListingController,
   listAllCompaniesSubscriptionsController,
   createRoleController,
+  editRoleController,
 } from './controller'
 import { paginationValidation } from 'validation/pagination.validation'
 
@@ -65,6 +66,13 @@ superUserRouter.post(
   rolesValidation(),
   validateRequestSchema,
   asyncHandler(createRoleController)
+)
+
+superUserRouter.put(
+  '/roles/:id',
+  rolesValidation({ makeFieldsRequired: false }),
+  validateRequestSchema,
+  asyncHandler(editRoleController)
 )
 
 superUserRouter.use('/super-user', superUserRouter)
