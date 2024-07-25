@@ -1,12 +1,16 @@
 import type { EditRoleData, RoleCreateData } from './types'
-import { ConflictError } from 'errors/conflict.error'
 import { NotFoundError } from 'errors/not-found.error'
+import { ConflictError } from 'errors/conflict.error'
 import { prisma } from 'config/prisma'
 
-export const createRoleService = async (roleData: RoleCreateData) => {
+export const createRoleService = async (
+  roleData: RoleCreateData,
+  companyId: number
+) => {
   const existingRole = await prisma.role.findFirst({
     where: {
       name: roleData.name,
+      companyId: companyId,
     },
   })
 
@@ -15,16 +19,20 @@ export const createRoleService = async (roleData: RoleCreateData) => {
   }
 
   const newRole = await prisma.role.create({
-    data: roleData,
+    data: { ...roleData, companyId },
   })
 
   return newRole
 }
 
-export const editRoleService = async (roleData: EditRoleData, id: number) => {
+export const editRoleService = async (args: {
+  roleData: EditRoleData
+  roleId: number
+  companyId: number
+}) => {
   const existingRole = await prisma.role.findFirst({
     where: {
-      id,
+      id: args.roleId,
     },
   })
 
@@ -35,9 +43,9 @@ export const editRoleService = async (roleData: EditRoleData, id: number) => {
   const duplicateRole = await prisma.role.findFirst({
     where: {
       id: {
-        not: id,
+        not: args.roleId,
       },
-      name: roleData.name,
+      name: args.roleData.name,
     },
   })
 
@@ -47,11 +55,11 @@ export const editRoleService = async (roleData: EditRoleData, id: number) => {
 
   const updatedRole = await prisma.role.update({
     where: {
-      id,
+      id: args.roleId,
     },
     data: {
-      name: roleData.name,
-      description: roleData.description,
+      name: args.roleData.name,
+      description: args.roleData.description,
     },
   })
 

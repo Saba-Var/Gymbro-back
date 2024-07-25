@@ -11,6 +11,7 @@ export interface RequestWithBody<ReqBody = object> extends Request {
 export type Locale = (typeof LOCALES)[number]
 
 export type AuthJWTPayload = {
+  companyId: number | undefined
   userType: UserTypeEnum
   email: string
   id: number

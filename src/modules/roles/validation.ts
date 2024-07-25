@@ -18,11 +18,4 @@ export const rolesValidation = ({ makeFieldsRequired = true } = {}) => [
     .withMessage('Description must be between 4 and 40 characters')
     .notEmpty()
     .withMessage('Description is required'),
-
-  body('companyId')
-    .if((value) => makeFieldsRequired || value !== undefined)
-    .isInt()
-    .withMessage('Company ID must be an integer')
-    .notEmpty()
-    .withMessage('Company ID is required'),
 ]

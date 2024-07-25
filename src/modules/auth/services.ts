@@ -38,6 +38,8 @@ export const loginService = async (req: LoginRequest, res: Response) => {
     id: currentUser.id,
     userType,
     email,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    companyId: (currentUser as any)?.companyId,
   }
 
   const { accessToken, refreshToken } = generateAuthJwtTokens(jwtPayload)
@@ -97,6 +99,8 @@ export const refreshTokenService = async (refreshToken: string) => {
     email: existingUser?.email,
     id: existingUser?.id,
     userType,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    companyId: (existingUser as any)?.companyId,
   }
 
   const { accessToken: newAccessToken } = generateAuthJwtTokens(payload)
