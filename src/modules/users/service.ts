@@ -1,4 +1,4 @@
-import { UserTypeEnum } from 'enums/user.enums'
+import { UserTypeEnum } from '@prisma/client'
 import { prisma } from 'config/prisma'
 
 export const getUserService = async (id: number, userType: UserTypeEnum) => {

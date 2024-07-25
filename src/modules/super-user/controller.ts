@@ -26,7 +26,7 @@ export const createCompanyController = async (
     logo: req.file?.path || '',
   })
 
-  trackUserActivity({
+  await trackUserActivity({
     actionType: ActivityLogActionType.CREATE,
     displayValue: `Company: ${newCompany.title}`,
     req,
@@ -50,7 +50,7 @@ export const attachSubscriptionToCompanyController = async (
     companyId: +req.params.companyId,
   })
 
-  trackUserActivity({
+  await trackUserActivity({
     actionType: ActivityLogActionType.CREATE,
     displayValue: `Subscription: ${newSubscription.id}`,
     req,
@@ -72,7 +72,7 @@ export const editCompanySubscriptionController = async (
     subscriptionId
   )
 
-  trackUserActivity({
+  await trackUserActivity({
     actionType: ActivityLogActionType.UPDATE,
     displayValue: `Subscription: ${updatedSubscription.id}`,
     req,
