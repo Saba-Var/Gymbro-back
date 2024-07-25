@@ -1,6 +1,7 @@
+import type { Query, RequestWithBody } from 'types/globals.types'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
-import type { RequestWithBody } from 'types/globals.types'
+import { ActivityLogActionType } from '@prisma/client'
 import type { Request, Response } from 'express'
 import type {
   CompanySubscriptionCreationData,
@@ -12,8 +13,9 @@ import {
   listCompanySubscriptionsService,
   editCompanySubscriptionService,
   createCompanyService,
+  listCompaniesService,
+  listAllCompaniesSubscriptionsService,
 } from './services'
-import { ActivityLogActionType } from '@prisma/client'
 
 export const createCompanyController = async (
   req: RequestWithBody<CompanyCreateData>,
@@ -31,6 +33,12 @@ export const createCompanyController = async (
   })
 
   res.status(HTTP_CREATED).json(newCompany)
+}
+
+export const companyListingController = async (req: Request, res: Response) => {
+  const companies = await listCompaniesService(req.query as Query)
+
+  res.status(HTTP_OK).json(companies)
 }
 
 export const attachSubscriptionToCompanyController = async (
@@ -78,7 +86,19 @@ export const listCompanySubscriptionController = async (
   res: Response
 ) => {
   const companySubscriptions = await listCompanySubscriptionsService(
-    +req.params.companyId
+    +req.params.companyId,
+    req.query as Query
+  )
+
+  res.status(HTTP_OK).json(companySubscriptions)
+}
+
+export const listAllCompaniesSubscriptionsController = async (
+  req: Request,
+  res: Response
+) => {
+  const companySubscriptions = await listAllCompaniesSubscriptionsService(
+    req.query as Query
   )
 
   res.status(HTTP_OK).json(companySubscriptions)

@@ -13,34 +13,46 @@ import {
   editCompanySubscriptionController,
   createCompanyController,
   listCompanySubscriptionController,
+  companyListingController,
+  listAllCompaniesSubscriptionsController,
 } from './controller'
+import { paginationValidation } from 'validation/pagination.validation'
 
 const superUserRouter = express.Router()
 
 superUserRouter.post(
-  '/company',
+  '/companies',
   companyLogoUpload,
   createCompanySchema,
   validateRequestSchema,
   asyncHandler(createCompanyController)
 )
 
+superUserRouter.get('/companies', asyncHandler(companyListingController))
+
+superUserRouter.get(
+  '/companies/subscriptions',
+  paginationValidation,
+  validateRequestSchema,
+  asyncHandler(listAllCompaniesSubscriptionsController)
+)
+
 superUserRouter.post(
-  '/company/:companyId/subscriptions',
+  '/companies/:companyId/subscriptions',
   companySubscriptionValidation({ makeFieldsRequired: true }),
   validateRequestSchema,
   asyncHandler(attachSubscriptionToCompanyController)
 )
 
 superUserRouter.put(
-  '/company/:companyId/subscriptions/:subscriptionId',
+  '/companies/:companyId/subscriptions/:subscriptionId',
   editCompanySubscriptionValidation,
   validateRequestSchema,
   asyncHandler(editCompanySubscriptionController)
 )
 
 superUserRouter.get(
-  '/company/:companyId/subscriptions',
+  '/companies/:companyId/subscriptions',
   editCompanySubscriptionValidation,
   idParamValidation({ fieldName: 'companyId' }),
   asyncHandler(listCompanySubscriptionController)
