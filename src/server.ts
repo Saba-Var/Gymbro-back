@@ -13,6 +13,7 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
+import { rolesRouter } from 'modules/roles/router'
 
 dotenv.config()
 
@@ -31,6 +32,8 @@ server.use('/storage', express.static(path.join(__dirname, '../storage')))
 server.use('/api', authRouter)
 
 server.use('/api', verifyToken, onlySuperUserAccess, superUserRouter)
+
+server.use('/api', verifyToken, onlySuperUserAccess, rolesRouter)
 
 server.use('/api', verifyToken, usersRouter)
 

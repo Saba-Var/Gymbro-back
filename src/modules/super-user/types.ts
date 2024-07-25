@@ -1,5 +1,5 @@
-import type { Company, CompanySubscription, Role } from '@prisma/client'
 import type { EditModelData, ExcludeModelDefaults } from 'types/globals.types'
+import type { Company, CompanySubscription } from '@prisma/client'
 
 export type CompanyCreateData = ExcludeModelDefaults<Company>
 
@@ -10,7 +10,3 @@ export type CompanySubscriptionEditData = EditModelData<
   CompanySubscriptionCreationData,
   'companyId'
 >
-
-export type RoleCreateData = ExcludeModelDefaults<Role>
-
-export type EditRoleData = EditModelData<Role, 'companyId'>

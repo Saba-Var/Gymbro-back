@@ -7,18 +7,14 @@ import type {
   CompanySubscriptionCreationData,
   CompanySubscriptionEditData,
   CompanyCreateData,
-  RoleCreateData,
-  EditRoleData,
 } from './types'
 import {
+  listAllCompaniesSubscriptionsService,
   attachSubscriptionToCompanyService,
   listCompanySubscriptionsService,
   editCompanySubscriptionService,
   createCompanyService,
   listCompaniesService,
-  listAllCompaniesSubscriptionsService,
-  createRoleService,
-  editRoleService,
 } from './services'
 
 export const createCompanyController = async (
@@ -106,38 +102,4 @@ export const listAllCompaniesSubscriptionsController = async (
   )
 
   res.status(HTTP_OK).json(companySubscriptions)
-}
-
-export const createRoleController = async (
-  req: RequestWithBody<RoleCreateData>,
-  res: Response
-) => {
-  const newRole = await createRoleService(req.body)
-
-  if (newRole) {
-    await trackUserActivity({
-      actionType: ActivityLogActionType.CREATE,
-      displayValue: `Create Role: ${newRole.name}`,
-      req,
-    })
-  }
-
-  res.status(HTTP_CREATED).json(newRole)
-}
-
-export const editRoleController = async (
-  req: RequestWithBody<EditRoleData>,
-  res: Response
-) => {
-  const editedRole = await editRoleService(req.body, +req.params.id)
-
-  if (editedRole) {
-    await trackUserActivity({
-      actionType: ActivityLogActionType.UPDATE,
-      displayValue: `Edit Role: ${editedRole.name}`,
-      req,
-    })
-  }
-
-  res.status(HTTP_OK).json(editedRole)
 }

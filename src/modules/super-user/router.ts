@@ -1,4 +1,5 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
+import { paginationValidation } from 'validation/pagination.validation'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
 import { idParamValidation } from 'validation/id-param.validation'
 import { companyLogoUpload } from './services'
@@ -7,7 +8,6 @@ import {
   editCompanySubscriptionValidation,
   companySubscriptionValidation,
   createCompanySchema,
-  rolesValidation,
 } from './validation'
 import {
   attachSubscriptionToCompanyController,
@@ -16,10 +16,7 @@ import {
   listCompanySubscriptionController,
   companyListingController,
   listAllCompaniesSubscriptionsController,
-  createRoleController,
-  editRoleController,
 } from './controller'
-import { paginationValidation } from 'validation/pagination.validation'
 
 const superUserRouter = express.Router()
 
@@ -59,20 +56,6 @@ superUserRouter.get(
   editCompanySubscriptionValidation,
   idParamValidation({ fieldName: 'companyId' }),
   asyncHandler(listCompanySubscriptionController)
-)
-
-superUserRouter.post(
-  '/roles',
-  rolesValidation(),
-  validateRequestSchema,
-  asyncHandler(createRoleController)
-)
-
-superUserRouter.put(
-  '/roles/:id',
-  rolesValidation({ makeFieldsRequired: false }),
-  validateRequestSchema,
-  asyncHandler(editRoleController)
 )
 
 superUserRouter.use('/super-user', superUserRouter)
