@@ -1,5 +1,5 @@
 import { createFileUploadService } from 'services/file-upload.service'
-import type { CompanySubscription } from '@prisma/client'
+import type { Company, CompanySubscription } from '@prisma/client'
 import { NotFoundError } from 'errors/not-found.error'
 import { ConflictError } from 'errors/conflict.error'
 import type { Query } from 'types/globals.types'
@@ -58,8 +58,11 @@ export const findCompanyService = async (id: number) => {
   return company
 }
 
-export const listCompaniesService = async () => {
-  const companies = await prisma.company.findMany()
+export const listCompaniesService = async (query: Query<Company>) => {
+  const companies = await paginate<Company>({
+    model: 'Company',
+    query,
+  })
 
   return companies
 }
@@ -112,8 +115,13 @@ export const findCompanySubscriptionService = async (
   return subscription
 }
 
-export const listCompanySubscriptionsService = async (id: number) => {
-  const subscriptions = await prisma.companySubscription.findMany({
+export const listCompanySubscriptionsService = async (
+  id: number,
+  query: Query<CompanySubscription>
+) => {
+  const subscriptions = await paginate<CompanySubscription>({
+    model: 'CompanySubscription',
+    query,
     where: {
       companyId: id,
     },
@@ -122,7 +130,9 @@ export const listCompanySubscriptionsService = async (id: number) => {
   return subscriptions
 }
 
-export const listAllCompaniesSubscriptionsService = async (query: Query) => {
+export const listAllCompaniesSubscriptionsService = async (
+  query: Query<CompanySubscription>
+) => {
   const paginatedResult = await paginate<CompanySubscription>({
     model: 'CompanySubscription',
     query,

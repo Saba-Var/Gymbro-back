@@ -35,11 +35,8 @@ export const createCompanyController = async (
   res.status(HTTP_CREATED).json(newCompany)
 }
 
-export const companyListingController = async (
-  _req: Request,
-  res: Response
-) => {
-  const companies = await listCompaniesService()
+export const companyListingController = async (req: Request, res: Response) => {
+  const companies = await listCompaniesService(req.query as Query)
 
   res.status(HTTP_OK).json(companies)
 }
@@ -89,7 +86,8 @@ export const listCompanySubscriptionController = async (
   res: Response
 ) => {
   const companySubscriptions = await listCompanySubscriptionsService(
-    +req.params.companyId
+    +req.params.companyId,
+    req.query as Query
   )
 
   res.status(HTTP_OK).json(companySubscriptions)

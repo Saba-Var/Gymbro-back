@@ -1,13 +1,13 @@
-import type { Prisma } from '@prisma/client'
 import type { Query } from 'types/globals.types'
+import type { Prisma } from '@prisma/client'
 
 export type PaginatedResult<T> = {
   data: T[]
   meta: {
-    total: number
+    totalItems: number
+    totalPages: number
     page: number
     limit: number
-    totalPages: number
   }
 }
 
@@ -24,7 +24,12 @@ export type RangeQuery = {
   range: Record<string, { min?: string; max?: string }>
 }
 
-export type PaginateArgs = {
+export type FilterQuery<Model> = {
+  filter: Partial<Model>
+}
+
+export type PaginateArgs<Model> = {
   model: Prisma.ModelName
-  query: Query
+  query: Query<Model>
+  where?: Partial<Model>
 }

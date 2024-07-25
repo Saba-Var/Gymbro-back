@@ -8,7 +8,7 @@ import type {
   PaginateArgs,
 } from './types'
 
-async function paginate<T>(args: PaginateArgs): Promise<PaginatedResult<T>> {
+async function paginate<T>(args: PaginateArgs<T>): Promise<PaginatedResult<T>> {
   const model = args.model
 
   const page = args?.query?.page ? +args?.query?.page : PAGE_NUMBER
@@ -19,25 +19,28 @@ async function paginate<T>(args: PaginateArgs): Promise<PaginatedResult<T>> {
 
   const orderBy = generateOrderByFromSort(args?.query?.sort)
 
-  const [total, data] = await Promise.all([
+  const [totalItems, data] = await Promise.all([
     // @ts-ignore
     prisma[model].count({ where }),
     // @ts-ignore
     prisma[model].findMany({
       take: limit,
       orderBy,
-      where,
+      where: {
+        ...where,
+        ...(args.where || {}),
+      },
       skip,
     }),
   ])
 
-  const totalPages = Math.ceil(total / limit)
+  const totalPages = Math.ceil(totalItems / limit)
 
   return {
     data,
     meta: {
       totalPages,
-      total,
+      totalItems,
       limit,
       page,
     },

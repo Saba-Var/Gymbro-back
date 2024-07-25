@@ -1,8 +1,8 @@
-import type { LOCALES } from 'constants/internalization'
 import type { ALLOWED_FILE_EXTENSION } from 'constants/storage'
+import type { FilterQuery, RangeQuery } from 'utils/types'
+import type { LOCALES } from 'constants/internalization'
 import type { UserTypeEnum } from 'enums/user.enums'
 import type { Request } from 'express'
-import type { RangeQuery } from 'utils/types'
 
 export interface RequestWithBody<ReqBody = object> extends Request {
   body: ReqBody
@@ -40,6 +40,7 @@ export type ExcludeModelDefaults<Model> = Omit<
 
 export type FileExtension = (typeof ALLOWED_FILE_EXTENSION)[number]
 
-export type Query = {
+export type Query<T = object> = {
   [key: string]: string | string[] | undefined
-} & RangeQuery
+} & RangeQuery &
+  FilterQuery<T>
