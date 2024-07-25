@@ -1,9 +1,13 @@
+import { onlyAdminOrSuperUserAccess } from 'middlewares/only-admin-or-super-user.middleware'
 import { onlySuperUserAccess } from 'middlewares/only-super-user-access.middleware'
+import { onlyAdminAccess } from 'middlewares/only-admin-access.middleware'
 import { errorHandler } from 'middlewares/error-handler.middleware'
 import { i18nextMiddleware } from 'middlewares/i18next.middleware'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
+import { permissionsRouter } from 'modules/permissions/router'
 import { superUserRouter } from 'modules/super-user/router'
 import { NotFoundError } from 'errors/not-found.error'
+import { rolesRouter } from 'modules/roles/router'
 import { usersRouter } from 'modules/users/router'
 import { authRouter } from 'modules/auth/router'
 import { json, urlencoded } from 'body-parser'
@@ -13,8 +17,6 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
-import { rolesRouter } from 'modules/roles/router'
-import { onlyAdminAccess } from 'middlewares/only-admin-access.middleware'
 
 dotenv.config()
 
@@ -30,13 +32,20 @@ server.use(cookieParser())
 
 server.use('/storage', express.static(path.join(__dirname, '../storage')))
 
-server.use('/api', authRouter)
+server.use('/api/auth', authRouter)
 
-server.use('/api', verifyToken, onlySuperUserAccess, superUserRouter)
+server.use('/api/super-user', verifyToken, onlySuperUserAccess, superUserRouter)
 
-server.use('/api', verifyToken, onlyAdminAccess, rolesRouter)
+server.use('/api/roles', verifyToken, onlyAdminAccess, rolesRouter)
 
-server.use('/api', verifyToken, usersRouter)
+server.use(
+  '/api/permissions',
+  verifyToken,
+  onlyAdminOrSuperUserAccess,
+  permissionsRouter
+)
+
+server.use('/api/users', verifyToken, usersRouter)
 
 server.all('*', () => {
   throw new NotFoundError()

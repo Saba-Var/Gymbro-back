@@ -6,5 +6,4 @@ const usersRouter = express.Router()
 
 usersRouter.get('/me', asyncHandler(currentUserInformationController))
 
-usersRouter.use('/users', usersRouter)
 export { usersRouter }

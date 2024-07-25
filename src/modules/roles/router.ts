@@ -7,18 +7,17 @@ import express from 'express'
 const rolesRouter = express.Router()
 
 rolesRouter.post(
-  '/roles',
+  '/',
   rolesValidation(),
   validateRequestSchema,
   asyncHandler(createRoleController)
 )
 
 rolesRouter.put(
-  '/roles/:id',
+  '/:id',
   rolesValidation({ makeFieldsRequired: false }),
   validateRequestSchema,
   asyncHandler(editRoleController)
 )
 
-rolesRouter.use('/roles', rolesRouter)
 export { rolesRouter }
