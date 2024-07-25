@@ -10,5 +10,6 @@
   "log_out_success": "Logged out successfully",
   "must_be_valid": "Must be valid",
   "file_type_not_allowed": "File type not allowed",
-  "conflict": "Conflict! Requested resource already exists"
+  "conflict": "Conflict! Requested resource already exists",
+  "staff_already_exists": "Staff already exists"
 }

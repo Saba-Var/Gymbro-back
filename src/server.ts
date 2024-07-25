@@ -17,6 +17,7 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
+import { staffRouter } from 'modules/staff/router'
 
 dotenv.config()
 
@@ -46,6 +47,8 @@ server.use(
 )
 
 server.use('/api/users', verifyToken, usersRouter)
+
+server.use('/api/staff', verifyToken, staffRouter)
 
 server.all('*', () => {
   throw new NotFoundError()
