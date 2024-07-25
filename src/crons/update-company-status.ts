@@ -42,6 +42,7 @@ export const updateCompanyStatus = () => {
           displayValue: `Updated following subscriptions: ${subscriptionIdsToUpdate.join(', ')}`,
           payload: {
             userType: UserTypeEnum.CRON_JOB,
+            companyId: undefined,
             email: 'cron-job',
             id: 0,
           },
