@@ -1,12 +1,17 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
-import { modifyStaffRoleValidation, rolesValidation } from './validation'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
-import express from 'express'
 import {
+  modifyStaffPermissionController,
   modifyStaffRoleController,
   createRoleController,
   editRoleController,
 } from './controller'
+import {
+  modifyStaffPermissionValidation,
+  modifyStaffRoleValidation,
+  rolesValidation,
+} from './validation'
+import express from 'express'
 
 const adminRouter = express.Router()
 
@@ -29,6 +34,13 @@ adminRouter.post(
   modifyStaffRoleValidation,
   validateRequestSchema,
   asyncHandler(modifyStaffRoleController)
+)
+
+adminRouter.post(
+  '/staff-permissions',
+  modifyStaffPermissionValidation,
+  validateRequestSchema,
+  asyncHandler(modifyStaffPermissionController)
 )
 
 export { adminRouter }

@@ -1,10 +1,15 @@
-import type { EditRoleData, ModifyStaffRoleData, RoleCreateData } from './types'
+import type { PrismaBatchPayload } from 'types/globals.types'
 import { BadRequestError } from 'errors/bad-request.error'
 import { NotFoundError } from 'errors/not-found.error'
 import { ConflictError } from 'errors/conflict.error'
-import type { Prisma } from '@prisma/client'
 import { prisma } from 'config/prisma'
 import { t } from 'i18next'
+import type {
+  ModifyStaffPermissionData,
+  ModifyStaffRoleData,
+  RoleCreateData,
+  EditRoleData,
+} from './types'
 
 export const createRoleService = async (
   roleData: RoleCreateData,
@@ -153,7 +158,7 @@ export const modifyStaffRolesService = async (args: ModifyStaffRoleData) => {
     (roleId) => !args.roleIds.includes(roleId)
   )
 
-  const operations: Prisma.PrismaPromise<Prisma.BatchPayload>[] = []
+  const operations: PrismaBatchPayload[] = []
 
   if (rolesToAdd.length > 0) {
     operations.push(
@@ -176,6 +181,75 @@ export const modifyStaffRolesService = async (args: ModifyStaffRoleData) => {
           },
           role: {
             companyId: args.companyId,
+          },
+        },
+      })
+    )
+  }
+
+  await Promise.all(operations)
+}
+
+export const modifyStaffPermissionsService = async (
+  args: ModifyStaffPermissionData,
+  companyId: number
+) => {
+  const { permissionIds, staffId } = args
+
+  const [staff, existingPermissions] = await Promise.all([
+    prisma.staff.findFirst({
+      where: {
+        id: staffId,
+        companyId,
+      },
+    }),
+    prisma.staffPermission.findMany({
+      where: {
+        staffId,
+      },
+    }),
+  ])
+
+  if (!staff) {
+    throw new NotFoundError(t('staff_not_found'))
+  }
+
+  if (staff.isAdmin) {
+    throw new BadRequestError(t('cant_modify_admin_permission'))
+  }
+
+  const existingPermissionIds = existingPermissions.map(
+    (permission) => permission.permissionId
+  )
+
+  const permissionsToAdd = permissionIds.filter(
+    (permissionId) => !existingPermissionIds.includes(permissionId)
+  )
+
+  const permissionsToRemove = existingPermissionIds.filter(
+    (permissionId) => !permissionIds.includes(permissionId)
+  )
+
+  const operations: PrismaBatchPayload[] = []
+
+  if (permissionsToAdd.length > 0) {
+    operations.push(
+      prisma.staffPermission.createMany({
+        data: permissionsToAdd.map((permissionId) => ({
+          permissionId,
+          staffId,
+        })),
+      })
+    )
+  }
+
+  if (permissionsToRemove.length > 0) {
+    operations.push(
+      prisma.staffPermission.deleteMany({
+        where: {
+          staffId,
+          permissionId: {
+            in: permissionsToRemove,
           },
         },
       })
