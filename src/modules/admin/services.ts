@@ -36,6 +36,7 @@ export const editRoleService = async (args: {
   const existingRole = await prisma.role.findFirst({
     where: {
       id: args.roleId,
+      companyId: args.companyId,
     },
   })
 
@@ -49,6 +50,7 @@ export const editRoleService = async (args: {
         not: args.roleId,
       },
       name: args.roleData.name,
+      companyId: args.companyId,
     },
   })
 
@@ -59,6 +61,7 @@ export const editRoleService = async (args: {
   const updatedRole = await prisma.role.update({
     where: {
       id: args.roleId,
+      companyId: args.companyId,
     },
     data: {
       name: args.roleData.name,
