@@ -1,4 +1,4 @@
-import { getRandomItem } from 'utils/get-random-item.util'
+import { getArrayRandomItems } from 'utils/get-random-array-items.util'
 import type { Prisma, Role } from '@prisma/client'
 import { BaseFactory } from './base.factory'
 import { faker } from '@faker-js/faker'
@@ -9,8 +9,7 @@ export class RoleFactory extends BaseFactory<Role, Prisma.RoleCreateInput> {
     attrs: Partial<Prisma.RoleCreateInput> = {}
   ): Promise<Prisma.RoleCreateInput> {
     const companies = await prisma.company.findMany()
-
-    const companyId = getRandomItem(companies)?.id
+    const companyId = getArrayRandomItems(companies)[0]?.id
 
     return {
       ...attrs,

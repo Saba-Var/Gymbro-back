@@ -1,5 +1,5 @@
+import { getArrayRandomItems } from 'utils/get-random-array-items.util'
 import type { Prisma, CompanySubscription } from '@prisma/client'
-import { getRandomItem } from 'utils/get-random-item.util'
 import { BaseFactory } from './base.factory'
 import { faker } from '@faker-js/faker'
 import { prisma } from 'config/prisma'
@@ -13,7 +13,7 @@ export class CompanySubscriptionFactory extends BaseFactory<
     const endDate = attrs.endDate || faker.date.future({ refDate: startDate })
 
     const companies = await prisma.company.findMany()
-    const randomCompany = getRandomItem(companies)!
+    const randomCompany = getArrayRandomItems(companies)[0]
 
     return {
       totalPrice:

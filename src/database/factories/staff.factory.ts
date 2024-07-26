@@ -1,4 +1,4 @@
-import { getRandomItem } from 'utils/get-random-item.util'
+import { getArrayRandomItems } from 'utils/get-random-array-items.util'
 import { getRandomEnumValue } from 'utils/get-random-enum'
 import { Password } from 'utils/password.util'
 import { BaseFactory } from './base.factory'
@@ -17,7 +17,7 @@ export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
   ): Promise<Prisma.StaffCreateInput> {
     const companies = await prisma.company.findMany()
 
-    const randomCompany = getRandomItem(companies)
+    const randomCompany = getArrayRandomItems(companies)[0]
 
     const privateNumber = faker.number
       .int({
