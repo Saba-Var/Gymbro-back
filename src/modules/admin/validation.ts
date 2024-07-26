@@ -1,4 +1,3 @@
-import { PERMISSIONS } from 'config/permissions'
 import { body } from 'express-validator'
 
 export const rolesValidation = ({ makeFieldsRequired = true } = {}) => [
