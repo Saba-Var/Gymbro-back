@@ -5,6 +5,7 @@ import { companySeeder } from './company.seeder'
 import { rolesSeeder } from './roles.seeder'
 import { staffSeeder } from './staff.seeder'
 import { staffRoleSeeder } from './staff-role.seeder'
+import { rolePermissionSeeder } from './role-permission.seeder'
 
 const seeder = async () => {
   try {
@@ -14,6 +15,7 @@ const seeder = async () => {
       staffSeeder(),
       companySubscriptionSeeder(),
       rolesSeeder(),
+      rolePermissionSeeder(),
       staffPermissionSeeder(),
       staffRoleSeeder(),
     ])
