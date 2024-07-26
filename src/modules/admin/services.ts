@@ -44,26 +44,27 @@ export const editRoleService = async (args: {
   roleId: number
   companyId: number
 }) => {
-  const existingRole = await prisma.role.findFirst({
-    where: {
-      id: args.roleId,
-      companyId: args.companyId,
-    },
-  })
+  const [existingRole, duplicateRole] = await Promise.all([
+    prisma.role.findFirst({
+      where: {
+        id: args.roleId,
+        companyId: args.companyId,
+      },
+    }),
+    prisma.role.findFirst({
+      where: {
+        id: {
+          not: args.roleId,
+        },
+        name: args.roleData.name,
+        companyId: args.companyId,
+      },
+    }),
+  ])
 
   if (!existingRole) {
     throw new NotFoundError()
   }
-
-  const duplicateRole = await prisma.role.findFirst({
-    where: {
-      id: {
-        not: args.roleId,
-      },
-      name: args.roleData.name,
-      companyId: args.companyId,
-    },
-  })
 
   if (duplicateRole) {
     throw new ConflictError()
@@ -79,6 +80,30 @@ export const editRoleService = async (args: {
       description: args.roleData.description,
     },
   })
+
+  if (Array.isArray(args.roleData.permissionIds)) {
+    if (args.roleData.permissionIds.length > 0) {
+      await Promise.all([
+        prisma.rolePermission.deleteMany({
+          where: {
+            roleId: args.roleId,
+          },
+        }),
+        prisma.rolePermission.createMany({
+          data: args.roleData.permissionIds.map((permissionId) => ({
+            permissionId,
+            roleId: args.roleId,
+          })),
+        }),
+      ])
+    } else {
+      await prisma.rolePermission.deleteMany({
+        where: {
+          roleId: args.roleId,
+        },
+      })
+    }
+  }
 
   return updatedRole
 }

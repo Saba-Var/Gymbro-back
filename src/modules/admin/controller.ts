@@ -44,7 +44,7 @@ export const editRoleController = async (
   if (editedRole) {
     await trackUserActivity({
       actionType: ActivityLogActionType.UPDATE,
-      displayValue: `Edit Role: ${editedRole.name}`,
+      displayValue: `Edit RoleId: ${editedRole.id}. ${req.body.permissionIds ? `Role Permissions set: ${req.body.permissionIds.join(', ')}` : ''}`,
       req,
     })
   }
