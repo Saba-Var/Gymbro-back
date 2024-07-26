@@ -19,7 +19,7 @@ export const getCurrentUserInformation = async (req: Request) => {
     ) {
       currentUser = await prisma.staff.findUnique({
         where: {
-          companyId: +req.currentUser.companyId,
+          companyId: +(req?.currentUser?.companyId as number),
           email: req.currentUser.email,
           id: +req.currentUser.id,
         },
@@ -27,7 +27,7 @@ export const getCurrentUserInformation = async (req: Request) => {
     } else if (req.currentUser?.userType === UserTypeEnum.CLIENT) {
       currentUser = await prisma.client.findUnique({
         where: {
-          companyId: +req.currentUser.companyId,
+          companyId: +(req.currentUser.companyId as number),
           email: req.currentUser.email,
           id: +req.currentUser.id,
         },

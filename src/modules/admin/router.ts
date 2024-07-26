@@ -7,14 +7,14 @@ import express from 'express'
 const rolesRouter = express.Router()
 
 rolesRouter.post(
-  '/',
+  '/roles',
   rolesValidation(),
   validateRequestSchema,
   asyncHandler(createRoleController)
 )
 
 rolesRouter.put(
-  '/:id',
+  '/roles/:id',
   rolesValidation({ makeFieldsRequired: false }),
   validateRequestSchema,
   asyncHandler(editRoleController)

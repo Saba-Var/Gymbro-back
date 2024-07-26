@@ -10,7 +10,10 @@ export const createRoleController = async (
   req: RequestWithBody<RoleCreateData>,
   res: Response
 ) => {
-  const newRole = await createRoleService(req.body, req.currentUser.companyId)
+  const newRole = await createRoleService(
+    req.body,
+    req.currentUser?.companyId as number
+  )
 
   if (newRole) {
     await trackUserActivity({
@@ -30,7 +33,7 @@ export const editRoleController = async (
   const editedRole = await editRoleService({
     roleId: +req.params.id,
     roleData: req.body,
-    companyId: req.currentUser,
+    companyId: req.currentUser?.companyId as number,
   })
 
   if (editedRole) {

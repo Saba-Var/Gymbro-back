@@ -6,7 +6,7 @@ import { t } from 'i18next'
 
 export const createStaffMemberService = async (args: {
   staffCreateData: StaffCreateData
-  companyId: number
+  companyId?: number
 }) => {
   const { companyId, staffCreateData } = args
 

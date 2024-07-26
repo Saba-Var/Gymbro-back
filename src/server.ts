@@ -7,7 +7,7 @@ import { verifyToken } from 'middlewares/verifyToken.middleware'
 import { permissionsRouter } from 'modules/permissions/router'
 import { superUserRouter } from 'modules/super-user/router'
 import { NotFoundError } from 'errors/not-found.error'
-import { rolesRouter } from 'modules/roles/router'
+import { rolesRouter } from 'modules/admin/router'
 import { usersRouter } from 'modules/users/router'
 import { authRouter } from 'modules/auth/router'
 import { json, urlencoded } from 'body-parser'
@@ -37,7 +37,7 @@ server.use('/api/auth', authRouter)
 
 server.use('/api/super-user', verifyToken, onlySuperUserAccess, superUserRouter)
 
-server.use('/api/roles', verifyToken, onlyAdminAccess, rolesRouter)
+server.use('/api/admin', verifyToken, onlyAdminAccess, rolesRouter)
 
 server.use(
   '/api/permissions',

@@ -11,7 +11,7 @@ export const onlyAdminAccess = (
   try {
     const jwtPayload = req.currentUser as AuthJWTPayload
 
-    if (jwtPayload.userType !== UserTypeEnum.ADMIN) {
+    if (jwtPayload?.userType !== UserTypeEnum.ADMIN) {
       return next(new NotAuthorizedError())
     }
 

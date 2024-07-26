@@ -9,10 +9,11 @@ export const createStaffMemberController = async (
   req: RequestWithBody<StaffCreateData>,
   res: Response
 ) => {
+  req.currentUser?.userType
   const companyId =
-    req.currentUser.userType === UserTypeEnum.SUPERUSER
+    req?.currentUser?.userType === UserTypeEnum.SUPERUSER
       ? req.body.companyId
-      : req.currentUser.companyId
+      : req.currentUser?.companyId
 
   const newStaffMember = await createStaffMemberService({
     companyId,
