@@ -4,6 +4,7 @@ import { permissionSeeder } from './permission.seeder'
 import { companySeeder } from './company.seeder'
 import { rolesSeeder } from './roles.seeder'
 import { staffSeeder } from './staff.seeder'
+import { staffRoleSeeder } from './staff-role.seeder'
 
 const seeder = async () => {
   try {
@@ -14,6 +15,7 @@ const seeder = async () => {
       companySubscriptionSeeder(),
       rolesSeeder(),
       staffPermissionSeeder(),
+      staffRoleSeeder(),
     ])
 
     console.log('Database seeded successfully!')
