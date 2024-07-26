@@ -7,7 +7,8 @@
     "start": "node build/index.js",
     "build:watch": "babel src --out-dir build --extensions .ts --copy-files --watch",
     "build:prod": "babel src --out-dir build --extensions .ts --copy-files --minified",
-    "dev": "concurrently \"npm run build:watch\" \"nodemon build/index.js\""
+    "dev": "concurrently \"npm run build:watch\" \"nodemon build/index.js\"",
+    "seed": "node build/database/seeders/seeder.js"
   },
   "author": "",
   "license": "ISC",
