@@ -3,6 +3,12 @@ import { prisma } from 'config/prisma'
 
 export const permissionSeeder = async () => {
   try {
+    const existingPermission = await prisma.permission.findMany()
+
+    if (existingPermission.length > 0) {
+      return
+    }
+
     const results = await Promise.all(
       PERMISSIONS.map(async (permission) => {
         const existingPermission = await prisma.permission.findFirst({
@@ -29,5 +35,3 @@ export const permissionSeeder = async () => {
     console.error('Error seeding permissions:', error)
   }
 }
-
-permissionSeeder()
