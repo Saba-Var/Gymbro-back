@@ -1,10 +1,15 @@
-import { createRoleService, editRoleService } from './services'
+import {
+  createRoleService,
+  editRoleService,
+  modifyStaffRolesService,
+} from './services'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
-import type { EditRoleData, RoleCreateData } from './types'
+import type { EditRoleData, ModifyStaffRoleData, RoleCreateData } from './types'
 import type { RequestWithBody } from 'types/globals.types'
 import { ActivityLogActionType } from '@prisma/client'
 import type { Response } from 'express'
+import { t } from 'i18next'
 
 export const createRoleController = async (
   req: RequestWithBody<RoleCreateData>,
@@ -45,4 +50,23 @@ export const editRoleController = async (
   }
 
   res.status(HTTP_OK).json(editedRole)
+}
+
+export const modifyStaffRoleController = async (
+  req: RequestWithBody<ModifyStaffRoleData>,
+  res: Response
+) => {
+  await modifyStaffRolesService({
+    ...req.body,
+    companyId: req.currentUser?.companyId as number,
+  })
+
+  await trackUserActivity({
+    actionType: ActivityLogActionType.UPDATE,
+    displayValue: `Modify Staff Roles`,
+    staffId: req.currentUser?.id,
+    req,
+  })
+
+  res.status(HTTP_OK).json({ message: t('roles_modified_successfully') })
 }

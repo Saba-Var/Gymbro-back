@@ -7,7 +7,8 @@ import { verifyToken } from 'middlewares/verifyToken.middleware'
 import { permissionsRouter } from 'modules/permissions/router'
 import { superUserRouter } from 'modules/super-user/router'
 import { NotFoundError } from 'errors/not-found.error'
-import { rolesRouter } from 'modules/admin/router'
+import { staffRouter } from 'modules/staff/router'
+import { adminRouter } from 'modules/admin/router'
 import { usersRouter } from 'modules/users/router'
 import { authRouter } from 'modules/auth/router'
 import { json, urlencoded } from 'body-parser'
@@ -17,7 +18,6 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
-import { staffRouter } from 'modules/staff/router'
 
 dotenv.config()
 
@@ -37,7 +37,7 @@ server.use('/api/auth', authRouter)
 
 server.use('/api/super-user', verifyToken, onlySuperUserAccess, superUserRouter)
 
-server.use('/api/admin', verifyToken, onlyAdminAccess, rolesRouter)
+server.use('/api/admin', verifyToken, onlyAdminAccess, adminRouter)
 
 server.use(
   '/api/permissions',

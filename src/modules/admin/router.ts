@@ -1,23 +1,34 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
-import { createRoleController, editRoleController } from './controller'
+import { modifyStaffRoleValidation, rolesValidation } from './validation'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
-import { rolesValidation } from './validation'
 import express from 'express'
+import {
+  modifyStaffRoleController,
+  createRoleController,
+  editRoleController,
+} from './controller'
 
-const rolesRouter = express.Router()
+const adminRouter = express.Router()
 
-rolesRouter.post(
+adminRouter.post(
   '/roles',
   rolesValidation(),
   validateRequestSchema,
   asyncHandler(createRoleController)
 )
 
-rolesRouter.put(
+adminRouter.put(
   '/roles/:id',
   rolesValidation({ makeFieldsRequired: false }),
   validateRequestSchema,
   asyncHandler(editRoleController)
 )
 
-export { rolesRouter }
+adminRouter.post(
+  '/staff-roles',
+  modifyStaffRoleValidation,
+  validateRequestSchema,
+  asyncHandler(modifyStaffRoleController)
+)
+
+export { adminRouter }

@@ -11,5 +11,8 @@
   "must_be_valid": "Must be valid",
   "file_type_not_allowed": "File type not allowed",
   "conflict": "Conflict! Requested resource already exists",
-  "staff_already_exists": "Staff already exists"
+  "staff_already_exists": "Staff already exists",
+  "roles_modified_successfully": "Roles modified successfully",
+  "cant_modify_admin_role": "Can't modify admin role",
+  "role_not_found": "Role not found"
 }
