@@ -1,9 +1,15 @@
-import type { EditModelData, ExcludeModelDefaults } from 'types/globals.types'
+import type { ExcludeModelDefaults, EditModelData } from 'types/globals.types'
 import type { Role } from '@prisma/client'
 
-export type RoleCreateData = Omit<ExcludeModelDefaults<Role>, 'companyId'>
+export type permissionIds = {
+  permissionIds: number[]
+}
 
-export type EditRoleData = EditModelData<Role, 'companyId'>
+type RoleData = Role & permissionIds
+
+export type RoleCreateData = Omit<ExcludeModelDefaults<RoleData>, 'companyId'>
+
+export type EditRoleData = EditModelData<RoleData, 'companyId'>
 
 export type ModifyStaffRoleData = {
   roleIds: number[]

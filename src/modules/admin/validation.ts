@@ -18,6 +18,12 @@ export const rolesValidation = ({ makeFieldsRequired = true } = {}) => [
     .withMessage('Description must be between 4 and 40 characters')
     .notEmpty()
     .withMessage('Description is required'),
+
+  body('permissionIds')
+    .if((value) => makeFieldsRequired || value !== undefined)
+    .isArray()
+    .notEmpty()
+    .withMessage('Permission ids are required'),
 ]
 
 export const modifyStaffRoleValidation = [
