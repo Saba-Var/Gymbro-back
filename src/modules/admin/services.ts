@@ -22,8 +22,19 @@ export const createRoleService = async (
   }
 
   const newRole = await prisma.role.create({
-    data: { ...roleData, companyId },
+    data: { companyId, name: roleData.name, description: roleData.description },
   })
+
+  if (newRole) {
+    const permissionIds = roleData.permissionIds.map((permissionId) => ({
+      permissionId,
+      roleId: newRole.id,
+    }))
+
+    await prisma.rolePermission.createMany({
+      data: permissionIds,
+    })
+  }
 
   return newRole
 }

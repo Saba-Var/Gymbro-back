@@ -1,15 +1,15 @@
-import {
-  createRoleService,
-  editRoleService,
-  modifyStaffRolesService,
-} from './services'
+import type { EditRoleData, ModifyStaffRoleData, RoleCreateData } from './types'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
-import type { EditRoleData, ModifyStaffRoleData, RoleCreateData } from './types'
 import type { RequestWithBody } from 'types/globals.types'
 import { ActivityLogActionType } from '@prisma/client'
 import type { Response } from 'express'
 import { t } from 'i18next'
+import {
+  modifyStaffRolesService,
+  createRoleService,
+  editRoleService,
+} from './services'
 
 export const createRoleController = async (
   req: RequestWithBody<RoleCreateData>,
@@ -23,7 +23,7 @@ export const createRoleController = async (
   if (newRole) {
     await trackUserActivity({
       actionType: ActivityLogActionType.CREATE,
-      displayValue: `Create Role: ${newRole.name}`,
+      displayValue: `Create Role: ${newRole.name}. Role Permissions: ${req.body.permissionIds.join(', ')}`,
       req,
     })
   }
