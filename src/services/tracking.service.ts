@@ -9,7 +9,6 @@ export const trackUserActivity = async (args: {
   displayValue: string
   req?: Request
   details?: string
-  staffId?: number
 }) => {
   const { actionType, displayValue, req, details } = args
 
@@ -43,7 +42,14 @@ export const trackUserActivity = async (args: {
       }),
       userType: payload?.userType as UserTypeEnum,
       details: JSON.stringify(req ? req.body : details),
-      staffId: args.staffId,
+      staffId:
+        payload?.userType === UserTypeEnum.ADMIN ||
+        payload?.userType === UserTypeEnum.STAFF
+          ? null
+          : payload?.id,
+      superUserId:
+        payload?.userType === UserTypeEnum.SUPERUSER ? payload?.id : null,
+      clientId: payload?.userType === UserTypeEnum.CLIENT ? payload?.id : null,
     },
   })
 }

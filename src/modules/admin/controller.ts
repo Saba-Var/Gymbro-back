@@ -64,7 +64,6 @@ export const modifyStaffRoleController = async (
   await trackUserActivity({
     actionType: ActivityLogActionType.UPDATE,
     displayValue: `Modify Staff Roles`,
-    staffId: req.currentUser?.id,
     req,
   })
 
