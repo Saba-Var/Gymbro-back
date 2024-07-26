@@ -33,15 +33,23 @@ export const trackUserActivity = async (args: {
   await prisma.activityLog.create({
     data: {
       requestUrl: fullRequestUrl,
-      userId: payload.id,
+      userId: payload?.id as number,
       ipAddress: req ? req.ip : null,
       displayValue,
       actionType,
-      ...(payload.userType === UserTypeEnum.SUPERUSER && {
+      ...(payload?.userType === UserTypeEnum.SUPERUSER && {
         superUserId: payload.id,
       }),
-      userType: payload.userType,
+      userType: payload?.userType as UserTypeEnum,
       details: JSON.stringify(req ? req.body : details),
+      staffId:
+        payload?.userType === UserTypeEnum.ADMIN ||
+        payload?.userType === UserTypeEnum.STAFF
+          ? null
+          : payload?.id,
+      superUserId:
+        payload?.userType === UserTypeEnum.SUPERUSER ? payload?.id : null,
+      clientId: payload?.userType === UserTypeEnum.CLIENT ? payload?.id : null,
     },
   })
 }

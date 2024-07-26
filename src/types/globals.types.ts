@@ -13,12 +13,7 @@ export type Locale = (typeof LOCALES)[number]
 
 export type Permission = (typeof PERMISSIONS)[number]
 
-export type AuthJWTPayload = {
-  companyId: number | undefined
-  userType: UserTypeEnum
-  email: string
-  id: number
-}
+export type AuthJWTPayload = Express.Request['currentUser']
 
 export type TransformedErrors = {
   [key: string]: string[]

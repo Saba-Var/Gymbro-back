@@ -11,7 +11,7 @@ export const onlySuperUserAccess = (
   try {
     const jwtPayload = req.currentUser as AuthJWTPayload
 
-    if (jwtPayload.userType !== UserTypeEnum.SUPERUSER) {
+    if (jwtPayload?.userType !== UserTypeEnum.SUPERUSER) {
       return next(new NotAuthorizedError())
     }
 

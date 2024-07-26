@@ -7,7 +7,8 @@ import { verifyToken } from 'middlewares/verifyToken.middleware'
 import { permissionsRouter } from 'modules/permissions/router'
 import { superUserRouter } from 'modules/super-user/router'
 import { NotFoundError } from 'errors/not-found.error'
-import { rolesRouter } from 'modules/roles/router'
+import { staffRouter } from 'modules/staff/router'
+import { adminRouter } from 'modules/admin/router'
 import { usersRouter } from 'modules/users/router'
 import { authRouter } from 'modules/auth/router'
 import { json, urlencoded } from 'body-parser'
@@ -36,7 +37,7 @@ server.use('/api/auth', authRouter)
 
 server.use('/api/super-user', verifyToken, onlySuperUserAccess, superUserRouter)
 
-server.use('/api/roles', verifyToken, onlyAdminAccess, rolesRouter)
+server.use('/api/admin', verifyToken, onlyAdminAccess, adminRouter)
 
 server.use(
   '/api/permissions',
@@ -46,6 +47,8 @@ server.use(
 )
 
 server.use('/api/users', verifyToken, usersRouter)
+
+server.use('/api/staff', verifyToken, staffRouter)
 
 server.all('*', () => {
   throw new NotFoundError()

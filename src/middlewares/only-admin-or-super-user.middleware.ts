@@ -12,8 +12,8 @@ export const onlyAdminOrSuperUserAccess = (
     const jwtPayload = req.currentUser as AuthJWTPayload
 
     if (
-      jwtPayload.userType === UserTypeEnum.SUPERUSER ||
-      jwtPayload.userType === UserTypeEnum.ADMIN
+      jwtPayload?.userType === UserTypeEnum.SUPERUSER ||
+      jwtPayload?.userType === UserTypeEnum.ADMIN
     ) {
       return next()
     }

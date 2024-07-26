@@ -1,6 +1,6 @@
-declare global {
-  import type { AuthJWTPayload } from 'types/globalTypes'
+import type { UserTypeEnum } from '@prisma/client'
 
+declare global {
   namespace NodeJS {
     interface ProcessEnv {
       SUPER_USER_EMAIL: string
@@ -14,7 +14,12 @@ declare global {
 
   namespace Express {
     interface Request {
-      currentUser?: AuthJWTPayload
+      currentUser?: {
+        companyId: number | undefined
+        userType: UserTypeEnum
+        email: string
+        id: number
+      }
     }
   }
 }
