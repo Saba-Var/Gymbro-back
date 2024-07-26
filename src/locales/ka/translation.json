@@ -14,5 +14,8 @@
   "staff_already_exists": "პერსონალი უკვე არსებობს",
   "roles_modified_successfully": "როლები წარმატებით შეიცვალა",
   "cant_modify_admin_role": "ადმინისტრატორის როლს ვერ შეცვლით",
-  "role_not_found": "როლი ვერ მოიძებნა"
+  "role_not_found": "როლი ვერ მოიძებნა",
+  "staff_not_found": "პერსონალი ვერ მოიძებნა",
+  "cant_modify_admin_permission": "ადმინისტრატორის ნებართვებს ვერ შეცვლით",
+  "staff_permission_modified_successfully": "პერსონალის ნებართვები წარმატებით შეიცვალა"
 }

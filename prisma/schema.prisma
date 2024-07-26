@@ -113,7 +113,6 @@ model StaffPermission {
   staffId      Int
   permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
   permissionId Int
-  granted      Boolean    @default(true)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 

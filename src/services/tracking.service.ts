@@ -45,8 +45,8 @@ export const trackUserActivity = async (args: {
       staffId:
         payload?.userType === UserTypeEnum.ADMIN ||
         payload?.userType === UserTypeEnum.STAFF
-          ? null
-          : payload?.id,
+          ? payload?.id
+          : null,
       superUserId:
         payload?.userType === UserTypeEnum.SUPERUSER ? payload?.id : null,
       clientId: payload?.userType === UserTypeEnum.CLIENT ? payload?.id : null,

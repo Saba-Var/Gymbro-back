@@ -39,3 +39,17 @@ export const modifyStaffRoleValidation = [
     .notEmpty()
     .withMessage('Staff id is required'),
 ]
+
+export const modifyStaffPermissionValidation = [
+  body('permissionIds')
+    .isArray()
+    .withMessage('Permission ids must be an array')
+    .notEmpty()
+    .withMessage('Permission ids are required'),
+
+  body('staffId')
+    .isNumeric()
+    .withMessage('Staff id must be a number')
+    .notEmpty()
+    .withMessage('Staff id is required'),
+]

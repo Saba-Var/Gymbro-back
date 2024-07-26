@@ -16,3 +16,8 @@ export type ModifyStaffRoleData = {
   staffId: number
   companyId: number
 }
+
+export type ModifyStaffPermissionData = {
+  permissionIds: number[]
+  staffId: number
+}

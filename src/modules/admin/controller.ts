@@ -1,4 +1,9 @@
-import type { EditRoleData, ModifyStaffRoleData, RoleCreateData } from './types'
+import type {
+  EditRoleData,
+  ModifyStaffPermissionData,
+  ModifyStaffRoleData,
+  RoleCreateData,
+} from './types'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
 import type { RequestWithBody } from 'types/globals.types'
@@ -9,6 +14,7 @@ import {
   modifyStaffRolesService,
   createRoleService,
   editRoleService,
+  modifyStaffPermissionsService,
 } from './services'
 
 export const createRoleController = async (
@@ -63,9 +69,29 @@ export const modifyStaffRoleController = async (
 
   await trackUserActivity({
     actionType: ActivityLogActionType.UPDATE,
-    displayValue: `Modify Staff Roles`,
+    displayValue: `Set Staff Roles: ${req.body.roleIds.join(', ')}`,
     req,
   })
 
   res.status(HTTP_OK).json({ message: t('roles_modified_successfully') })
+}
+
+export const modifyStaffPermissionController = async (
+  req: RequestWithBody<ModifyStaffPermissionData>,
+  res: Response
+) => {
+  await modifyStaffPermissionsService(
+    req.body,
+    req.currentUser?.companyId as number
+  )
+
+  await trackUserActivity({
+    actionType: ActivityLogActionType.UPDATE,
+    displayValue: `Set Staff Permission: ${req.body.permissionIds.join(', ')}`,
+    req,
+  })
+
+  res
+    .status(HTTP_OK)
+    .json({ message: t('staff_permission_modified_successfully') })
 }

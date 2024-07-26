@@ -14,5 +14,8 @@
   "staff_already_exists": "Staff already exists",
   "roles_modified_successfully": "Roles modified successfully",
   "cant_modify_admin_role": "Can't modify admin role",
-  "role_not_found": "Role not found"
+  "role_not_found": "Role not found",
+  "staff_not_found": "Staff not found",
+  "cant_modify_admin_permission": "Can't modify admin permission",
+  "staff_permission_modified_successfully": "Staff permission modified successfully"
 }
