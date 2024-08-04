@@ -18,6 +18,7 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
+import configuredCors from 'config/cors'
 
 dotenv.config()
 
@@ -30,6 +31,8 @@ server.use(i18nextMiddleware)
 server.use(json())
 server.use(urlencoded({ extended: true }))
 server.use(cookieParser())
+
+server.use(configuredCors)
 
 server.use('/storage', express.static(path.join(__dirname, '../storage')))
 
