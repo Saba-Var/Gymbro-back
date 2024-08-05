@@ -57,3 +57,36 @@ export const deletePermissionService = async (id: number) => {
 
   return deletedPermission
 }
+
+export const editPermissionService = async (
+  id: number,
+  data: PermissionCreateData
+) => {
+  const existingPermission = await findPermissionService({ id })
+
+  if (!existingPermission) {
+    throw new NotFoundError(t('permission_not_found'))
+  }
+
+  const duplicateKey = await prisma.permission.findFirst({
+    where: {
+      key: data.key,
+      NOT: {
+        id,
+      },
+    },
+  })
+
+  if (duplicateKey) {
+    throw new ConflictError(t('permission_already_exists'))
+  }
+
+  const updatedPermission = await prisma.permission.update({
+    data,
+    where: {
+      id,
+    },
+  })
+
+  return updatedPermission
+}

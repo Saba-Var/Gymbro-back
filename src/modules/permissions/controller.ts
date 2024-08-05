@@ -9,6 +9,7 @@ import {
   deletePermissionService,
   listPermissionsService,
   addPermissionService,
+  editPermissionService,
 } from './services'
 
 export const listPermissionsController = async (
@@ -48,4 +49,19 @@ export const deletePermissionsController = async (
   })
 
   res.status(HTTP_OK).json({ message: t('permission_deleted_successfully') })
+}
+
+export const editPermissionsController = async (
+  req: RequestWithBody<PermissionCreateData>,
+  res: Response
+) => {
+  const editedPermission = await editPermissionService(+req.params.id, req.body)
+
+  await trackUserActivity({
+    displayValue: `Updated permission: ${editedPermission.id}`,
+    actionType: ActivityLogActionType.UPDATE,
+    req: req,
+  })
+
+  res.status(HTTP_OK).json({ message: t('permission_updated_successfully') })
 }

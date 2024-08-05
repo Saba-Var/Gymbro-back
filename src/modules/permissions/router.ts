@@ -7,6 +7,7 @@ import express from 'express'
 import {
   addPermissionsController,
   deletePermissionsController,
+  editPermissionsController,
   listPermissionsController,
 } from './controller'
 
@@ -28,6 +29,14 @@ permissionsRouter.delete(
   idParamValidation(),
   validateRequestSchema,
   asyncHandler(deletePermissionsController)
+)
+
+permissionsRouter.put(
+  '/:id',
+  onlySuperUserAccess,
+  idParamValidation(),
+  validateRequestSchema,
+  asyncHandler(editPermissionsController)
 )
 
 export { permissionsRouter }

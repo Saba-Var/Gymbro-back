@@ -22,5 +22,6 @@
   "key_is_required": "Key სავალდებულოა",
   "permission_added_successfully": "ნებართვა წარმატებით დაემატა",
   "permission_deleted_successfully": "ნებართვა წარმატებით წაიშალა",
-  "permission_not_found": "ნებართვა ვერ მოიძებნა"
+  "permission_not_found": "ნებართვა ვერ მოიძებნა",
+  "permission_updated_successfully": "ნებართვა წარმატებით განახლდა"
 }
