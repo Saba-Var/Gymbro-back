@@ -17,5 +17,7 @@
   "role_not_found": "როლი ვერ მოიძებნა",
   "staff_not_found": "პერსონალი ვერ მოიძებნა",
   "cant_modify_admin_permission": "ადმინისტრატორის ნებართვებს ვერ შეცვლით",
-  "staff_permission_modified_successfully": "პერსონალის ნებართვები წარმატებით შეიცვალა"
+  "staff_permission_modified_successfully": "პერსონალის ნებართვები წარმატებით შეიცვალა",
+  "permission_already_exists": "ნებართვა უკვე არსებობს",
+  "key_is_required": "Key სავალდებულოა"
 }
