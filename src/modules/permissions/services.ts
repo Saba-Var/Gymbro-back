@@ -32,3 +32,13 @@ export const addPermissionService = async (data: PermissionCreateData) => {
 
   return newPermission
 }
+
+export const deletePermissionService = async (id: number) => {
+  const deletedPermission = await prisma.permission.delete({
+    where: {
+      id,
+    },
+  })
+
+  return deletedPermission
+}

@@ -19,5 +19,7 @@
   "cant_modify_admin_permission": "Can't modify admin permission",
   "staff_permission_modified_successfully": "Staff permission modified successfully",
   "permission_already_exists": "Permission already exists",
-  "key_is_required": "Key is required"
+  "key_is_required": "Key is required",
+  "permission_added_successfully": "Permission added successfully",
+  "permission_deleted_successfully": "Permission deleted successfully"
 }

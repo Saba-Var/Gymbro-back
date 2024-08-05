@@ -19,5 +19,7 @@
   "cant_modify_admin_permission": "ადმინისტრატორის ნებართვებს ვერ შეცვლით",
   "staff_permission_modified_successfully": "პერსონალის ნებართვები წარმატებით შეიცვალა",
   "permission_already_exists": "ნებართვა უკვე არსებობს",
-  "key_is_required": "Key სავალდებულოა"
+  "key_is_required": "Key სავალდებულოა",
+  "permission_added_successfully": "ნებართვა წარმატებით დაემატა",
+  "permission_deleted_successfully": "ნებართვა წარმატებით წაიშალა"
 }
