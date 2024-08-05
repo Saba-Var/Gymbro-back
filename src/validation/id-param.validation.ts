@@ -1,6 +1,6 @@
 import { param } from 'express-validator'
 
-export const idParamValidation = ({ fieldName = 'id' }) => {
+export const idParamValidation = ({ fieldName } = { fieldName: 'id' }) => {
   return [
     param(fieldName)
       .isInt()

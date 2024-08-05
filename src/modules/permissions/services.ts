@@ -1,3 +1,4 @@
+import { NotFoundError } from 'errors/not-found.error'
 import { ConflictError } from 'errors/conflict.error'
 import type { PermissionCreateData } from './types'
 import type { Permission } from '@prisma/client'
@@ -16,10 +17,8 @@ export const listPermissionsService = async (query: Query<Permission>) => {
 }
 
 export const addPermissionService = async (data: PermissionCreateData) => {
-  const existingPermission = await prisma.permission.findFirst({
-    where: {
-      key: data.key,
-    },
+  const existingPermission = await findPermissionService({
+    key: data.key,
   })
 
   if (existingPermission) {
@@ -33,7 +32,23 @@ export const addPermissionService = async (data: PermissionCreateData) => {
   return newPermission
 }
 
+export const findPermissionService = async (
+  where: Partial<Permission> = {}
+) => {
+  const permission = await prisma.permission.findFirst({
+    where,
+  })
+
+  return permission
+}
+
 export const deletePermissionService = async (id: number) => {
+  const existingPermission = await findPermissionService({ id })
+
+  if (!existingPermission) {
+    throw new NotFoundError(t('permission_not_found'))
+  }
+
   const deletedPermission = await prisma.permission.delete({
     where: {
       id,

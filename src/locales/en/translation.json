@@ -21,5 +21,6 @@
   "permission_already_exists": "Permission already exists",
   "key_is_required": "Key is required",
   "permission_added_successfully": "Permission added successfully",
-  "permission_deleted_successfully": "Permission deleted successfully"
+  "permission_deleted_successfully": "Permission deleted successfully",
+  "permission_not_found": "Permission not found"
 }
