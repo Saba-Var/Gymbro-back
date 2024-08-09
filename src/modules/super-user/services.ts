@@ -44,6 +44,16 @@ export const createCompanyService = async (companyData: CompanyCreateData) => {
   return newCompany
 }
 
+export const deleteCompanyService = async (id: number) => {
+  await findCompanyService(id)
+
+  await prisma.company.delete({
+    where: {
+      id,
+    },
+  })
+}
+
 export const findCompanyService = async (id: number) => {
   const company = await prisma.company.findFirst({
     where: {
