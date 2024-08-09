@@ -93,5 +93,11 @@ const generateOrderByFromSort = <T>(
     orderBy[key] = sort[key] as OrderDirection | undefined
   }
 
+  // @ts-ignore
+  if (!orderBy.id) {
+    // @ts-ignore
+    orderBy.id = 'desc' as OrderDirection
+  }
+
   return orderBy
 }
