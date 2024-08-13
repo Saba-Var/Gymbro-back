@@ -6,15 +6,17 @@ import type {
 } from './types'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
-import type { RequestWithBody } from 'types/globals.types'
+import type { Query, RequestWithBody } from 'types/globals.types'
 import { ActivityLogActionType } from '@prisma/client'
-import type { Response } from 'express'
+import type { Request, Response } from 'express'
 import { t } from 'i18next'
 import {
   modifyStaffRolesService,
   createRoleService,
   editRoleService,
   modifyStaffPermissionsService,
+  listRolesService,
+  deleteRoleService,
 } from './services'
 
 export const createRoleController = async (
@@ -35,6 +37,12 @@ export const createRoleController = async (
   }
 
   res.status(HTTP_CREATED).json(newRole)
+}
+
+export const listRolesController = async (req: Request, res: Response) => {
+  const roles = await listRolesService(req.query as Query)
+
+  res.status(HTTP_OK).json(roles)
 }
 
 export const editRoleController = async (
@@ -94,4 +102,21 @@ export const modifyStaffPermissionController = async (
   res
     .status(HTTP_OK)
     .json({ message: t('staff_permission_modified_successfully') })
+}
+
+export const deleteRoleController = async (req: Request, res: Response) => {
+  const roleId = +req.params.id
+
+  await deleteRoleService({
+    companyId: req.currentUser?.companyId as number,
+    roleId,
+  })
+
+  await trackUserActivity({
+    actionType: ActivityLogActionType.DELETE,
+    displayValue: `Delete RoleId: ${roleId}`,
+    req,
+  })
+
+  res.status(HTTP_OK).json({ message: t('role_deleted_successfully') })
 }

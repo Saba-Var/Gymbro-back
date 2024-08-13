@@ -5,6 +5,8 @@ import {
   modifyStaffRoleController,
   createRoleController,
   editRoleController,
+  listRolesController,
+  deleteRoleController,
 } from './controller'
 import {
   modifyStaffPermissionValidation,
@@ -12,8 +14,11 @@ import {
   rolesValidation,
 } from './validation'
 import express from 'express'
+import { idParamValidation } from 'validation/id-param.validation'
 
 const adminRouter = express.Router()
+
+adminRouter.get('/roles', asyncHandler(listRolesController))
 
 adminRouter.post(
   '/roles',
@@ -27,6 +32,13 @@ adminRouter.put(
   rolesValidation({ makeFieldsRequired: false }),
   validateRequestSchema,
   asyncHandler(editRoleController)
+)
+
+adminRouter.delete(
+  '/roles/:id',
+  idParamValidation(),
+  validateRequestSchema,
+  asyncHandler(deleteRoleController)
 )
 
 adminRouter.post(
