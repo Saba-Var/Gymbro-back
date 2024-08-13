@@ -5,6 +5,7 @@ import {
   modifyStaffRoleController,
   createRoleController,
   editRoleController,
+  listRolesController,
 } from './controller'
 import {
   modifyStaffPermissionValidation,
@@ -14,6 +15,8 @@ import {
 import express from 'express'
 
 const adminRouter = express.Router()
+
+adminRouter.get('/roles', asyncHandler(listRolesController))
 
 adminRouter.post(
   '/roles',

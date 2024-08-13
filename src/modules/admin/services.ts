@@ -1,7 +1,9 @@
-import type { PrismaBatchPayload } from 'types/globals.types'
+import type { PrismaBatchPayload, Query } from 'types/globals.types'
 import { BadRequestError } from 'errors/bad-request.error'
 import { NotFoundError } from 'errors/not-found.error'
 import { ConflictError } from 'errors/conflict.error'
+import { paginate } from 'utils/paginate.util'
+import type { Role } from '@prisma/client'
 import { prisma } from 'config/prisma'
 import { t } from 'i18next'
 import type {
@@ -42,6 +44,15 @@ export const createRoleService = async (
   }
 
   return newRole
+}
+
+export const listRolesService = async (query: Query<Role>) => {
+  const paginatedResult = await paginate<Role>({
+    model: 'Role',
+    query,
+  })
+
+  return paginatedResult
 }
 
 export const editRoleService = async (args: {
