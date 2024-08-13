@@ -34,7 +34,7 @@ export const createCompanyController = async (
     req,
   })
 
-  res.status(HTTP_CREATED).json(newCompany)
+  res.status(HTTP_CREATED).json({ message: t('company_created_successfully') })
 }
 
 export const companyListingController = async (req: Request, res: Response) => {

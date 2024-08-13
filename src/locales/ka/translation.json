@@ -24,5 +24,6 @@
   "permission_deleted_successfully": "ნებართვა წარმატებით წაიშალა",
   "permission_not_found": "ნებართვა ვერ მოიძებნა",
   "permission_updated_successfully": "ნებართვა წარმატებით განახლდა",
-  "company_deleted_successfully": "კომპანია წარმატებით წაიშალა"
+  "company_deleted_successfully": "კომპანია წარმატებით წაიშალა",
+  "company_created_successfully": "კომპანია წარმატებით დაემატა"
 }

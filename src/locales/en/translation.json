@@ -24,5 +24,6 @@
   "permission_deleted_successfully": "Permission deleted successfully",
   "permission_not_found": "Permission not found",
   "permission_updated_successfully": "Permission updated successfully",
-  "company_deleted_successfully": "Company deleted successfully"
+  "company_deleted_successfully": "Company deleted successfully",
+  "company_created_successfully": "Company created successfully"
 }

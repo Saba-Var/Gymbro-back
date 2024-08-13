@@ -1,7 +1,7 @@
 import { body, param } from 'express-validator'
 
 export const createCompanySchema = [
-  body('email').isEmail(),
+  body('email').isEmail().withMessage('email_must_be_valid'),
 
   body('title')
     .isString()

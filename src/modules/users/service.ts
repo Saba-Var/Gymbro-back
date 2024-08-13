@@ -28,5 +28,14 @@ export const getUserService = async (id: number, userType: UserTypeEnum) => {
     })
   }
 
+  if (userType === UserTypeEnum.ADMIN) {
+    user = await prisma.staff.findUnique({
+      where: {
+        id,
+        isAdmin: true,
+      },
+    })
+  }
+
   return user
 }
