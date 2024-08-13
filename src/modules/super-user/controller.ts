@@ -15,7 +15,9 @@ import {
   editCompanySubscriptionService,
   createCompanyService,
   listCompaniesService,
+  deleteCompanyService,
 } from './services'
+import { t } from 'i18next'
 
 export const createCompanyController = async (
   req: RequestWithBody<CompanyCreateData>,
@@ -32,13 +34,25 @@ export const createCompanyController = async (
     req,
   })
 
-  res.status(HTTP_CREATED).json(newCompany)
+  res.status(HTTP_CREATED).json({ message: t('company_created_successfully') })
 }
 
 export const companyListingController = async (req: Request, res: Response) => {
   const companies = await listCompaniesService(req.query as Query)
 
   res.status(HTTP_OK).json(companies)
+}
+
+export const deleteCompanyController = async (req: Request, res: Response) => {
+  await deleteCompanyService(+req.params.id)
+
+  await trackUserActivity({
+    actionType: ActivityLogActionType.DELETE,
+    displayValue: `Company: ${req.params.id}`,
+    req,
+  })
+
+  res.status(HTTP_OK).json({ message: t('company_deleted_successfully') })
 }
 
 export const attachSubscriptionToCompanyController = async (
