@@ -269,3 +269,26 @@ export const modifyStaffPermissionsService = async (
 
   await Promise.all(operations)
 }
+
+export const deleteRoleService = async (data: {
+  roleId: number
+  companyId: number
+}) => {
+  const role = await prisma.role.findFirst({
+    where: {
+      id: data.roleId,
+      companyId: data.companyId,
+    },
+  })
+
+  if (!role) {
+    throw new NotFoundError()
+  }
+
+  await prisma.role.delete({
+    where: {
+      id: data.roleId,
+      companyId: data.companyId,
+    },
+  })
+}

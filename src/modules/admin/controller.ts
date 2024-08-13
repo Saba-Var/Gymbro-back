@@ -16,6 +16,7 @@ import {
   editRoleService,
   modifyStaffPermissionsService,
   listRolesService,
+  deleteRoleService,
 } from './services'
 
 export const createRoleController = async (
@@ -101,4 +102,21 @@ export const modifyStaffPermissionController = async (
   res
     .status(HTTP_OK)
     .json({ message: t('staff_permission_modified_successfully') })
+}
+
+export const deleteRoleController = async (req: Request, res: Response) => {
+  const roleId = +req.params.id
+
+  await deleteRoleService({
+    companyId: req.currentUser?.companyId as number,
+    roleId,
+  })
+
+  await trackUserActivity({
+    actionType: ActivityLogActionType.DELETE,
+    displayValue: `Delete RoleId: ${roleId}`,
+    req,
+  })
+
+  res.status(HTTP_OK).json({ message: t('role_deleted_successfully') })
 }
