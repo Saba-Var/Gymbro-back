@@ -1,8 +1,8 @@
 export const PERMISSIONS = [
-  'user:read',
-  'user:write',
-  'user:delete',
-  'role:read',
-  'role:write',
-  'role:delete',
+  'user_read',
+  'user_write',
+  'user_delete',
+  'role_read',
+  'role_write',
+  'role_delete',
 ]
