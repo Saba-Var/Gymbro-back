@@ -69,7 +69,7 @@ model Staff {
 
 model Salary {
   id      Int      @id @default(autoincrement())
-  staff   Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  staff   Staff    @relation(fields: [staffId], references: [id])
   staffId Int
   currency Currency @relation(fields: [currencyId], references: [id])
   currencyId Int
@@ -176,7 +176,7 @@ model TrainingPlan {
 
 model StaffSubscription {
   id               Int                  @id @default(autoincrement())
-  client           Client               @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  client           Client               @relation(fields: [clientId], references: [id])
   clientId         Int
   trainingPlan     TrainingPlan         @relation(fields: [trainingPlanId], references: [id])
   trainingPlanId   Int
@@ -200,7 +200,7 @@ model StaffSubscription {
 
 model CompanySubscription {
   id         Int      @id @default(autoincrement())
-  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company    Company  @relation(fields: [companyId], references: [id])
   companyId  Int
   currency Currency @relation(fields: [currencyId], references: [id])
   currencyId Int
