@@ -28,5 +28,6 @@
   "company_created_successfully": "Company created successfully",
   "role_deleted_successfully": "Role deleted successfully",
   "role_created_successfully": "Role created successfully",
-  "role_updated_successfully": "Role updated successfully"
+  "role_updated_successfully": "Role updated successfully",
+  "staff_created_successfully": "Staff created successfully"
 }

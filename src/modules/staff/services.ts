@@ -3,6 +3,9 @@ import { Password } from 'utils/password.util'
 import type { StaffCreateData } from './types'
 import { prisma } from 'config/prisma'
 import { t } from 'i18next'
+import type { Query } from 'types/globals.types'
+import type { Staff } from '@prisma/client'
+import { paginate } from 'utils/paginate.util'
 
 export const createStaffMemberService = async (args: {
   staffCreateData: StaffCreateData
@@ -38,4 +41,19 @@ export const createStaffMemberService = async (args: {
   const { password, ...newStaffWithoutPassword } = newStaff
 
   return newStaffWithoutPassword
+}
+
+export const listStaffService = async (
+  query: Query<Staff>,
+  companyId: number
+) => {
+  const paginatedResult = await paginate<Staff>({
+    model: 'Staff',
+    query,
+    where: {
+      companyId,
+    },
+  })
+
+  return paginatedResult
 }

@@ -1,7 +1,6 @@
-import { onlyAdminOrSuperUserAccess } from 'middlewares/only-admin-or-super-user.middleware'
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
+import { createStaffMemberController, staffListController } from './controller'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
-import { createStaffMemberController } from './controller'
 import { staffValidation } from './validation'
 import express from 'express'
 
@@ -11,8 +10,9 @@ staffRouter.post(
   '/',
   staffValidation(),
   validateRequestSchema,
-  onlyAdminOrSuperUserAccess,
   asyncHandler(createStaffMemberController)
 )
+
+staffRouter.get('/', asyncHandler(staffListController))
 
 export { staffRouter }

@@ -52,7 +52,7 @@ server.use(
 
 server.use('/api/users', verifyToken, usersRouter)
 
-server.use('/api/staff', verifyToken, staffRouter)
+server.use('/api/staff', verifyToken, onlyAdminOrSuperUserAccess, staffRouter)
 
 server.use('/api/currencies', verifyToken, currencyRouter)
 

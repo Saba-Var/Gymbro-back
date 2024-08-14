@@ -28,5 +28,6 @@
   "company_created_successfully": "კომპანია წარმატებით დაემატა",
   "role_deleted_successfully": "როლი წარმატებით წაიშალა",
   "role_created_successfully": "როლი წარმატებით დაემატა",
-  "role_updated_successfully": "როლი წარმატებით განახლდა"
+  "role_updated_successfully": "როლი წარმატებით განახლდა",
+  "staff_created_successfully": "პერსონალი წარმატებით დაემატა"
 }
