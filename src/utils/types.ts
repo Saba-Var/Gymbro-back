@@ -33,4 +33,5 @@ export type PaginateArgs<Model> = {
   query: Query<Model>
   where?: Partial<Model>
   include?: Record<string, boolean>
+  select?: Partial<Record<keyof Model, boolean>>
 }

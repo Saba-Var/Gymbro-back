@@ -39,6 +39,7 @@ async function paginate<T>(args: PaginateArgs<T>): Promise<PaginatedResult<T>> {
       where,
       skip,
       include: args.include,
+      select: args.select,
     }),
   ])
 

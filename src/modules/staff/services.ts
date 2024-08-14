@@ -53,6 +53,25 @@ export const listStaffService = async (
     where: {
       companyId,
     },
+    select: {
+      baseSalary: true,
+      commissionAmount: true,
+      commissionType: true,
+      companyId: true,
+      createdAt: true,
+      email: true,
+      currencyId: true,
+      firstName: true,
+      id: true,
+      isAdmin: true,
+      lastActivityAt: true,
+      lastName: true,
+      password: false,
+      phoneNumber: true,
+      privateNumber: true,
+      salaryType: true,
+      updatedAt: true,
+    },
   })
 
   return paginatedResult
