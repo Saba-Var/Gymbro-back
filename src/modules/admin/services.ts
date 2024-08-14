@@ -46,12 +46,18 @@ export const createRoleService = async (
   return newRole
 }
 
-export const listRolesService = async (query: Query<Role>) => {
+export const listRolesService = async (
+  query: Query<Role>,
+  companyId: number
+) => {
   const paginatedResult = await paginate<Role>({
     model: 'Role',
     query,
     include: {
       permissions: true,
+    },
+    where: {
+      companyId,
     },
   })
 

@@ -40,7 +40,10 @@ export const createRoleController = async (
 }
 
 export const listRolesController = async (req: Request, res: Response) => {
-  const roles = await listRolesService(req.query as Query)
+  const roles = await listRolesService(
+    req.query as Query,
+    req.currentUser?.companyId as number
+  )
 
   res.status(HTTP_OK).json(roles)
 }
