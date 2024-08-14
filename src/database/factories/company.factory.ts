@@ -19,7 +19,11 @@ export class CompanyFactory extends BaseFactory<
       title: faker.company.name(),
       websiteUrl: faker.internet.url(),
       description: faker.company.catchPhrase(),
-      currencyId,
+      defaultCurrency: {
+        connect: {
+          id: currencyId,
+        },
+      },
       ...attrs,
     }
   }
