@@ -1,7 +1,7 @@
 import type { ExcludeModelDefaults } from 'types/globals.types'
 import type { Currency } from '@prisma/client'
 
-export const currencies: (ExcludeModelDefaults<Currency> & { id: number })[] = [
+export const CURRENCIES: (ExcludeModelDefaults<Currency> & { id: number })[] = [
   {
     symbol: '$',
     name: 'US Dollar',
