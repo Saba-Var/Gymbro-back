@@ -15,21 +15,28 @@ async function paginate<T>(args: PaginateArgs<T>): Promise<PaginatedResult<T>> {
   const limit = args?.query?.limit ? +args?.query?.limit : PAGE_LIMIT
   const skip = (page - 1) * limit
 
-  const where = generateWhereFromFilter(args?.query?.filter, args?.query?.range)
+  const filteredWhere = generateWhereFromFilter(
+    args?.query?.filter,
+    args?.query?.range
+  )
 
   const orderBy = generateOrderByFromSort(args?.query?.sort)
 
+  const where = {
+    ...filteredWhere,
+    ...(args.where || {}),
+  }
+
   const [totalItems, data] = await Promise.all([
     // @ts-ignore
-    prisma[model].count({ where }),
+    prisma[model].count({
+      where,
+    }),
     // @ts-ignore
     prisma[model].findMany({
       take: limit,
       orderBy,
-      where: {
-        ...where,
-        ...(args.where || {}),
-      },
+      where,
       skip,
       include: args.include,
     }),
