@@ -21,6 +21,12 @@ export const createCompanySchema = [
     .isString()
     .isLength({ min: 10, max: 500 })
     .withMessage('Description must be between 10 and 500 characters'),
+
+  body('currencyId')
+    .isInt()
+    .withMessage('Currency ID must be an integer')
+    .notEmpty()
+    .withMessage('Currency ID is required'),
 ]
 
 export const companySubscriptionValidation = ({
