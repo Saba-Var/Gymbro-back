@@ -54,8 +54,6 @@ model Staff {
   salaryType       SalaryType
   lastActivityAt   DateTime?
   baseSalary       Decimal?          @db.Decimal(10, 2)
-  commissionType   CommissionType?
-  commissionAmount Decimal?          @db.Decimal(10, 2)
   company          Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId        Int
   currency Currency @relation(fields: [currencyId], references: [id])

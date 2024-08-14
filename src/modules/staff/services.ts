@@ -71,6 +71,13 @@ export const listStaffService = async (
       privateNumber: true,
       salaryType: true,
       updatedAt: true,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      roles: {
+        include: {
+          role: true,
+        },
+      },
     },
   })
 
