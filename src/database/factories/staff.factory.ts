@@ -1,17 +1,12 @@
 import { getArrayRandomItems } from 'utils/get-random-array-items.util'
+import { SalaryType, type Prisma, type Staff } from '@prisma/client'
 import { getRandomEnumValue } from 'utils/get-random-enum'
+import { getRandomNum } from 'utils/numbers.util'
+import { CURRENCIES } from 'config/currencies'
 import { Password } from 'utils/password.util'
 import { BaseFactory } from './base.factory'
 import { prisma } from 'config/prisma'
 import { faker } from '@faker-js/faker'
-import {
-  CommissionType,
-  SalaryType,
-  type Prisma,
-  type Staff,
-} from '@prisma/client'
-import { getRandomNum } from 'utils/numbers.util'
-import { CURRENCIES } from 'config/currencies'
 
 export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
   async build(
@@ -47,8 +42,6 @@ export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
       salaryType: getRandomEnumValue(SalaryType),
       baseSalary: faker.number.int({ min: 500, max: 10000 }),
       phoneNumber: faker.phone.number(),
-      commissionAmount: faker.number.int({ min: 0, max: 100 }),
-      commissionType: getRandomEnumValue(CommissionType),
       currency: {
         connect: {
           id: currencyId,
