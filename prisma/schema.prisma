@@ -238,9 +238,9 @@ model ActivityLog {
 
 model Currency {
   id           Int       @id @default(autoincrement())
-  code         String    @unique @db.VarChar(3)
+  symbol       String    @db.VarChar(10)
   name         String    @db.VarChar(50)
-  symbol       String    @db.VarChar(5)
+  code         String    @unique @db.VarChar(3)
   companies    Company[]
   trainingPlans        TrainingPlan[]
   staffSubscriptions   StaffSubscription[]
