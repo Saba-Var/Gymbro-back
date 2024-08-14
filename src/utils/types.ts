@@ -32,4 +32,5 @@ export type PaginateArgs<Model> = {
   model: Prisma.ModelName
   query: Query<Model>
   where?: Partial<Model>
+  include?: Record<string, boolean>
 }

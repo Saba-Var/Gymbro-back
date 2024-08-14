@@ -36,7 +36,7 @@ export const createRoleController = async (
     })
   }
 
-  res.status(HTTP_CREATED).json(newRole)
+  res.status(HTTP_CREATED).json({ message: t('role_created_successfully') })
 }
 
 export const listRolesController = async (req: Request, res: Response) => {
@@ -63,7 +63,7 @@ export const editRoleController = async (
     })
   }
 
-  res.status(HTTP_OK).json(editedRole)
+  res.status(HTTP_OK).json({ message: t('role_updated_successfully') })
 }
 
 export const modifyStaffRoleController = async (

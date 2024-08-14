@@ -26,5 +26,7 @@
   "permission_updated_successfully": "ნებართვა წარმატებით განახლდა",
   "company_deleted_successfully": "კომპანია წარმატებით წაიშალა",
   "company_created_successfully": "კომპანია წარმატებით დაემატა",
-  "role_deleted_successfully": "როლი წარმატებით წაიშალა"
+  "role_deleted_successfully": "როლი წარმატებით წაიშალა",
+  "role_created_successfully": "როლი წარმატებით დაემატა",
+  "role_updated_successfully": "როლი წარმატებით განახლდა"
 }
