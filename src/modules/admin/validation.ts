@@ -11,11 +11,11 @@ export const rolesValidation = ({ makeFieldsRequired = true } = {}) => [
     .withMessage('Name is required'),
 
   body('description')
-    .if((value) => makeFieldsRequired || value !== undefined)
+    .optional()
     .isString()
     .trim()
-    .isLength({ min: 4, max: 40 })
-    .withMessage('Description must be between 4 and 40 characters')
+    .isLength({ min: 4, max: 200 })
+    .withMessage('Description must be between 4 and 200 characters')
     .notEmpty()
     .withMessage('Description is required'),
 
