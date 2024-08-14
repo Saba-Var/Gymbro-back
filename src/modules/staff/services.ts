@@ -6,6 +6,7 @@ import { t } from 'i18next'
 import type { Query } from 'types/globals.types'
 import type { Staff } from '@prisma/client'
 import { paginate } from 'utils/paginate.util'
+import { NotFoundError } from 'errors/not-found.error'
 
 export const createStaffMemberService = async (args: {
   staffCreateData: StaffCreateData
@@ -80,4 +81,41 @@ export const listStaffService = async (
   })
 
   return paginatedResult
+}
+
+export const deleteStaffService = async (args: {
+  staffId: number
+  companyId: number
+}) => {
+  const existingStaff = await findStaffService({
+    staffId: args.staffId,
+    companyId: args.companyId,
+  })
+
+  if (existingStaff) {
+    await prisma.staff.delete({
+      where: {
+        id: existingStaff.id,
+        companyId: existingStaff.companyId,
+      },
+    })
+  }
+}
+
+export const findStaffService = async (args: {
+  staffId: number
+  companyId: number
+}) => {
+  const staff = await prisma.staff.findFirst({
+    where: {
+      id: args.staffId,
+      companyId: args.companyId,
+    },
+  })
+
+  if (!staff) {
+    throw new NotFoundError()
+  }
+
+  return staff
 }

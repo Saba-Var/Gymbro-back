@@ -1,4 +1,8 @@
-import { createStaffMemberService, listStaffService } from './services'
+import {
+  createStaffMemberService,
+  deleteStaffService,
+  listStaffService,
+} from './services'
 import { ActivityLogActionType, UserTypeEnum } from '@prisma/client'
 import type { Query, RequestWithBody } from 'types/globals.types'
 import { trackUserActivity } from 'services/tracking.service'
@@ -38,4 +42,21 @@ export const staffListController = async (req: Request, res: Response) => {
   )
 
   res.status(HTTP_OK).json(staffList)
+}
+
+export const deleteStaffController = async (req: Request, res: Response) => {
+  const staffId = +req.params.id
+
+  await deleteStaffService({
+    companyId: req?.currentUser?.companyId as number,
+    staffId,
+  })
+
+  await trackUserActivity({
+    req,
+    actionType: ActivityLogActionType.DELETE,
+    displayValue: `Delete staff with id - ${staffId}`,
+  })
+
+  res.status(HTTP_OK).json({ message: t('staff_deleted_successfully') })
 }

@@ -29,5 +29,6 @@
   "role_deleted_successfully": "როლი წარმატებით წაიშალა",
   "role_created_successfully": "როლი წარმატებით დაემატა",
   "role_updated_successfully": "როლი წარმატებით განახლდა",
-  "staff_created_successfully": "პერსონალი წარმატებით დაემატა"
+  "staff_created_successfully": "პერსონალი წარმატებით დაემატა",
+  "staff_deleted_successfully": "პერსონალი წარმატებით წაიშალა"
 }
