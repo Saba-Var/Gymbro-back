@@ -58,6 +58,8 @@ model Staff {
   commissionAmount Decimal?          @db.Decimal(10, 2)
   company          Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId        Int
+  currency Currency @relation(fields: [currencyId], references: [id])
+  currencyId Int
   roles            StaffRole[]
   permissions      StaffPermission[]
   customPlans      TrainingPlan[]
@@ -246,6 +248,7 @@ model Currency {
   staffSubscriptions   StaffSubscription[]
   companySubscriptions CompanySubscription[]
   salaries             Salary[]
+  staff                Staff[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
