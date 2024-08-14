@@ -55,8 +55,6 @@ export const listStaffService = async (
     },
     select: {
       baseSalary: true,
-      commissionAmount: true,
-      commissionType: true,
       companyId: true,
       createdAt: true,
       email: true,

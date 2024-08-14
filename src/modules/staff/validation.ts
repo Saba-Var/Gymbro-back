@@ -1,4 +1,4 @@
-import { CommissionType, SalaryType } from '@prisma/client'
+import { SalaryType } from '@prisma/client'
 import { body } from 'express-validator'
 
 export const staffValidation = (
@@ -44,14 +44,6 @@ export const staffValidation = (
       .if((value) => makeFieldsRequired || value !== undefined)
       .isMobilePhone('any')
       .withMessage('Phone number is not valid'),
-
-    body('commissionAmount')
-      .if((value) => makeFieldsRequired || value !== undefined)
-      .isNumeric(),
-
-    body('commissionType')
-      .if((value) => makeFieldsRequired || value !== undefined)
-      .isIn(Object.values(CommissionType)),
 
     body('privateNumber')
       .if((value) => makeFieldsRequired || value !== undefined)
