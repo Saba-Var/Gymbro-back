@@ -57,5 +57,9 @@ export const staffValidation = (
       .if((value) => makeFieldsRequired || value !== undefined)
       .isLength({ min: 6, max: 20 })
       .withMessage('Private number must be between 6 and 20 characters'),
+
+    body('currencyId')
+      .if((value) => makeFieldsRequired || value !== undefined)
+      .isNumeric(),
   ]
 }

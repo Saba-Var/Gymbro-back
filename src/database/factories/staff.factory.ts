@@ -10,6 +10,8 @@ import {
   type Prisma,
   type Staff,
 } from '@prisma/client'
+import { getRandomNum } from 'utils/numbers.util'
+import { CURRENCIES } from 'config/currencies'
 
 export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
   async build(
@@ -27,6 +29,7 @@ export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
       .toString()
 
     const password = await Password.toHash(privateNumber.toString())
+    const currencyId = getRandomNum(CURRENCIES.length)
 
     return {
       ...attrs,
@@ -46,6 +49,11 @@ export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
       phoneNumber: faker.phone.number(),
       commissionAmount: faker.number.int({ min: 0, max: 100 }),
       commissionType: getRandomEnumValue(CommissionType),
+      currency: {
+        connect: {
+          id: currencyId,
+        },
+      },
     }
   }
 

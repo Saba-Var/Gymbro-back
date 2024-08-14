@@ -1,5 +1,7 @@
 import { getArrayRandomItems } from 'utils/get-random-array-items.util'
 import type { Prisma, CompanySubscription } from '@prisma/client'
+import { getRandomNum } from 'utils/numbers.util'
+import { CURRENCIES } from 'config/currencies'
 import { BaseFactory } from './base.factory'
 import { faker } from '@faker-js/faker'
 import { prisma } from 'config/prisma'
@@ -15,6 +17,8 @@ export class CompanySubscriptionFactory extends BaseFactory<
     const companies = await prisma.company.findMany()
     const randomCompany = getArrayRandomItems(companies)[0]
 
+    const currencyId = getRandomNum(CURRENCIES.length)
+
     return {
       totalPrice:
         attrs.totalPrice ??
@@ -25,6 +29,9 @@ export class CompanySubscriptionFactory extends BaseFactory<
       },
       startDate,
       endDate,
+      currency: {
+        connect: { id: currencyId },
+      },
       ...attrs,
     }
   }

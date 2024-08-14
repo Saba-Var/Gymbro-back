@@ -17,6 +17,8 @@ model Company {
   websiteUrl    String?               @db.VarChar(100)
   logo          String?               @db.VarChar(100)
   description   String?               @db.Text
+  defaultCurrency  Currency              @relation(fields: [currencyId], references: [id])
+  currencyId       Int
   staff         Staff[]
   roles         Role[]
   clients       Client[]
@@ -56,6 +58,8 @@ model Staff {
   commissionAmount Decimal?          @db.Decimal(10, 2)
   company          Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId        Int
+  currency Currency @relation(fields: [currencyId], references: [id])
+  currencyId Int
   roles            StaffRole[]
   permissions      StaffPermission[]
   customPlans      TrainingPlan[]
@@ -69,6 +73,8 @@ model Salary {
   id      Int      @id @default(autoincrement())
   staff   Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
   staffId Int
+  currency Currency @relation(fields: [currencyId], references: [id])
+  currencyId Int
   payDate DateTime
   bonus   Decimal? @db.Decimal(10, 2)
   netPay  Decimal  @db.Decimal(10, 2)
@@ -163,6 +169,8 @@ model TrainingPlan {
   companyId               Int
   staff                   Staff?               @relation(fields: [staffId], references: [id])
   staffId                 Int?
+  currency                Currency             @relation(fields: [currencyId], references: [id])
+  currencyId              Int
   subscriptions           StaffSubscription[]
   createdAt               DateTime             @default(now())
   updatedAt               DateTime             @updatedAt
@@ -174,6 +182,8 @@ model StaffSubscription {
   clientId         Int
   trainingPlan     TrainingPlan         @relation(fields: [trainingPlanId], references: [id])
   trainingPlanId   Int
+  currency         Currency             @relation(fields: [currencyId], references: [id])
+  currencyId       Int
   startDate        DateTime
   endDate          DateTime
   originalPrice    Decimal              @db.Decimal(10, 2)
@@ -194,6 +204,8 @@ model CompanySubscription {
   id         Int      @id @default(autoincrement())
   company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId  Int
+  currency Currency @relation(fields: [currencyId], references: [id])
+  currencyId Int
   startDate  DateTime
   endDate    DateTime
   isActive   Boolean
@@ -225,6 +237,22 @@ model ActivityLog {
   @@index([userId])
   @@index([createdAt])
 }
+
+model Currency {
+  id           Int       @id @default(autoincrement())
+  symbol       String    @db.VarChar(10)
+  name         String    @db.VarChar(50)
+  code         String    @unique @db.VarChar(3)
+  companies    Company[]
+  trainingPlans        TrainingPlan[]
+  staffSubscriptions   StaffSubscription[]
+  companySubscriptions CompanySubscription[]
+  salaries             Salary[]
+  staff                Staff[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
 
 enum DiscountType {
   FIXED
