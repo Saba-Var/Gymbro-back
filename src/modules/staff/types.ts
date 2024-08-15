@@ -7,3 +7,11 @@ export type StaffEditData = Omit<
   EditModelData<StaffCreateData, 'companyId'>,
   'password'
 >
+
+export type StaffDuplicationCheckData = {
+  companyId: number
+  staffId: number
+  email: string
+  phoneNumber: string
+  privateNumber: string
+}

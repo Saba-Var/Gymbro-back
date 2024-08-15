@@ -8,6 +8,7 @@ import {
   createStaffMemberController,
   deleteStaffController,
   staffListController,
+  updateStaffMemberController,
 } from './controller'
 
 const staffRouter = express.Router()
@@ -20,6 +21,13 @@ staffRouter.post(
 )
 
 staffRouter.get('/', asyncHandler(staffListController))
+
+staffRouter.put(
+  '/:id',
+  staffValidation({ makeFieldsRequired: false }),
+  validateRequestSchema,
+  asyncHandler(updateStaffMemberController)
+)
 
 staffRouter.delete(
   '/:id',

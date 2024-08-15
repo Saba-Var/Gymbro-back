@@ -1,12 +1,12 @@
+import type { StaffCreateData, StaffDuplicationCheckData } from './types'
 import { ConflictError } from 'errors/conflict.error'
+import { NotFoundError } from 'errors/not-found.error'
+import type { Query } from 'types/globals.types'
 import { Password } from 'utils/password.util'
-import type { StaffCreateData } from './types'
+import { paginate } from 'utils/paginate.util'
+import type { Staff } from '@prisma/client'
 import { prisma } from 'config/prisma'
 import { t } from 'i18next'
-import type { Query } from 'types/globals.types'
-import type { Staff } from '@prisma/client'
-import { paginate } from 'utils/paginate.util'
-import { NotFoundError } from 'errors/not-found.error'
 
 export const createStaffMemberService = async (args: {
   staffCreateData: StaffCreateData
@@ -33,8 +33,17 @@ export const createStaffMemberService = async (args: {
 
   const newStaff = await prisma.staff.create({
     data: {
-      ...staffCreateData,
       password: hashedPassword,
+      email: staffCreateData.email,
+      firstName: staffCreateData.firstName,
+      lastName: staffCreateData.lastName,
+      phoneNumber: staffCreateData.phoneNumber,
+      privateNumber: staffCreateData.privateNumber,
+      salaryType: staffCreateData.salaryType,
+      companyId: companyId!,
+      currencyId: staffCreateData.currencyId,
+      isAdmin: staffCreateData.isAdmin,
+      baseSalary: staffCreateData.baseSalary,
     },
   })
 
@@ -42,6 +51,44 @@ export const createStaffMemberService = async (args: {
   const { password, ...newStaffWithoutPassword } = newStaff
 
   return newStaffWithoutPassword
+}
+
+export const updateStaffMemberService = async (args: {
+  staffCreateData: Partial<StaffCreateData>
+  companyId: number
+  staffId: number
+}) => {
+  const { companyId, staffCreateData, staffId } = args
+
+  const existingStaff = await findStaffService({
+    companyId,
+    staffId,
+  })
+
+  const duplicate = await checkStaffDuplicateService({
+    companyId,
+    staffId: staffId!,
+    email: staffCreateData.email!,
+    phoneNumber: staffCreateData.phoneNumber!,
+    privateNumber: staffCreateData.privateNumber!,
+  })
+
+  if (duplicate) {
+    throw new ConflictError(t('staff_with_provided_information_already_exists'))
+  }
+
+  if (!existingStaff) {
+    throw new NotFoundError()
+  }
+
+  const updatedStaff = await prisma.staff.update({
+    where: {
+      id: staffId!,
+    },
+    data: { ...staffCreateData, companyId },
+  })
+
+  return updatedStaff
 }
 
 export const listStaffService = async (
@@ -118,4 +165,24 @@ export const findStaffService = async (args: {
   }
 
   return staff
+}
+
+export const checkStaffDuplicateService = async (
+  args: StaffDuplicationCheckData
+) => {
+  const duplicateStaff = await prisma.staff.findFirst({
+    where: {
+      companyId: args.companyId,
+      OR: [
+        { email: args.email },
+        { privateNumber: args.privateNumber },
+        { phoneNumber: args.phoneNumber },
+      ],
+      NOT: {
+        id: args.staffId,
+      },
+    },
+  })
+
+  return duplicateStaff
 }

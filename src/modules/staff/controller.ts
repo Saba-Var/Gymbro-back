@@ -2,6 +2,7 @@ import {
   createStaffMemberService,
   deleteStaffService,
   listStaffService,
+  updateStaffMemberService,
 } from './services'
 import { ActivityLogActionType, UserTypeEnum } from '@prisma/client'
 import type { Query, RequestWithBody } from 'types/globals.types'
@@ -33,6 +34,25 @@ export const createStaffMemberController = async (
   })
 
   res.status(HTTP_CREATED).json({ message: t('staff_created_successfully') })
+}
+
+export const updateStaffMemberController = async (
+  req: RequestWithBody<Partial<StaffCreateData>>,
+  res: Response
+) => {
+  const updatedStaffMember = await updateStaffMemberService({
+    companyId: req?.currentUser?.companyId as number,
+    staffId: +req.params.id,
+    staffCreateData: req.body,
+  })
+
+  await trackUserActivity({
+    req,
+    actionType: ActivityLogActionType.UPDATE,
+    displayValue: `Update staff with id - ${updatedStaffMember.id}`,
+  })
+
+  res.status(HTTP_OK).json({ message: t('staff_updated_successfully') })
 }
 
 export const staffListController = async (req: Request, res: Response) => {
