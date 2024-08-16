@@ -1,4 +1,4 @@
-import { CommissionType, SalaryType } from '@prisma/client'
+import { SalaryType } from '@prisma/client'
 import { body } from 'express-validator'
 
 export const staffValidation = (
@@ -45,18 +45,20 @@ export const staffValidation = (
       .isMobilePhone('any')
       .withMessage('Phone number is not valid'),
 
-    body('commissionAmount')
+    body('address')
       .if((value) => makeFieldsRequired || value !== undefined)
-      .isNumeric(),
-
-    body('commissionType')
-      .if((value) => makeFieldsRequired || value !== undefined)
-      .isIn(Object.values(CommissionType)),
+      .isLength({ min: 4, max: 100 })
+      .withMessage('Address must be between 4 and 100 characters'),
 
     body('privateNumber')
       .if((value) => makeFieldsRequired || value !== undefined)
       .isLength({ min: 6, max: 20 })
       .withMessage('Private number must be between 6 and 20 characters'),
+
+    body('iban')
+      .if((value) => makeFieldsRequired || value !== undefined)
+      .isLength({ min: 7, max: 20 })
+      .withMessage('iban must be between 7 and 20 characters'),
 
     body('currencyId')
       .if((value) => makeFieldsRequired || value !== undefined)

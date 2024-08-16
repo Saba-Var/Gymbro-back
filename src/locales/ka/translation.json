@@ -28,5 +28,10 @@
   "company_created_successfully": "კომპანია წარმატებით დაემატა",
   "role_deleted_successfully": "როლი წარმატებით წაიშალა",
   "role_created_successfully": "როლი წარმატებით დაემატა",
-  "role_updated_successfully": "როლი წარმატებით განახლდა"
+  "role_updated_successfully": "როლი წარმატებით განახლდა",
+  "staff_created_successfully": "პერსონალი წარმატებით დაემატა",
+  "staff_deleted_successfully": "პერსონალი წარმატებით წაიშალა",
+  "staff_updated_successfully": "პერსონალი წარმატებით განახლდა",
+  "staff_with_provided_information_already_exists": "პერსონალი მოცემული ინფორმაციით უკვე არსებობს. შეამოწმეთ: ელ-ფოსტა, ტელეფონი ან პირადი ნომერი",
+  "company_not_found": "კომპანია ვერ მოიძებნა"
 }
