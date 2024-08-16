@@ -48,6 +48,7 @@ export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
         },
       },
       address: faker.location.streetAddress(),
+      bankAccountNumber: faker.finance.iban(),
     }
   }
 

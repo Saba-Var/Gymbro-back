@@ -117,6 +117,7 @@ export const listStaffService = async (
       privateNumber: true,
       salaryType: true,
       updatedAt: true,
+      address: true,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       roles: {
@@ -124,6 +125,7 @@ export const listStaffService = async (
           role: true,
         },
       },
+      bankAccountNumber: true,
     },
   })
 
