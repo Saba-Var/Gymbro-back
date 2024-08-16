@@ -47,6 +47,7 @@ export class StaffFactory extends BaseFactory<Staff, Prisma.StaffCreateInput> {
           id: currencyId,
         },
       },
+      address: faker.location.streetAddress(),
     }
   }
 
