@@ -55,10 +55,10 @@ export const staffValidation = (
       .isLength({ min: 6, max: 20 })
       .withMessage('Private number must be between 6 and 20 characters'),
 
-    body('bankAccountNumber')
+    body('iban')
       .if((value) => makeFieldsRequired || value !== undefined)
       .isLength({ min: 7, max: 20 })
-      .withMessage('Bank account number must be between 7 and 20 characters'),
+      .withMessage('iban must be between 7 and 20 characters'),
 
     body('currencyId')
       .if((value) => makeFieldsRequired || value !== undefined)

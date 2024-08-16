@@ -125,7 +125,7 @@ export const listStaffService = async (
           role: true,
         },
       },
-      bankAccountNumber: true,
+      iban: true,
     },
   })
 
