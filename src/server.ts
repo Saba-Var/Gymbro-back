@@ -20,6 +20,7 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
+import { companiesRouter } from 'modules/companies/router'
 
 dotenv.config()
 
@@ -55,6 +56,8 @@ server.use('/api/users', verifyToken, usersRouter)
 server.use('/api/staff', verifyToken, onlyAdminOrSuperUserAccess, staffRouter)
 
 server.use('/api/currencies', verifyToken, currencyRouter)
+
+server.use('/api/companies', verifyToken, companiesRouter)
 
 server.all('*', () => {
   throw new NotFoundError()
