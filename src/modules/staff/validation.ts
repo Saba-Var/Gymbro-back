@@ -45,6 +45,11 @@ export const staffValidation = (
       .isMobilePhone('any')
       .withMessage('Phone number is not valid'),
 
+    body('address')
+      .if((value) => makeFieldsRequired || value !== undefined)
+      .isLength({ min: 4, max: 100 })
+      .withMessage('Address must be between 4 and 100 characters'),
+
     body('privateNumber')
       .if((value) => makeFieldsRequired || value !== undefined)
       .isLength({ min: 6, max: 20 })

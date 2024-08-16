@@ -23,6 +23,9 @@ export const getCurrentUserInformation = async (req: Request) => {
           email: req.currentUser.email,
           id: +req.currentUser.id,
         },
+        include: {
+          roles: true,
+        },
       })
     } else if (req.currentUser?.userType === UserTypeEnum.CLIENT) {
       currentUser = await prisma.client.findUnique({
