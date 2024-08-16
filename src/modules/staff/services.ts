@@ -44,6 +44,8 @@ export const createStaffMemberService = async (args: {
       currencyId: staffCreateData.currencyId,
       isAdmin: staffCreateData.isAdmin,
       baseSalary: staffCreateData.baseSalary,
+      address: staffCreateData.address,
+      iban: staffCreateData.iban,
     },
   })
 
