@@ -31,7 +31,7 @@
   "role_updated_successfully": "Role updated successfully",
   "staff_created_successfully": "Staff created successfully",
   "staff_deleted_successfully": "Staff deleted successfully",
-  "staff_updated_successfully": "Staff updated successfully",
+  "staff_updated_successfully": "Staff information updated successfully",
   "staff_with_provided_information_already_exists": "Staff with provided information already exists. Check: email, phone, private number",
   "company_not_found": "Company not found"
 }

@@ -33,7 +33,9 @@ export const createStaffMemberController = async (
     displayValue: `Create new staff with id - ${newStaffMember.id}`,
   })
 
-  res.status(HTTP_CREATED).json({ message: t('staff_created_successfully') })
+  res
+    .status(HTTP_CREATED)
+    .json({ message: t('staff_created_successfully'), id: newStaffMember.id })
 }
 
 export const updateStaffMemberController = async (
