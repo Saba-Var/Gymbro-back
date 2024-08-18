@@ -74,9 +74,7 @@ export const modifyStaffRoleController = async (
   res: Response
 ) => {
   await modifyStaffRolesService(
-    {
-      ...req.body,
-    },
+    req.body,
     +req.params.staffId,
     +(req?.currentUser?.companyId ?? 0) as number
   )
