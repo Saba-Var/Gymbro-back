@@ -13,7 +13,6 @@ export type EditRoleData = EditModelData<RoleData, 'companyId'>
 
 export type ModifyStaffRoleData = {
   roleIds: number[]
-  companyId: number
 }
 
 export type ModifyStaffPermissionData = {

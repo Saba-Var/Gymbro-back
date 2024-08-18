@@ -135,20 +135,21 @@ export const editRoleService = async (args: {
 
 export const modifyStaffRolesService = async (
   args: ModifyStaffRoleData,
-  staffId: number
+  staffId: number,
+  companyId: number
 ) => {
   const [existingStaff, existingStaffRoles] = await Promise.all([
     prisma.staff.findFirst({
       where: {
         id: staffId,
-        companyId: args.companyId,
+        companyId,
       },
     }),
     prisma.staffRole.findMany({
       where: {
         staffId,
         role: {
-          companyId: args.companyId,
+          companyId,
         },
       },
     }),
@@ -169,7 +170,7 @@ export const modifyStaffRolesService = async (
       id: {
         in: args.roleIds,
       },
-      companyId: args.companyId,
+      companyId,
     },
   })
 
@@ -203,7 +204,7 @@ export const modifyStaffRolesService = async (
             in: rolesToRemove,
           },
           role: {
-            companyId: args.companyId,
+            companyId,
           },
         },
       })

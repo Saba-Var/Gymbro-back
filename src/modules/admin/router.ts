@@ -7,6 +7,7 @@ import {
   editRoleController,
   listRolesController,
   deleteRoleController,
+  modifyStaffRoleAndPermissionController,
 } from './controller'
 import {
   modifyStaffPermissionValidation,
@@ -55,6 +56,15 @@ adminRouter.post(
   modifyStaffPermissionValidation,
   validateRequestSchema,
   asyncHandler(modifyStaffPermissionController)
+)
+
+adminRouter.post(
+  '/staff-roles-and-permissions/:staffId',
+  idParamValidation({ fieldName: 'staffId' }),
+  modifyStaffPermissionValidation,
+  modifyStaffRoleValidation,
+  validateRequestSchema,
+  asyncHandler(modifyStaffRoleAndPermissionController)
 )
 
 export { adminRouter }

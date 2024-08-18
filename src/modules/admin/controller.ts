@@ -76,9 +76,9 @@ export const modifyStaffRoleController = async (
   await modifyStaffRolesService(
     {
       ...req.body,
-      companyId: req.currentUser?.companyId as number,
     },
-    +req.params.staffId
+    +req.params.staffId,
+    +(req?.currentUser?.companyId ?? 0) as number
   )
 
   await trackUserActivity({
@@ -109,6 +109,42 @@ export const modifyStaffPermissionController = async (
   res
     .status(HTTP_OK)
     .json({ message: t('staff_permission_modified_successfully') })
+}
+
+export const modifyStaffRoleAndPermissionController = async (
+  req: RequestWithBody<ModifyStaffPermissionData & ModifyStaffRoleData>,
+  res: Response
+) => {
+  const ids = {
+    companyId: +(req?.currentUser?.companyId ?? 0),
+    staffId: +req.params.staffId,
+  }
+
+  await modifyStaffRolesService(
+    {
+      roleIds: req.body.roleIds,
+    },
+    ids.staffId,
+    ids.companyId
+  )
+
+  await modifyStaffPermissionsService(
+    {
+      permissionIds: req.body.permissionIds,
+    },
+    ids.companyId,
+    ids.staffId
+  )
+
+  await trackUserActivity({
+    actionType: ActivityLogActionType.UPDATE,
+    displayValue: `Set Staff Roles: ${req.body.roleIds.join(', ')}. Set Staff Permission: ${req.body.permissionIds.join(', ')}`,
+    req,
+  })
+
+  res
+    .status(HTTP_OK)
+    .json({ message: t('staff_role_permission_modified_successfully') })
 }
 
 export const deleteRoleController = async (req: Request, res: Response) => {
