@@ -7,6 +7,7 @@ import {
   editRoleController,
   listRolesController,
   deleteRoleController,
+  modifyStaffRoleAndPermissionController,
 } from './controller'
 import {
   modifyStaffPermissionValidation,
@@ -42,17 +43,28 @@ adminRouter.delete(
 )
 
 adminRouter.post(
-  '/staff-roles',
+  '/staff-roles/:staffId',
+  idParamValidation({ fieldName: 'staffId' }),
   modifyStaffRoleValidation,
   validateRequestSchema,
   asyncHandler(modifyStaffRoleController)
 )
 
 adminRouter.post(
-  '/staff-permissions',
+  '/staff-permissions/:staffId',
+  idParamValidation({ fieldName: 'staffId' }),
   modifyStaffPermissionValidation,
   validateRequestSchema,
   asyncHandler(modifyStaffPermissionController)
+)
+
+adminRouter.post(
+  '/staff-roles-and-permissions/:staffId',
+  idParamValidation({ fieldName: 'staffId' }),
+  modifyStaffPermissionValidation,
+  modifyStaffRoleValidation,
+  validateRequestSchema,
+  asyncHandler(modifyStaffRoleAndPermissionController)
 )
 
 export { adminRouter }

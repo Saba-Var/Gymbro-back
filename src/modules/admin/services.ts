@@ -133,19 +133,23 @@ export const editRoleService = async (args: {
   return updatedRole
 }
 
-export const modifyStaffRolesService = async (args: ModifyStaffRoleData) => {
+export const modifyStaffRolesService = async (
+  args: ModifyStaffRoleData,
+  staffId: number,
+  companyId: number
+) => {
   const [existingStaff, existingStaffRoles] = await Promise.all([
     prisma.staff.findFirst({
       where: {
-        id: args.staffId,
-        companyId: args.companyId,
+        id: staffId,
+        companyId,
       },
     }),
     prisma.staffRole.findMany({
       where: {
-        staffId: args.staffId,
+        staffId,
         role: {
-          companyId: args.companyId,
+          companyId,
         },
       },
     }),
@@ -166,7 +170,7 @@ export const modifyStaffRolesService = async (args: ModifyStaffRoleData) => {
       id: {
         in: args.roleIds,
       },
-      companyId: args.companyId,
+      companyId,
     },
   })
 
@@ -185,7 +189,7 @@ export const modifyStaffRolesService = async (args: ModifyStaffRoleData) => {
       prisma.staffRole.createMany({
         data: rolesToAdd.map((roleId) => ({
           roleId,
-          staffId: args.staffId,
+          staffId,
         })),
       })
     )
@@ -195,12 +199,12 @@ export const modifyStaffRolesService = async (args: ModifyStaffRoleData) => {
     operations.push(
       prisma.staffRole.deleteMany({
         where: {
-          staffId: args.staffId,
+          staffId,
           roleId: {
             in: rolesToRemove,
           },
           role: {
-            companyId: args.companyId,
+            companyId,
           },
         },
       })
@@ -212,9 +216,10 @@ export const modifyStaffRolesService = async (args: ModifyStaffRoleData) => {
 
 export const modifyStaffPermissionsService = async (
   args: ModifyStaffPermissionData,
-  companyId: number
+  companyId: number,
+  staffId: number
 ) => {
-  const { permissionIds, staffId } = args
+  const { permissionIds } = args
 
   const [staff, existingPermissions] = await Promise.all([
     prisma.staff.findFirst({

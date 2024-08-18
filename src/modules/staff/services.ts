@@ -127,6 +127,11 @@ export const listStaffService = async (
           role: true,
         },
       },
+      permissions: {
+        include: {
+          permission: true,
+        },
+      },
       iban: true,
     },
   })
