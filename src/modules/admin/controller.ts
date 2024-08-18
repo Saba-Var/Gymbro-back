@@ -73,10 +73,13 @@ export const modifyStaffRoleController = async (
   req: RequestWithBody<ModifyStaffRoleData>,
   res: Response
 ) => {
-  await modifyStaffRolesService({
-    ...req.body,
-    companyId: req.currentUser?.companyId as number,
-  })
+  await modifyStaffRolesService(
+    {
+      ...req.body,
+      companyId: req.currentUser?.companyId as number,
+    },
+    +req.params.staffId
+  )
 
   await trackUserActivity({
     actionType: ActivityLogActionType.UPDATE,
@@ -93,7 +96,8 @@ export const modifyStaffPermissionController = async (
 ) => {
   await modifyStaffPermissionsService(
     req.body,
-    req.currentUser?.companyId as number
+    req.currentUser?.companyId as number,
+    +req.params.staffId
   )
 
   await trackUserActivity({
