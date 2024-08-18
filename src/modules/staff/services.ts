@@ -122,8 +122,16 @@ export const listStaffService = async (
       address: true,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      roles: true,
-      permissions: true,
+      roles: {
+        include: {
+          role: true,
+        },
+      },
+      permissions: {
+        include: {
+          permission: true,
+        },
+      },
       iban: true,
     },
   })

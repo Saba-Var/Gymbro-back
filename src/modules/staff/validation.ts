@@ -23,7 +23,7 @@ export const staffValidation = (
       .if((value) => makeFieldsRequired || value !== undefined)
       .trim()
       .isEmail()
-      .withMessage('Email is not valid')
+      .withMessage('email_must_be_valid')
       .isLength({ min: 1 })
       .withMessage('Email is required'),
 
@@ -43,7 +43,7 @@ export const staffValidation = (
     body('phoneNumber')
       .if((value) => makeFieldsRequired || value !== undefined)
       .isMobilePhone('any')
-      .withMessage('Phone number is not valid'),
+      .withMessage('phone_number_must_be_valid'),
 
     body('address')
       .if((value) => makeFieldsRequired || value !== undefined)
