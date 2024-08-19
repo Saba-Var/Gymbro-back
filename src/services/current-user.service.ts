@@ -25,6 +25,8 @@ export const getCurrentUserInformation = async (req: Request) => {
         },
         include: {
           roles: true,
+          permissions: true,
+          company: true,
         },
       })
     } else if (req.currentUser?.userType === UserTypeEnum.CLIENT) {
@@ -33,6 +35,9 @@ export const getCurrentUserInformation = async (req: Request) => {
           companyId: +(req.currentUser.companyId as number),
           email: req.currentUser.email,
           id: +req.currentUser.id,
+        },
+        include: {
+          company: true,
         },
       })
     }

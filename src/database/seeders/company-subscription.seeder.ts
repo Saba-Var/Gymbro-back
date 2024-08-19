@@ -1,5 +1,8 @@
 import { CompanySubscriptionFactory } from 'database/factories/company-subscriptions.factory'
 import { prisma } from 'config/prisma'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export const companySubscriptionSeeder = async () => {
   const existingCompanySubscriptions =

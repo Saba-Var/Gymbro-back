@@ -1,5 +1,8 @@
 import { Password } from 'utils/password.util'
 import { prisma } from 'config/prisma'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export const createSuperUser = async (): Promise<void> => {
   try {
