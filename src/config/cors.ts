@@ -1,8 +1,12 @@
+import dotenv from 'dotenv'
 import cors from 'cors'
 
+dotenv.config()
+
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || []
+
 const configuredCors = cors({
-  origin:
-    process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL! : '*',
+  origin: allowedOrigins,
   credentials: true,
 })
 
