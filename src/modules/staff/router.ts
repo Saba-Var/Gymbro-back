@@ -1,5 +1,4 @@
 import { validateRequestSchema } from 'middlewares/validate-request-schema.middleware'
-import { onlyAdminAccess } from 'middlewares/only-admin-access.middleware'
 import { asyncHandler } from 'middlewares/async-handler.middleware'
 import { idParamValidation } from 'validation/id-param.validation'
 import { staffValidation } from './validation'
@@ -31,7 +30,6 @@ staffRouter.put(
 
 staffRouter.delete(
   '/:id',
-  onlyAdminAccess,
   idParamValidation(),
   validateRequestSchema,
   asyncHandler(deleteStaffController)

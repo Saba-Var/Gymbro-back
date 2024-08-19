@@ -1,12 +1,12 @@
 import { onlyAdminOrSuperUserAccess } from 'middlewares/only-admin-or-super-user.middleware'
 import { onlySuperUserAccess } from 'middlewares/only-super-user-access.middleware'
-import { onlyAdminAccess } from 'middlewares/only-admin-access.middleware'
 import { errorHandler } from 'middlewares/error-handler.middleware'
 import { i18nextMiddleware } from 'middlewares/i18next.middleware'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
 import { permissionsRouter } from 'modules/permissions/router'
 import { superUserRouter } from 'modules/super-user/router'
 import { currencyRouter } from 'modules/currencies/router'
+import { companiesRouter } from 'modules/companies/router'
 import { NotFoundError } from 'errors/not-found.error'
 import { staffRouter } from 'modules/staff/router'
 import { adminRouter } from 'modules/admin/router'
@@ -20,7 +20,6 @@ import express from 'express'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import path from 'path'
-import { companiesRouter } from 'modules/companies/router'
 
 dotenv.config()
 
@@ -42,7 +41,7 @@ server.use('/api/auth', authRouter)
 
 server.use('/api/super-user', verifyToken, onlySuperUserAccess, superUserRouter)
 
-server.use('/api/admin', verifyToken, onlyAdminAccess, adminRouter)
+server.use('/api/admin', verifyToken, onlyAdminOrSuperUserAccess, adminRouter)
 
 server.use(
   '/api/permissions',
