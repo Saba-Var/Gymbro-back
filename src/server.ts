@@ -1,6 +1,5 @@
 import { onlyAdminOrSuperUserAccess } from 'middlewares/only-admin-or-super-user.middleware'
 import { onlySuperUserAccess } from 'middlewares/only-super-user-access.middleware'
-import { onlyAdminAccess } from 'middlewares/only-admin-access.middleware'
 import { errorHandler } from 'middlewares/error-handler.middleware'
 import { i18nextMiddleware } from 'middlewares/i18next.middleware'
 import { verifyToken } from 'middlewares/verifyToken.middleware'
