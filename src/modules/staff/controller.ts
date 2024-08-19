@@ -1,26 +1,23 @@
-import {
-  createStaffMemberService,
-  deleteStaffService,
-  listStaffService,
-  updateStaffMemberService,
-} from './services'
-import { ActivityLogActionType, UserTypeEnum } from '@prisma/client'
+import { companyIdExtractorFromRequest } from 'utils/companyIdExtractorFromRequest'
 import type { Query, RequestWithBody } from 'types/globals.types'
-import { trackUserActivity } from 'services/tracking.service'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
+import { trackUserActivity } from 'services/tracking.service'
+import { ActivityLogActionType } from '@prisma/client'
 import type { Request, Response } from 'express'
 import type { StaffCreateData } from './types'
 import { t } from 'i18next'
+import {
+  updateStaffMemberService,
+  createStaffMemberService,
+  deleteStaffService,
+  listStaffService,
+} from './services'
 
 export const createStaffMemberController = async (
   req: RequestWithBody<StaffCreateData>,
   res: Response
 ) => {
-  req.currentUser?.userType
-  const companyId =
-    req?.currentUser?.userType === UserTypeEnum.SUPERUSER
-      ? req.body.companyId
-      : req.currentUser?.companyId
+  const companyId = companyIdExtractorFromRequest(req)
 
   const newStaffMember = await createStaffMemberService({
     companyId,
@@ -42,8 +39,10 @@ export const updateStaffMemberController = async (
   req: RequestWithBody<Partial<StaffCreateData>>,
   res: Response
 ) => {
+  const companyId = companyIdExtractorFromRequest(req)
+
   const updatedStaffMember = await updateStaffMemberService({
-    companyId: req?.currentUser?.companyId as number,
+    companyId,
     staffId: +req.params.id,
     staffCreateData: req.body,
   })

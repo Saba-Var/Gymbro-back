@@ -1,15 +1,16 @@
-import type {
-  EditRoleData,
-  ModifyStaffPermissionData,
-  ModifyStaffRoleData,
-  RoleCreateData,
-} from './types'
+import { companyIdExtractorFromRequest } from 'utils/companyIdExtractorFromRequest'
+import type { Query, RequestWithBody } from 'types/globals.types'
 import { HTTP_CREATED, HTTP_OK } from 'constants/http-statuses'
 import { trackUserActivity } from 'services/tracking.service'
-import type { Query, RequestWithBody } from 'types/globals.types'
 import { ActivityLogActionType } from '@prisma/client'
 import type { Request, Response } from 'express'
 import { t } from 'i18next'
+import type {
+  ModifyStaffPermissionData,
+  ModifyStaffRoleData,
+  RoleCreateData,
+  EditRoleData,
+} from './types'
 import {
   modifyStaffRolesService,
   createRoleService,
@@ -110,11 +111,15 @@ export const modifyStaffPermissionController = async (
 }
 
 export const modifyStaffRoleAndPermissionController = async (
-  req: RequestWithBody<ModifyStaffPermissionData & ModifyStaffRoleData>,
+  req: RequestWithBody<
+    ModifyStaffPermissionData & ModifyStaffRoleData & { companyId?: number }
+  >,
   res: Response
 ) => {
+  const companyId = companyIdExtractorFromRequest(req)
+
   const ids = {
-    companyId: +(req?.currentUser?.companyId ?? 0),
+    companyId,
     staffId: +req.params.staffId,
   }
 
